@@ -1,0 +1,48 @@
+{
+  "mode": "live",
+  "total": 4,
+  "passed": 4,
+  "records": [
+    {
+      "scenario": "C10-id-conflict",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 12,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C11-save-failure",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 13,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C12a-resume-generation",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 4,
+      "model_calls": 6,
+      "tool_calls": 5
+    },
+    {
+      "scenario": "C12b-resume-save",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 13,
+      "tool_calls": 9
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

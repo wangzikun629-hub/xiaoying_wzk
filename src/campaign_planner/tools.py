@@ -38,6 +38,9 @@ class Engine:
         self.generator = generator
         self.halt_reason = None
         self.tool_lock = threading.RLock()
+        # Parent task calls must serialize without holding the child business-tool lock.
+        self.dispatch_lock = threading.RLock()
+        self.subagent_roles = {}
 
     @property
     def request(self):
@@ -83,7 +86,7 @@ class Engine:
             return True
         return False
 
-    def execute(self, name, arguments, *, counted=False):
+    def execute(self, name, arguments, *, counted=False, agent="main"):
         if not counted:
             self.count_tool(name)
         if name not in BUSINESS_TOOLS:
@@ -94,6 +97,7 @@ class Engine:
             attempt_id=str(uuid4()),
             step_id=name,
             tool=name,
+            agent=agent,
             arguments=args,
             reason=reason,
             run_id=self.state["active_run_id"],
@@ -127,6 +131,7 @@ class Engine:
         self.persist()
         self.trace.add(
             "tool_result",
+            agent=agent,
             attempt_id=attempt["attempt_id"],
             tool=name,
             arguments=args,

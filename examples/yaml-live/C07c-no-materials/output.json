@@ -1,0 +1,153 @@
+{
+  "status": "incomplete",
+  "request_id": "C07c-no-materials",
+  "reason": "no_materials",
+  "request": {
+    "theme": "深海潜航设备交流",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "standard",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C07c-no-materials",
+    "fingerprint": "6c02bc644ab1a884a7c7486b98ddc78c3a3811dddcf1ef8ad90f5f0f5fce2e45"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": [
+      {
+        "step_id": "7f72c3b3-1d2b-4611-b83f-83c2f037ee94",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "failed"
+      },
+      {
+        "step_id": "1226890f-b60e-4731-a119-205430494693",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "failed"
+      },
+      {
+        "step_id": "abb7dff1-83f3-4303-b1bf-97ce5e05e1cb",
+        "action": "estimate_plan",
+        "depends_on": [],
+        "status": "failed"
+      }
+    ]
+  },
+  "plan_history": [],
+  "attempts": [
+    {
+      "attempt_id": "7f72c3b3-1d2b-4611-b83f-83c2f037ee94",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "深海潜航设备交流"
+      },
+      "reason": "确认主题是否有可用素材，再决定方案包",
+      "run_id": "9859d203-838a-488a-949f-c879a193eda0",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "materials": [],
+        "available_kinds": [],
+        "missing_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "available_channels": [],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "1226890f-b60e-4731-a119-205430494693",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "深海潜航 水下设备 技术交流",
+        "kinds": [
+          "video_script",
+          "social_copy",
+          "channel_adaptation"
+        ]
+      },
+      "reason": "确认素材缺口是否为主题层面而非查询措辞",
+      "run_id": "9859d203-838a-488a-949f-c879a193eda0",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "materials": [],
+        "available_kinds": [],
+        "missing_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "available_channels": [],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "abb7dff1-83f3-4303-b1bf-97ce5e05e1cb",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "tier": "standard",
+        "backend": "primary",
+        "channels": [
+          "视频号",
+          "公众号"
+        ]
+      },
+      "reason": "优先评估用户偏好的 standard（含视频+图文+双渠道改写），预算 10、截止 3 小时内",
+      "run_id": "9859d203-838a-488a-949f-c879a193eda0",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "message": "请先检索与主题匹配的素材",
+        "cost_delta": 0,
+        "minutes_delta": 0
+      }
+    }
+  ],
+  "tool_results": {},
+  "subagent_runs": [],
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 2,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-k_e5dogo\\C07c-no-materials.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "current_plan_time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "9859d203-838a-488a-949f-c879a193eda0",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C07c-no-materials\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 5,
+      "tool_calls": 4,
+      "status": "incomplete",
+      "reason": "no_materials"
+    }
+  ],
+  "mode": "live",
+  "run_id": "9859d203-838a-488a-949f-c879a193eda0",
+  "cached": false,
+  "model_calls": 5,
+  "tool_calls": 4,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C07c-no-materials\\trace.jsonl"
+}

@@ -1,0 +1,49 @@
+{
+  "status": "incomplete",
+  "request_id": "C06-repeated-run",
+  "reason": "model_unavailable",
+  "request": {
+    "allow_simplification": true,
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "fingerprint": "5453b5bf780871195931c41ba0205413ca37a814b956bfc6d6e0e8ca57d1312a",
+    "preferred_tier": "standard",
+    "request_id": "C06-repeated-run",
+    "required_channels": [],
+    "theme": "毕业季校园影像征集"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": []
+  },
+  "plan_history": [],
+  "attempts": [],
+  "tool_results": {},
+  "subagent_runs": [],
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 0,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-_4477tfj\\C06-repeated-run.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "current_plan_time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "model_calls": 1,
+      "reason": "model_unavailable",
+      "resumed": false,
+      "run_id": "6f9a5942-6b94-4848-b379-118cd03fdbe5",
+      "status": "incomplete",
+      "tool_calls": 0,
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C06-repeated-run\\trace.jsonl"
+    }
+  ],
+  "mode": "live",
+  "cached": true,
+  "model_calls": 0,
+  "tool_calls": 0,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C06-repeated-run\\second\\trace.jsonl"
+}

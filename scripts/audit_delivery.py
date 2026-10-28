@@ -5,6 +5,8 @@ import re
 
 from campaign_planner.tools import PROJECT_ROOT
 
+CURRENT_GROUPS = ("yaml-mock", "yaml-live")
+
 
 def audit():
     errors = []
@@ -20,11 +22,15 @@ def audit():
             resolved = document.parent / target.split("#", 1)[0]
             if not resolved.exists():
                 errors.append(f"Broken link: {document.relative_to(PROJECT_ROOT)} -> {target}")
-    for group in ("mock", "mock-scope-validated", "mock-final", "live", "live-validated", "live-final"):
+    for group in ("mock", "mock-scope-validated", "mock-final", "live", "live-validated", "live-final", *CURRENT_GROUPS):
         summary_path = PROJECT_ROOT / "examples" / group / "summary.json"
         if not summary_path.exists():
             continue
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        if group in CURRENT_GROUPS and (
+            summary["total"] != 17 or summary["passed"] != summary["total"]
+        ):
+            errors.append(f"Current acceptance scenarios incomplete or failing: {group}")
         for item in summary["records"]:
             directory = summary_path.parent / item["scenario"]
             for name in ("input.json", "output.json", "trace.jsonl", "run-metadata.json", "assertions.json"):
@@ -35,6 +41,20 @@ def audit():
                 errors.append(f"Evidence mode mismatch: {group}/{item['scenario']}")
             if output["status"] == "completed" and not (directory / "plan.md").exists():
                 errors.append(f"Missing saved plan export: {group}/{item['scenario']}")
+    # Historical runs intentionally retain their original source hashes. Only the
+    # current delivery groups must match the working implementation, including resumes.
+    from campaign_planner.runner import metadata
+
+    current_source = metadata("mock", {})["source_sha256"]
+    for group in CURRENT_GROUPS:
+        root = PROJECT_ROOT / "examples" / group
+        if not root.exists():
+            errors.append(f"Missing current evidence group: {group}")
+            continue
+        for path in root.rglob("run-metadata.json"):
+            recorded = json.loads(path.read_text(encoding="utf-8"))
+            if recorded.get("source_sha256") != current_source:
+                errors.append(f"Current evidence source mismatch: {path.relative_to(PROJECT_ROOT)}")
     return errors
 
 

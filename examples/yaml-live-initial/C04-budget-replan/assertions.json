@@ -1,0 +1,13 @@
+{
+  "scenario": "C04-budget-replan",
+  "mode": "live",
+  "status": "incomplete",
+  "passed": false,
+  "errors": [
+    "应完成并正式保存",
+    "实际只计8"
+  ],
+  "total_cost": 0,
+  "model_calls": 8,
+  "tool_calls": 8
+}

@@ -1,0 +1,68 @@
+{
+  "mode": "live",
+  "total": 6,
+  "passed": 6,
+  "records": [
+    {
+      "scenario": "C01-normal",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 12,
+      "model_calls": 14,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C02a-missing-budget",
+      "mode": "live",
+      "status": "needs_input",
+      "passed": true,
+      "errors": [],
+      "total_cost": null,
+      "model_calls": 0,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C02b-missing-deadline",
+      "mode": "live",
+      "status": "needs_input",
+      "passed": true,
+      "errors": [],
+      "total_cost": null,
+      "model_calls": 0,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C03a-once-failure",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 14,
+      "tool_calls": 10
+    },
+    {
+      "scenario": "C03b-primary-unavailable",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 12,
+      "tool_calls": 10
+    },
+    {
+      "scenario": "C04-budget-replan",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 12,
+      "tool_calls": 9
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

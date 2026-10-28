@@ -1,0 +1,50 @@
+{
+  "status": "incomplete",
+  "request_id": "C07b-partial-generation",
+  "reason": "model_unavailable",
+  "request": {
+    "theme": "毕业季校园影像征集",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "economy",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C07b-partial-generation",
+    "fingerprint": "078b0a6721258c0140377f07b2f637b3e2d26cc32181ce7e54bf41d8ac00586a"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": []
+  },
+  "plan_history": [],
+  "attempts": [],
+  "tool_results": {},
+  "subagent_runs": [],
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 0,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-_4477tfj\\C07b-partial-generation.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "current_plan_time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "8d6f8bbc-594b-4ff4-b94f-d2a1eb23112e",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C07b-partial-generation\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 1,
+      "tool_calls": 0,
+      "status": "incomplete",
+      "reason": "model_unavailable"
+    }
+  ],
+  "mode": "live",
+  "run_id": "8d6f8bbc-594b-4ff4-b94f-d2a1eb23112e",
+  "cached": false,
+  "model_calls": 1,
+  "tool_calls": 0,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C07b-partial-generation\\trace.jsonl"
+}

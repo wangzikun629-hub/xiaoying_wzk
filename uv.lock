@@ -66,6 +66,7 @@ dependencies = [
     { name = "deepagents" },
     { name = "langchain-openai" },
     { name = "python-dotenv" },
+    { name = "pyyaml" },
 ]
 
 [package.dev-dependencies]
@@ -79,6 +80,7 @@ requires-dist = [
     { name = "deepagents", specifier = ">=0.4,<0.8" },
     { name = "langchain-openai", specifier = ">=1.1,<2" },
     { name = "python-dotenv", specifier = ">=1,<2" },
+    { name = "pyyaml", specifier = ">=6,<7" },
 ]
 
 [package.metadata.requires-dev]

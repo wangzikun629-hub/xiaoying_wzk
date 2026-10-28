@@ -111,7 +111,7 @@ def check(name, result, followup=None):
     return failures
 
 
-def generate(mode="mock", root=None, selected=None):
+def generate(mode="mock", root=None, selected=None, summary_name="summary.json"):
     root = Path(root or PROJECT_ROOT / "examples" / mode)
     records = []
     with tempfile.TemporaryDirectory(prefix="campaign-examples-") as temporary:
@@ -143,7 +143,7 @@ def generate(mode="mock", root=None, selected=None):
             records.append(record)
             print(f"{name}: {'PASS' if not errors else 'FAIL'} ({mode})")
     write_json(
-        root / "summary.json",
+        root / summary_name,
         dict(
             mode=mode,
             total=len(records),
@@ -161,6 +161,7 @@ if __name__ == "__main__":
     parser.add_argument("--mode", choices=["live", "mock"], default="mock")
     parser.add_argument("--output")
     parser.add_argument("--scenario", action="append")
+    parser.add_argument("--summary-name", default="summary.json", help="Use a distinct name for disjoint batches")
     args = parser.parse_args()
-    results = generate(args.mode, args.output, args.scenario)
+    results = generate(args.mode, args.output, args.scenario, args.summary_name)
     raise SystemExit(0 if all(r["passed"] for r in results) else 1)

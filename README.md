@@ -2,13 +2,17 @@
 
 基于 Deep Agents 的 CLI：输入主题、预算、截止时间，检索合成素材、估算成本、生成脚本、保存活动方案。模型根据工具观察选择精简、备用方式或停止；SQLite 保留成功结果、费用和失败历史。
 
-**验证状态：47项自动测试通过；最终17个真实子场景全部通过；四类关键场景各3次重复评估12/12通过。真实模型为deepseek-flash，失败与修复记录均保留。`mock` 是确定性测试策略，不能证明真实模型效果。** 详见 [评估报告](docs/03-evaluation.md)。
+提交题号：**2**。实际投入：**3.5小时**（提交者自报）。
+
+当前版本支持 YAML 配置的内容创作与方案审查子智能体，主 Agent 负责预算、重规划和正式保存，见[配置说明](docs/07-subagents.md)。
+
+**验证结果：当前 YAML 子智能体版本79项自动测试通过，离线17/17、真实模型17/17场景通过，详见[评估报告](docs/03-evaluation.md)和[真实动态路径](examples/current-decision-paths.md)。此前单 Agent 的47项测试、17个真实子场景及12/12重复评估作为历史保留。`mock` 是确定性测试策略，不能证明真实模型效果。**
 
 ## 评审入口
 
 - [需求与验收映射](docs/01-requirements.md)、[实现与取舍](docs/02-solution.md)
 - [实际评估结果](docs/03-evaluation.md)、[离线样例索引](examples/README.md)
-- [AI 使用与个人贡献边界](docs/04-ai-usage.md)、[复盘](docs/05-retrospective.md)
+- [验证记录与材料边界](docs/04-ai-usage.md)、[复盘](docs/05-retrospective.md)
 - [参考项目与版本](docs/upstream.md)、[原始实施规划](docs/00-project-plan.md)
 
 ## 环境与安装
@@ -24,7 +28,7 @@ uv --cache-dir .uv-cache sync --locked
 ## 离线运行
 
 ```powershell
-uv run python -m campaign_planner run --input examples/mock-final/C04-budget-replan/input.json --mode mock --now 2030-06-01T10:00:00+08:00
+uv run python -m campaign_planner run --input examples/yaml-mock/C04-budget-replan/input.json --mode mock --now 2030-06-01T10:00:00+08:00
 uv run pytest -q
 uv run python scripts/run_examples.py --mode mock --output outputs/review-mock
 ```
@@ -51,7 +55,7 @@ MODEL_TIMEOUT_SECONDS=60
 `OPENAI_BASE_URL` 是服务根地址（有的服务带 `/v1`），不要填写完整 `/chat/completions` 路径。DeepSeek 可使用 `https://api.deepseek.com`。本次真实验证修正过重复接口路径引起的404；原始失败记录已保留。
 
 ```powershell
-uv run python -m campaign_planner run --input examples/mock/C04-budget-replan/input.json --mode live --now 2030-06-01T10:00:00+08:00
+uv run python -m campaign_planner run --input examples/yaml-mock/C04-budget-replan/input.json --mode live --now 2030-06-01T10:00:00+08:00
 uv run python scripts/run_examples.py --mode live --output outputs/review-live
 uv run python scripts/evaluate.py --mode live --repeats 3 --output outputs/review-evaluation
 ```
@@ -98,6 +102,6 @@ uv run python -m campaign_planner resume --request-id C03a-once-failure --mode m
 
 素材、费用和耗时均为合成规则；不执行内容发布、真实支付或外部运营任务。备用生成明确标为模板降级。模型内容的事实正确性不能只靠素材 ID 校验保证，需人工审阅；mock 内容评语见 [样例自评](examples/content-review.md)。
 
-最终真实证据优先读取[全量汇总](examples/live-final/summary.json)、[三轮评估](examples/evaluation-final/live-summary.json)和[实际方案](examples/live-final/C04-budget-replan/plan.md)。中间失败不删除，修复差异见评估报告。
+当前版本证据优先读取[真实全量汇总](examples/yaml-live/summary.json)、[离线全量汇总](examples/yaml-mock/summary.json)、[自动测试日志](examples/test-results-current.txt)和[实际方案](examples/yaml-live/C04-budget-replan/plan.md)。历史三轮重复评估仍位于evaluation-final，不与当前架构混算。中间失败不删除，修复差异见评估报告。
 
-用户要求暂不推送，当前仅保留本地Git提交。正式提交时还需候选人填写自己的贡献与复盘、补充实际题号、GitHub URL和最终commit SHA。不将小样本成功外推为普遍稳定性。
+交付仓库：[wangzikun629-oss/xiaoying_wzk](https://github.com/wangzikun629-oss/xiaoying_wzk)。题号为2，实际投入3.5小时。最终commit SHA使用仓库根目录的`git rev-parse HEAD`获取；提交信息与GitHub可读状态需在发布后核对。不将小样本成功外推为普遍稳定性。

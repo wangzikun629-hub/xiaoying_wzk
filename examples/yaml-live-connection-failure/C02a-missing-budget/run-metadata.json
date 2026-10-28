@@ -1,0 +1,25 @@
+{
+  "mode": "live",
+  "provider": "openai-compatible",
+  "model": "deepseek-flash",
+  "model_settings": {
+    "temperature": 0,
+    "timeout_seconds": 60.0,
+    "transport_retries": 0
+  },
+  "versions": {
+    "campaign-planner": "0.1.0",
+    "deepagents": "0.7.32",
+    "langchain": "1.4.7",
+    "langchain-openai": "1.7.3",
+    "langgraph": "1.2.18"
+  },
+  "source_sha256": "4156a86cfb256302df71b803ce3bddecca0b5e2ab6657ee13cacea8d7aa524a1",
+  "faults": {},
+  "clock_mode": null,
+  "clock_anchor": null,
+  "rules_sha256": null,
+  "materials_sha256": null,
+  "subagents_config_sha256": null,
+  "note": "Mock verifies workflow only; source_sha256 identifies actual working files, not a Git commit."
+}

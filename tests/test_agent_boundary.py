@@ -46,7 +46,7 @@ def test_unoffered_shell_call_is_rejected_and_counted(tmp_path, request_data, mo
     assert result["status"] == "completed"
     events = [json.loads(line) for line in open(result["trace_path"], encoding="utf-8")]
     assert any(e["event"] == "tool_rejected" and e["tool"] == "execute" for e in events)
-    assert result["tool_calls"] == len(result["attempts"]) + 1
+    assert result["tool_calls"] == len(result["attempts"]) + len(result["subagent_runs"]) + 1
 
 
 def test_live_without_config_fails_explicitly_without_mock(tmp_path, request_data, monkeypatch):

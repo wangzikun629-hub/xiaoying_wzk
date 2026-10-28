@@ -1,0 +1,18 @@
+{
+  "question": 2,
+  "reported_hours": 3.5,
+  "repository_url": "https://github.com/wangzikun629-oss/xiaoying_wzk",
+  "source_sha256": "69635cf7f0453bd800f7ae33d284215c97f71873c29c190ac1cd1571a366bb92",
+  "source_evidence_consistent": true,
+  "verified_metadata_files": 42,
+  "source_mismatches": [],
+  "configured_secret_leak_files": [],
+  "scanned_files": 1613,
+  "historical_blobs_checked_before_new_commit": 851,
+  "tests_passed": 79,
+  "live_scenarios_passed": 17,
+  "mock_scenarios_passed": 17,
+  "current_repeated_evaluation_performed": false,
+  "commit_sha_command": "git rev-parse HEAD",
+  "note": "Configured-secret matching is not a guarantee that all possible secret formats were detected. Historical evidence is excluded from current-source matching."
+}

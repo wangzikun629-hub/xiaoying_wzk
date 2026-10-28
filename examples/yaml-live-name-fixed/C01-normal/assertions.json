@@ -1,0 +1,10 @@
+{
+  "scenario": "C01-normal",
+  "mode": "live",
+  "status": "completed",
+  "passed": true,
+  "errors": [],
+  "total_cost": 12,
+  "model_calls": 14,
+  "tool_calls": 8
+}

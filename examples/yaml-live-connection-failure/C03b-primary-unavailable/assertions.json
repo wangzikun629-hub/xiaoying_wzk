@@ -1,0 +1,13 @@
+{
+  "scenario": "C03b-primary-unavailable",
+  "mode": "live",
+  "status": "incomplete",
+  "passed": false,
+  "errors": [
+    "应完成并正式保存",
+    "持续故障后选择备用方式"
+  ],
+  "total_cost": 0,
+  "model_calls": 1,
+  "tool_calls": 0
+}

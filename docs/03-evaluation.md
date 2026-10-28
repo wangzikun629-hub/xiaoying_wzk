@@ -1,6 +1,18 @@
 # 评估：已验证与待验证
 
-当前：**47项自动测试通过，最终17个真实子场景全部通过，四类关键场景各3次重复评估共12/12通过。** 模型为用户配置的deepseek-flash。下表保留初始离线证据，最终真实结果在后文单独记录；费用和时间仍为合成规则。
+当前 YAML 子智能体版本：**79项自动测试通过，17个离线场景全部通过，Ruff检查通过**。当前日志见[自动测试](../examples/test-results-current.txt)、[代码检查](../examples/ruff-results-current.txt)、[离线汇总](../examples/yaml-mock/summary.json)。覆盖实际Deep Agents父子图执行、一次失败后的部分成功复用、全局额度与续跑、子智能体工具越权拒绝、未配置委派拒绝、子模型异常恢复、跳过审查拒绝、虚假成功摘要拒绝、新计划使旧审查失效、YAML配置校验、改名及启停。OpenAI兼容接口通过本地MockTransport验证主模型、创作子模型、审查子模型和内部生成请求，共11次请求且全部计入上限，该协议测试不证明真实模型效果。
+
+最终当前实现的**17个真实场景全部通过**，见[真实汇总](../examples/yaml-live/summary.json)、[逐场景实际结果](../examples/current-evaluation.md)、[三条动态路径](../examples/current-decision-paths.md)。C07b部分成功后交回主Agent重估并只补缺失项；C12a首次因执行上限停止，费用4、视频保留，续跑后费用8；C12b保存失败后复用全部脚本完成保存。不同观察后的动作及公开依据可由原始Trace核对，未记录隐藏推理。
+
+重现可执行`uv run python scripts/run_examples.py --mode live --output outputs/review-yaml-live`。本轮为缩短等待，将17个互不依赖场景分三批运行，使用`--scenario`选择互不重叠的场景，并用`--summary-name batch-N-summary.json`分别保存汇总；三份批次原始汇总保留在yaml-live中，summary.json从这三份实际记录合并并核对17个场景唯一性。各场景使用独立临时数据库，未共享账目。此次未对当前架构额外做三轮重复评估，不把旧版12/12混入本轮样本。
+
+本轮先发生[模型连接失败](../examples/yaml-live-connection-failure/summary.json)，随后在可访问模型的环境实际运行。初始批次[已完成9个、通过7个](../examples/yaml-live-initial/summary.json)，C04与C07a失败：模型已选出可行方案，但task参数subagent_type填写角色writer而非配置名称content-writer，连续收到subagent_not_allowed后停止；没有生成或伪造完成。发现后停止批次，C07b只保留了中断时Trace。归档目录中的原始绝对路径指向搬移前位置，应读取归档内相邻trace.jsonl，不据此混用新批次Trace。
+
+修复措施是明确工具描述与主提示中的名称参数，并在拒绝结果返回allowed_subagents名称到角色映射，让模型选择正确名称再次调用；没有放宽权限或自动把角色别名映射成配置对象。新增两项回归分别验证默认名称及改名配置下，错误名称被拒绝，模型读取工具反馈后修正并完成任务。
+
+名称修复后的[真实批次](../examples/yaml-live-name-fixed/summary.json)完成14例、通过13例，C07b出现新的失败：writer在部分成功后反复使用旧报价，没有按指令交回主Agent，最后返回incomplete/execution_limit，费用4且已成功视频保留。发现后停止批次，C11保留中断Trace。修复为仅在writer子图的generate_script工具设置框架return_direct=True，一次工具调用结束后直接交回主Agent，模型仍负责父级重估算及再次委派，不自动替它选择重试或备用。新增回归让子模型在收到工具结果后试图继续调用时测试失败，验证该循环入口已被执行骨架切断；协议测试因不再请求writer总结由12次变为11次。当前完整验证与[动态路径摘要](../examples/current-decision-paths.md)对应最终代码，历史真实证据不作为当前架构的效果证明。
+
+以下为此前单Agent版本的历史评估：**47项自动测试通过，最终17个真实子场景全部通过，四类关键场景各3次重复评估共12/12通过。** 模型为用户配置的deepseek-flash。下表保留初始离线证据，历史最终真实结果在后文单独记录；费用和时间仍为合成规则。
 
 自动测试命令：`uv run pytest -q`。实际结果存放 [examples/test-results.txt](../examples/test-results.txt)；覆盖输入校验、12→8重估算、部分成功计费、不可行缺口、幂等、保存失败、上限、续跑，以及旧报价、依赖和数据库异常。
 
@@ -36,7 +48,7 @@
 
 中间复验live-validated为16/17通过，[C09失败记录](../examples/live-validated/C09-deadline-infeasible/output.json)显示模型合理停止、没有继续花费，但宿主误报current_plan_over_budget。实际预算可负担的替代方案同样超时，应返回deadline_infeasible。已修正候选判断，并分开返回最小时间缺口和当前报价时间缺口；回归测试验证33与93分钟。保存层同时检查排期、角色与核心信息中的已知渠道名，防止文字再次引入未选择渠道。新增2项回归后完整测试47项通过，见[test-results-live-final.txt](../examples/test-results-live-final.txt)。
 
-最终代码重新执行的实际结果：
+此前单Agent最终代码重新执行的实际结果：
 
 | 验证 | 结果 | 证据 |
 | --- | --- | --- |
@@ -51,6 +63,8 @@
 
 关键限制：合成费用和工期没有验证真实运营成本；检索采用本地标签相关性，无语义向量；脚本只校验结构和素材ID，不能自动保证事实完全正确；备用是模板降级；SQLite不能保证真实外部API请求不被重复计token；17个Mock场景通过不等于真实模型有相同表现。自评见 [content-review.md](../examples/content-review.md)。
 
-用户要求暂不推送GitHub，本轮只保留本地提交。正式提交仍需候选人自己的验证与贡献记录、题号、GitHub URL和最终SHA。没有把这些待完成项记为通过。
+题号已确认2，实际投入3.5小时。正式提交仍需GitHub URL和最终SHA；仓库发布状态以README为准。
 
-最终交付核对见[final-delivery-check.json](../examples/final-delivery-check.json)：54份最终运行元数据的源码摘要与当前源码一致，实施与证据目录扫描未发现本地实际API密钥泄漏；.env保持Git忽略。该核对不代替候选人自己的材料审阅。
+此前单Agent版本的交付核对见[final-delivery-check.json](../examples/final-delivery-check.json)，其源码一致性结果仅对当时版本成立。当前检查脚本已覆盖yaml-mock与yaml-live，并比对这两组全部元数据（含重复与续跑）的源码摘要；历史分组保留原摘要，不要求与当前实现相同。.env保持Git忽略。
+
+当前最终核对见[current-delivery-check.json](../examples/current-delivery-check.json)：42份运行元数据与最终源码摘要一致，扫描的1613个实施及证据文件未匹配到本地配置中的实际密钥；新提交前还检查了851个历史文件对象，未匹配该密钥。该检查不保证发现所有可能的凭据格式。[交付检查日志](../examples/delivery-audit-current.txt)为PASS，检查当前场景完整性、文档链接和源码一致性。发布目标为用户指定的[GitHub仓库](https://github.com/wangzikun629-oss/xiaoying_wzk)，远程提交状态需另行核对。

@@ -1,0 +1,12 @@
+{
+  "scenario": "C05-budget-infeasible",
+  "mode": "live",
+  "status": "incomplete",
+  "passed": false,
+  "errors": [
+    "预算5应返回缺口3"
+  ],
+  "total_cost": 0,
+  "model_calls": 1,
+  "tool_calls": 0
+}

@@ -1,0 +1,776 @@
+{
+  "status": "completed",
+  "request_id": "C07a-partial-materials",
+  "reason": null,
+  "request": {
+    "theme": "环保旧物回收",
+    "budget": 20,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "standard",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C07a-partial-materials",
+    "fingerprint": "8a6fef837dba824ea153d8382f9212eccc943819f1913f9f3b3631691cc98d4c"
+  },
+  "task_plan": {
+    "version": 2,
+    "tier": "economy",
+    "backend": "primary",
+    "channels": [
+      "校园公众号"
+    ],
+    "deliverables": [
+      "video_script",
+      "social_copy"
+    ],
+    "steps": [
+      {
+        "step_id": "retrieve",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "succeeded"
+      },
+      {
+        "step_id": "estimate-v2",
+        "action": "estimate_plan",
+        "depends_on": [
+          "retrieve"
+        ],
+        "status": "succeeded"
+      },
+      {
+        "step_id": "video_script",
+        "action": "generate_script",
+        "depends_on": [
+          "estimate-v2"
+        ],
+        "status": "succeeded",
+        "result_id": "03f046c5-3eb1-4084-9b23-fcba7787f565",
+        "cost": 4,
+        "minutes": 35,
+        "required": true,
+        "label": "视频脚本"
+      },
+      {
+        "step_id": "social_copy",
+        "action": "generate_script",
+        "depends_on": [
+          "estimate-v2"
+        ],
+        "status": "succeeded",
+        "result_id": "5c7c14d5-5c75-4ca6-a4f9-8d2db7323ec0",
+        "cost": 4,
+        "minutes": 25,
+        "required": true,
+        "label": "图文文案"
+      },
+      {
+        "step_id": "save",
+        "action": "save_plan",
+        "depends_on": [
+          "video_script",
+          "social_copy"
+        ],
+        "status": "succeeded"
+      }
+    ]
+  },
+  "plan_history": [
+    {
+      "version": 1,
+      "tier": "standard",
+      "backend": "primary",
+      "channels": [
+        "校园公众号"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy",
+        "channel_adaptation"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v1",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v1"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v1"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "channel_adaptation",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v1",
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 60,
+          "required": false,
+          "label": "多渠道改写"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy",
+            "channel_adaptation"
+          ],
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "tier": "economy",
+      "backend": "primary",
+      "channels": [
+        "校园公众号"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v2",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v2"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v2"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "attempt_id": "4a91c896-e758-4d4e-94f2-32b6db9f67a2",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "环保旧物回收"
+      },
+      "reason": "先确认该主题可用素材与缺失类型",
+      "run_id": "2c45ad18-61f0-426b-96bc-ef83b62c6d73",
+      "status": "partial",
+      "result": {
+        "status": "partial",
+        "error_code": null,
+        "materials": [
+          {
+            "id": "green-01",
+            "tags": [
+              "环保",
+              "回收",
+              "green"
+            ],
+            "kinds": [
+              "video_script",
+              "social_copy"
+            ],
+            "channels": [
+              "校园公众号"
+            ],
+            "content": "合成资料：校园旧物回收活动收集清洁书籍和闲置文具；具体接收地点由运营发布前确认。"
+          }
+        ],
+        "available_kinds": [
+          "social_copy",
+          "video_script"
+        ],
+        "missing_kinds": [
+          "channel_adaptation"
+        ],
+        "available_channels": [
+          "校园公众号"
+        ],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "4b76dce5-02e4-480f-92a9-a363b38fb308",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "tier": "standard",
+        "backend": "primary",
+        "channels": [
+          "校园公众号"
+        ]
+      },
+      "reason": "优先评估用户偏好的 standard，当前仅检索到校园公众号可用素材",
+      "run_id": "2c45ad18-61f0-426b-96bc-ef83b62c6d73",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "61a8f3e1-6b2d-46ae-9e2d-3fe13d39e264",
+        "plan": {
+          "version": 1,
+          "tier": "standard",
+          "backend": "primary",
+          "channels": [
+            "校园公众号"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy",
+            "channel_adaptation"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v1",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v1"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v1"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "channel_adaptation",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v1",
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 60,
+              "required": false,
+              "label": "多渠道改写"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy",
+                "channel_adaptation"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "6d1e31616d16fc82ebe11271dde31b6ac2b0df3778dae1f556e2bb71aef99b6b",
+        "existing_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "feasible": false,
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": false,
+        "spent": 0,
+        "remaining_cost": 12,
+        "total_cost": 12,
+        "cost_items": [
+          {
+            "deliverable": "video_script",
+            "cost": 4,
+            "minutes": 35,
+            "required": true,
+            "label": "视频脚本"
+          },
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          },
+          {
+            "deliverable": "channel_adaptation",
+            "cost": 4,
+            "minutes": 60,
+            "required": false,
+            "label": "多渠道改写"
+          }
+        ],
+        "remaining": [
+          "video_script",
+          "social_copy",
+          "channel_adaptation"
+        ],
+        "remaining_minutes": 121,
+        "expected_finish": "2030-06-01T04:03:00+00:00",
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [
+          "channel_adaptation"
+        ],
+        "missing_channels": [],
+        "scope_issues": [
+          "standard_requires_two_channels"
+        ],
+        "alternatives": [
+          {
+            "tier": "economy",
+            "channels": [
+              "校园公众号"
+            ],
+            "total_cost": 8,
+            "remaining_minutes": 61
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "c47a4e60-d23e-4d4d-a764-8154e1a4d840",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "backend": "primary",
+        "channels": [
+          "校园公众号"
+        ],
+        "tier": "economy"
+      },
+      "reason": "standard 因单渠道素材不可行，按允许精简改为 economy 单渠道",
+      "run_id": "2c45ad18-61f0-426b-96bc-ef83b62c6d73",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "876beb14-a87f-496e-a81b-d1d89f137d71",
+        "plan": {
+          "version": 2,
+          "tier": "economy",
+          "backend": "primary",
+          "channels": [
+            "校园公众号"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v2",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v2"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v2"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "6d1e31616d16fc82ebe11271dde31b6ac2b0df3778dae1f556e2bb71aef99b6b",
+        "existing_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "feasible": true,
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": true,
+        "spent": 0,
+        "remaining_cost": 8,
+        "total_cost": 8,
+        "cost_items": [
+          {
+            "deliverable": "video_script",
+            "cost": 4,
+            "minutes": 35,
+            "required": true,
+            "label": "视频脚本"
+          },
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          }
+        ],
+        "remaining": [
+          "video_script",
+          "social_copy"
+        ],
+        "remaining_minutes": 61,
+        "expected_finish": "2030-06-01T03:04:00+00:00",
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [],
+        "missing_channels": [],
+        "scope_issues": [],
+        "alternatives": [
+          {
+            "tier": "economy",
+            "channels": [
+              "校园公众号"
+            ],
+            "total_cost": 8,
+            "remaining_minutes": 61
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "d58a8a69-340f-4513-9662-9d8caf0fa15d",
+      "step_id": "generate_script",
+      "tool": "generate_script",
+      "agent": "content-writer",
+      "arguments": {
+        "quote_id": "876beb14-a87f-496e-a81b-d1d89f137d71",
+        "deliverables": [
+          "video_script",
+          "social_copy"
+        ]
+      },
+      "reason": "按已批准 economy 报价补齐 missing 中的两项交付物，仅用 green-01 素材事实",
+      "run_id": "2c45ad18-61f0-426b-96bc-ef83b62c6d73",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "completed": [
+          {
+            "result_id": "03f046c5-3eb1-4084-9b23-fcba7787f565",
+            "deliverable": "video_script",
+            "content": {
+              "text": "视频主题：环保旧物回收。适用渠道：校园公众号。视频分镜与口播如下（活动发布与投稿尚未执行，以下仅为待发布脚本；具体接收地点、时间、参与方式等待运营确认）：\n分镜1：开场画面为校园书桌、整洁书籍和闲置文具特写（引用素材：green-01）。口播：你的书架里，是否有一些仍然整洁、却暂时用不到的书？抽屉里是否有闲置文具？本次校园旧物回收活动拟收集清洁书籍和闲置文具，让它们有机会继续被使用。\n分镜2：展示分类整理与检查物品的画面。口播：参与前请先确认物品是否清洁、可用；具体接收地点、开放时间和参与流程待运营确认，请以校园公众号后续发布为准。\n分镜3：结尾画面展示“环保旧物回收”主题字样。口播：关注校园公众号，等待正式发布；一起关注闲置物品的再利用，具体安排待运营确认。注意：不得写成已举办、已投稿或已有回收效果。",
+              "material_ids": [
+                "green-01"
+              ]
+            },
+            "cost": 4,
+            "minutes": 35,
+            "backend": "primary",
+            "origin": "model",
+            "materials_hash": "6d1e31616d16fc82ebe11271dde31b6ac2b0df3778dae1f556e2bb71aef99b6b"
+          },
+          {
+            "result_id": "5c7c14d5-5c75-4ca6-a4f9-8d2db7323ec0",
+            "deliverable": "social_copy",
+            "content": {
+              "text": "标题：让旧物再出发｜校园旧物回收活动信息预告（待运营确认）\n正文：校园旧物回收活动拟收集清洁书籍和闲置文具。如果你手边有保存完好、干净可用的旧书或文具，可以先整理打包，等待后续接收安排。具体接收地点、开放时间及可接收物品范围，均以运营发布前确认的信息为准；当前活动发布与投稿尚未执行，请勿按已完成活动传播。\nCTA：请关注校园公众号后续通知，待运营确认接收地点后，再按指引参与。也欢迎把这条消息转给有需要的同学，一起让闲置旧物获得再次使用的机会。",
+              "material_ids": [
+                "green-01"
+              ]
+            },
+            "cost": 4,
+            "minutes": 25,
+            "backend": "primary",
+            "origin": "model",
+            "materials_hash": "6d1e31616d16fc82ebe11271dde31b6ac2b0df3778dae1f556e2bb71aef99b6b"
+          }
+        ],
+        "missing": [],
+        "failures": [],
+        "error_code": null,
+        "message": "保留成功项；补缺失项前重估；不得重复生成已成功项",
+        "cost_delta": 8,
+        "minutes_delta": 60
+      }
+    },
+    {
+      "attempt_id": "d11bb52b-a0ab-4e7d-a51a-9b5ecf3e9b32",
+      "step_id": "save_plan",
+      "tool": "save_plan",
+      "agent": "main",
+      "arguments": {
+        "quote_id": "876beb14-a87f-496e-a81b-d1d89f137d71",
+        "campaign": {
+          "theme": "环保旧物回收",
+          "goal": "在校园公众号发布一期“环保旧物回收”活动信息预告，向校内师生说明活动拟收集清洁书籍与闲置文具，引导大家先行整理待回收物品，并关注校园公众号后续通知。本方案为信息预告，不含已举办、已征收或已有回收效果的表述。",
+          "audience": "校内师生（校园公众号读者），重点为手边有闲置书籍、文具且物品清洁可用的人群。",
+          "message": "核心信息：校园旧物回收活动收集清洁书籍和闲置文具；具体接收地点由运营发布前确认。\n图文标题：让旧物再出发｜校园旧物回收活动信息预告。\n图文正文定稿措辞：校园旧物回收活动拟收集清洁书籍和闲置文具。如果你手边有清洁、可继续使用的旧书或文具，可以先整理打包，等待后续接收安排。具体接收地点、开放时间及参与方式，均以运营发布前确认的信息为准；活动尚未正式发布，请勿按已完成活动传播。\n图文CTA：请关注校园公众号后续通知，待运营确认接收地点后，再按指引参与；也欢迎把信息告诉身边有需要的同学。\n视频脚本要点（三分镜，画面+口播）：分镜1 校园书桌整洁书籍与闲置文具特写，口播说明活动拟收集清洁书籍和闲置文具；分镜2 分类整理与检查物品画面，口播提示先确认物品清洁可用、具体接收地点与开放时间待运营确认、以校园公众号后续发布为准；分镜3 结尾“环保旧物回收”主题字样，口播引导关注校园公众号等待正式发布。\n制作备注（不进入成片）：不得表述为已举办、已投稿或已有回收效果；发布前须由运营补齐并确认接收地点、开放时间与参与方式，内容侧不得自行填写具体值。素材引用：green-01。",
+          "schedule": "相对排期（唯一渠道：校园公众号）：第1步 视频脚本撰写，约35分钟，报价 ¥4；第2步 图文文案撰写，约25分钟，报价 ¥4；两步合计约60分钟，自 2030-06-01T02:00:00+00:00 起预计 2030-06-01T03:04:00+00:00 完成，早于截止时间 2030-06-01T05:00:00+00:00。完成后的发布时点由运营在校园公众号确认接收地点、开放时间与参与方式后自行决定，本方案不安排其他渠道的转发或投放。",
+          "roles": "内容撰写：content-writer（已完成视频脚本与图文文案，backend=primary）；内容审查：plan-reviewer（裁定可保存，提出措辞微调建议）；运营负责人：确认并补齐接收地点、开放时间、参与方式，负责在校园公众号发布前定稿；策划/主控：campaign 主智能体，负责报价登记、范围控制与方案保存。",
+          "suggested_metrics": "以下均为建议指标，非承诺或预测结果：1) 校园公众号图文阅读量（建议按发布后 7 天统计）；2) 图文“在看/点赞/留言”互动量（建议）；3) 公众号内活动信息相关留言中询问接收安排的条数（建议）；4) 视频脚本成片在校园公众号的播放完成率（建议）。上述指标均未提供基线数据，不得作为已实现流量或转化结果对外表述。",
+          "channels": [
+            "校园公众号"
+          ],
+          "tier": "economy",
+          "backend": "primary",
+          "budget": 20,
+          "total_cost": 8,
+          "currency": "CNY",
+          "deadline": "2030-06-01T05:00:00+00:00",
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "materials": [
+            {
+              "id": "green-01",
+              "channels": [
+                "校园公众号"
+              ],
+              "kinds": [
+                "video_script",
+                "social_copy"
+              ],
+              "content": "合成资料：校园旧物回收活动收集清洁书籍和闲置文具；具体接收地点由运营发布前确认。"
+            }
+          ],
+          "known_limits": [
+            "素材检索为 partial：仅校园公众号可用，缺 channel_adaptation，因此 standard 需两渠道的要求不满足，已按允许精简降级为 economy 单渠道。",
+            "素材未提供具体接收地点、开放时间、参与方式、奖励或日期，方案中一律标注待运营确认，未做任何补写。",
+            "本方案不包含多渠道改写，亦不安排其他渠道的转发或投放。"
+          ],
+          "review": {
+            "verdict": "可保存",
+            "applied_suggestions": [
+              "图文正文将“可接收物品范围”改述为“参与方式”待确认",
+              "“保存完好、干净可用”统一为“清洁、可继续使用”",
+              "“活动发布与投稿尚未执行”改为“活动尚未正式发布”",
+              "CTA 弱化分发动作，改为“把信息告诉身边有需要的同学”",
+              "视频末句内部禁令移入制作备注并标注不进入成片",
+              "标题去掉“（待运营确认）”，改为内部备注发布前定稿",
+              "接收地点、开放时间、参与方式保留待运营确认，不由内容侧填写"
+            ],
+            "note": "以上微调已写入本方案核心信息与制作备注；已成功生成的两项内容编号：video_script=03f046c5-3eb1-4084-9b23-fcba7787f565，social_copy=5c7c14d5-5c75-4ca6-a4f9-8d2db7323ec0。"
+          }
+        }
+      },
+      "reason": "economy 报价可行且两项内容已生成并通过审查，按审查建议完善核心信息后正式保存",
+      "run_id": "2c45ad18-61f0-426b-96bc-ef83b62c6d73",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "plan_id": "plan-c3eda5ed6385f2e22659",
+        "total_cost": 8,
+        "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-k_e5dogo\\C07a-partial-materials.sqlite",
+        "message": "正式方案与完成状态已在同一事务提交",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    }
+  ],
+  "tool_results": {
+    "video_script": {
+      "result_id": "03f046c5-3eb1-4084-9b23-fcba7787f565",
+      "deliverable": "video_script",
+      "content": {
+        "text": "视频主题：环保旧物回收。适用渠道：校园公众号。视频分镜与口播如下（活动发布与投稿尚未执行，以下仅为待发布脚本；具体接收地点、时间、参与方式等待运营确认）：\n分镜1：开场画面为校园书桌、整洁书籍和闲置文具特写（引用素材：green-01）。口播：你的书架里，是否有一些仍然整洁、却暂时用不到的书？抽屉里是否有闲置文具？本次校园旧物回收活动拟收集清洁书籍和闲置文具，让它们有机会继续被使用。\n分镜2：展示分类整理与检查物品的画面。口播：参与前请先确认物品是否清洁、可用；具体接收地点、开放时间和参与流程待运营确认，请以校园公众号后续发布为准。\n分镜3：结尾画面展示“环保旧物回收”主题字样。口播：关注校园公众号，等待正式发布；一起关注闲置物品的再利用，具体安排待运营确认。注意：不得写成已举办、已投稿或已有回收效果。",
+        "material_ids": [
+          "green-01"
+        ]
+      },
+      "cost": 4,
+      "minutes": 35,
+      "backend": "primary",
+      "origin": "model",
+      "materials_hash": "6d1e31616d16fc82ebe11271dde31b6ac2b0df3778dae1f556e2bb71aef99b6b"
+    },
+    "social_copy": {
+      "result_id": "5c7c14d5-5c75-4ca6-a4f9-8d2db7323ec0",
+      "deliverable": "social_copy",
+      "content": {
+        "text": "标题：让旧物再出发｜校园旧物回收活动信息预告（待运营确认）\n正文：校园旧物回收活动拟收集清洁书籍和闲置文具。如果你手边有保存完好、干净可用的旧书或文具，可以先整理打包，等待后续接收安排。具体接收地点、开放时间及可接收物品范围，均以运营发布前确认的信息为准；当前活动发布与投稿尚未执行，请勿按已完成活动传播。\nCTA：请关注校园公众号后续通知，待运营确认接收地点后，再按指引参与。也欢迎把这条消息转给有需要的同学，一起让闲置旧物获得再次使用的机会。",
+        "material_ids": [
+          "green-01"
+        ]
+      },
+      "cost": 4,
+      "minutes": 25,
+      "backend": "primary",
+      "origin": "model",
+      "materials_hash": "6d1e31616d16fc82ebe11271dde31b6ac2b0df3778dae1f556e2bb71aef99b6b"
+    }
+  },
+  "subagent_runs": [
+    {
+      "agent": "content-writer",
+      "role": "writer",
+      "status": "succeeded",
+      "run_id": "2c45ad18-61f0-426b-96bc-ef83b62c6d73",
+      "fingerprint": "a5d8076f7fe905250d72d6b8a52a2d30aa4ad7f5ba5c27cd356a9c9da1819978",
+      "result": "我将按已批准报价一次性生成两项缺失交付物：视频脚本与图文文案（校园公众号，economy 单渠道）。"
+    },
+    {
+      "agent": "plan-reviewer",
+      "role": "reviewer",
+      "status": "succeeded",
+      "run_id": "2c45ad18-61f0-426b-96bc-ef83b62c6d73",
+      "fingerprint": "e0511bf563cb3fa0d4686df6171396c5266785e45bf070aaf4aca208f6fc204f",
+      "result": "## 审查结论（4 点）\n\n**1) 主题相关性 — 通过**\n两份内容均以“清洁书籍 / 闲置文具的再利用”为内容核心，视频分镜、正文和 CTA 都没有偏离“环保旧物回收”，主题一致，没有夹杂无关信息。\n\n**2) 素材依据 — 通过（1 处措辞建议简化）**\n没有出现奖励、具体日期、具体地点、流量、转化、人数或重量等信息；“接收地点待确认”与 green-01 一致。仅一处措辞略超素材：\n- social_copy 正文“具体接收地点、开放时间及**可接收物品范围**，均以运营发布前确认的信息为准” → 素材已明确范围为“清洁书籍和闲置文具”，不必对其限定，建议替换为：**“具体接收地点、开放时间及参与方式，均以运营发布前确认的信息为准。”**\n- social_copy“保存完好、干净可用” → 建议替换为：**“清洁、可继续使用”**（更贴近 green-01 原文）。\n- “活动发布与**投稿**尚未执行”中“投稿”未见于 green-01，建议替换为：**“活动尚未正式发布”**。\n\n**3) 渠道表达 — 通过（1 处弱化建议）**\n仅出现“校园公众号”，视频头部明确“适用渠道：校园公众号”，没有其他渠道的改写或投放安排。仅 CTA“把这条消息**转给**有需要的同学”可能被读作分发流程安排，建议替换为：**“也欢迎把信息告诉身边有需要的同学。”**（这一条不强制，属于风险预防性修改）\n\n**4) 完整性 — 通过（2 处交付规范建议）**\n视频具备“画面 + 口播”三分镜结构，图文具备标题、正文和 CTA，两份都带“待运营确认”限定。两处内部备注应移出发布内容：\n- 视频分镜3末句“注意：不得写成已举办、已投稿或已有回收效果。” → 移出脚本；单独标注：**“【制作备注，不进入成片】不得表述为已举办、已投稿或已有回收效果。”**\n- 图文标题“（待运营确认）” → 标题改为：**“让旧物再出发｜校园旧物回收活动信息预告”**，并在内部备注中加一句“发布前确认接收地点与时间后定稿”。\n\n## 总裁决\n**可保存**（无阻断问题，未发现编造事实或跨渠道安排）。若运营当天直接发布，建议先改 2) 中的“可接收物品范围”“保存完好”、“投稿”，以及 4) 中标题括号与视频末尾备注；这四处均为文字微调，不影响已生成结果的有效性。\n\n```json\n{\n  \"s"
+    }
+  ],
+  "total_cost": 8,
+  "estimated_total_cost": 8,
+  "elapsed_minutes": 64,
+  "clock_mode": "simulated",
+  "saved_plan_id": "plan-c3eda5ed6385f2e22659",
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-k_e5dogo\\C07a-partial-materials.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": 0,
+  "current_plan_time_gap_minutes": 0,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "2c45ad18-61f0-426b-96bc-ef83b62c6d73",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C07a-partial-materials\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 11,
+      "tool_calls": 8,
+      "status": "completed",
+      "reason": null
+    }
+  ],
+  "mode": "live",
+  "run_id": "2c45ad18-61f0-426b-96bc-ef83b62c6d73",
+  "cached": false,
+  "model_calls": 11,
+  "tool_calls": 8,
+  "export_status": "succeeded",
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C07a-partial-materials\\trace.jsonl"
+}

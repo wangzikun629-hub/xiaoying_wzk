@@ -1,0 +1,10 @@
+{
+  "scenario": "C03b-primary-unavailable",
+  "mode": "live",
+  "status": "completed",
+  "passed": true,
+  "errors": [],
+  "total_cost": 8,
+  "model_calls": 15,
+  "tool_calls": 11
+}

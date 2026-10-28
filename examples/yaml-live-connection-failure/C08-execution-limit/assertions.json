@@ -1,0 +1,12 @@
+{
+  "scenario": "C08-execution-limit",
+  "mode": "live",
+  "status": "incomplete",
+  "passed": false,
+  "errors": [
+    "达到上限明确未完成"
+  ],
+  "total_cost": 0,
+  "model_calls": 1,
+  "tool_calls": 0
+}

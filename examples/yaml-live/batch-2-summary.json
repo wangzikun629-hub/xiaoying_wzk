@@ -1,0 +1,78 @@
+{
+  "mode": "live",
+  "total": 7,
+  "passed": 7,
+  "records": [
+    {
+      "scenario": "C05-budget-infeasible",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 4,
+      "tool_calls": 4
+    },
+    {
+      "scenario": "C06-repeated-run",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 13,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C07a-partial-materials",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 11,
+      "tool_calls": 8
+    },
+    {
+      "scenario": "C07b-partial-generation",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 14,
+      "tool_calls": 10
+    },
+    {
+      "scenario": "C07c-no-materials",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 5,
+      "tool_calls": 4
+    },
+    {
+      "scenario": "C08-execution-limit",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 1,
+      "tool_calls": 1
+    },
+    {
+      "scenario": "C09-deadline-infeasible",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 5,
+      "tool_calls": 4
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

@@ -1,0 +1,85 @@
+{
+  "status": "incomplete",
+  "request_id": "C07c-no-materials",
+  "reason": "no_materials",
+  "request": {
+    "theme": "深海潜航设备交流",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "standard",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C07c-no-materials",
+    "fingerprint": "6c02bc644ab1a884a7c7486b98ddc78c3a3811dddcf1ef8ad90f5f0f5fce2e45"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": [
+      {
+        "step_id": "da7ac994-bb8c-4be8-b89a-ded3a20a25b3",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "failed"
+      }
+    ]
+  },
+  "plan_history": [],
+  "attempts": [
+    {
+      "attempt_id": "da7ac994-bb8c-4be8-b89a-ded3a20a25b3",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "深海潜航设备交流"
+      },
+      "reason": "先检索主题素材。",
+      "run_id": "6c2bedcf-0920-4b53-93fd-3d35ab41dedc",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "materials": [],
+        "available_kinds": [],
+        "missing_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "available_channels": [],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    }
+  ],
+  "tool_results": {},
+  "subagent_runs": [],
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 1,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-aasw7qbz\\C07c-no-materials.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "current_plan_time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "6c2bedcf-0920-4b53-93fd-3d35ab41dedc",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-mock\\C07c-no-materials\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 2,
+      "tool_calls": 1,
+      "status": "incomplete",
+      "reason": "no_materials"
+    }
+  ],
+  "mode": "mock",
+  "run_id": "6c2bedcf-0920-4b53-93fd-3d35ab41dedc",
+  "cached": false,
+  "model_calls": 2,
+  "tool_calls": 1,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-mock\\C07c-no-materials\\trace.jsonl"
+}

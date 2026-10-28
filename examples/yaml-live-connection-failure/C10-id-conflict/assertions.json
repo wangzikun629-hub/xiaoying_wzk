@@ -1,0 +1,12 @@
+{
+  "scenario": "C10-id-conflict",
+  "mode": "live",
+  "status": "incomplete",
+  "passed": false,
+  "errors": [
+    "应完成并正式保存"
+  ],
+  "total_cost": 0,
+  "model_calls": 1,
+  "tool_calls": 0
+}

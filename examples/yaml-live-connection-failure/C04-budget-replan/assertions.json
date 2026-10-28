@@ -1,0 +1,16 @@
+{
+  "scenario": "C04-budget-replan",
+  "mode": "live",
+  "status": "incomplete",
+  "passed": false,
+  "errors": [
+    "应完成并正式保存",
+    "实际观察到报价12超限",
+    "模型改选后重新报价8",
+    "实际只计8",
+    "精简版实际缩减为单渠道"
+  ],
+  "total_cost": 0,
+  "model_calls": 1,
+  "tool_calls": 0
+}

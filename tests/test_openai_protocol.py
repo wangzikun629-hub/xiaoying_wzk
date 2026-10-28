@@ -18,7 +18,23 @@ def test_openai_compatible_round_trip_with_script_subcalls(tmp_path, request_dat
         body = json.loads(request.content)
         requests.append(body)
         message = {"role": "assistant", "content": None}
-        if not body.get("tools"):
+        context = next(
+            (
+                json.loads(m["content"])["authoritative_context"]
+                for m in reversed(body["messages"])
+                if m["role"] == "user"
+                and isinstance(m.get("content"), str)
+                and m["content"].startswith('{"authoritative_context":')
+            ),
+            None,
+        )
+        if context and context["agent_role"] == "reviewer":
+            assert not body.get("tools")
+            assert set(context["results"]) == {"video_script", "social_copy"}
+            message["content"] = json.dumps(
+                {"summary": "协议测试审查", "issues": [], "suggested_changes": []}
+            )
+        elif not body.get("tools"):
             # This is a script-generation call, not a controller decision.
             message["content"] = json.dumps(
                 {
@@ -30,7 +46,18 @@ def test_openai_compatible_round_trip_with_script_subcalls(tmp_path, request_dat
         else:
             last = next((m for m in reversed(body["messages"]) if m["role"] == "tool"), None)
             observation = json.loads(last["content"]) if last else {}
-            if not last:
+            if context and context["agent_role"] == "writer":
+                offered = {t["function"]["name"] for t in body["tools"]}
+                assert offered == {"generate_script"}
+                if not last:
+                    name, args = (
+                        "generate_script",
+                        {"quote_id": context["quote"]["quote_id"], "deliverables": context["missing"]},
+                    )
+                else:
+                    name, args = None, {}
+                    message["content"] = json.dumps(observation)
+            elif not last:
                 name, args = "search_materials", {"query": "毕业季校园影像征集"}
             elif "available_kinds" in observation:
                 name, args = "estimate_plan", {"tier": "standard"}
@@ -38,10 +65,13 @@ def test_openai_compatible_round_trip_with_script_subcalls(tmp_path, request_dat
                 name, args = "estimate_plan", {"tier": "economy"}
             elif "quote_id" in observation:
                 name, args = (
-                    "generate_script",
-                    {"quote_id": observation["quote_id"], "deliverables": observation["remaining"]},
+                    "task",
+                    {"subagent_type": "content-writer", "description": "生成当前报价缺失内容"},
                 )
-            elif "completed" in observation:
+            elif "observation" in observation:
+                assert observation["status"] == "succeeded"
+                name, args = "task", {"subagent_type": "plan-reviewer", "description": "审查生成内容"}
+            elif "summary" in observation:
                 quote = next(
                     json.loads(m["content"])
                     for m in reversed(body["messages"])
@@ -61,7 +91,7 @@ def test_openai_compatible_round_trip_with_script_subcalls(tmp_path, request_dat
                         "function": {"name": name, "arguments": json.dumps(args)},
                     }
                 ]
-            else:
+            elif message["content"] is None:
                 message["content"] = "正式保存工具已经成功，结束。"
         payload = {
             "id": f"chatcmpl-{len(requests)}",
@@ -99,8 +129,12 @@ def test_openai_compatible_round_trip_with_script_subcalls(tmp_path, request_dat
     client.close()
     assert result["status"] == "completed"
     assert result["total_cost"] == 8
-    assert result["model_calls"] == len(requests) == 8
-    assert len([r for r in requests if not r.get("tools")]) == 2
+    assert result["model_calls"] == len(requests) == 11
+    assert len([r for r in requests if not r.get("tools")]) == 3  # two content calls and one reviewer
+    assert [(r["role"], r["status"]) for r in result["subagent_runs"]] == [
+        ("writer", "succeeded"),
+        ("reviewer", "succeeded"),
+    ]
     offered = {t["function"]["name"] for r in requests for t in r.get("tools", [])}
-    assert "execute" not in offered and "task" not in offered
+    assert "execute" not in offered and "task" in offered
     assert {"estimate_plan", "generate_script", "save_plan"} <= offered

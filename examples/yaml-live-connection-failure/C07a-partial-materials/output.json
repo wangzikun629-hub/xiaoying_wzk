@@ -1,0 +1,50 @@
+{
+  "status": "incomplete",
+  "request_id": "C07a-partial-materials",
+  "reason": "model_unavailable",
+  "request": {
+    "theme": "环保旧物回收",
+    "budget": 20,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "standard",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C07a-partial-materials",
+    "fingerprint": "8a6fef837dba824ea153d8382f9212eccc943819f1913f9f3b3631691cc98d4c"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": []
+  },
+  "plan_history": [],
+  "attempts": [],
+  "tool_results": {},
+  "subagent_runs": [],
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 0,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-_4477tfj\\C07a-partial-materials.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "current_plan_time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "dc731961-7959-475d-beb0-969dc6c2f621",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C07a-partial-materials\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 1,
+      "tool_calls": 0,
+      "status": "incomplete",
+      "reason": "model_unavailable"
+    }
+  ],
+  "mode": "live",
+  "run_id": "dc731961-7959-475d-beb0-969dc6c2f621",
+  "cached": false,
+  "model_calls": 1,
+  "tool_calls": 0,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\yaml-live\\C07a-partial-materials\\trace.jsonl"
+}

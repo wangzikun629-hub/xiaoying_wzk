@@ -1,0 +1,14 @@
+{
+  "scenario": "C12a-resume-generation",
+  "mode": "live",
+  "status": "incomplete",
+  "passed": false,
+  "errors": [
+    "首轮必须有已成功结果可供续跑复用",
+    "续跑后完成",
+    "续跑不重复收费"
+  ],
+  "total_cost": 0,
+  "model_calls": 1,
+  "tool_calls": 0
+}

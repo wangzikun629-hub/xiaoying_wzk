@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from .schemas import ExecutionLimit, digest, parse_time, utc_now, validate_request
 from .storage import BusyRequest, Storage
+from .subagents import SubagentConfigError
 from .tools import PROJECT_ROOT, Engine
 from .trace import Trace, public
 
@@ -67,6 +68,7 @@ def metadata(mode, faults, state=None):
             ("tests", ".py"),
             ("data", ".json"),
             ("config", ".md"),
+            ("config", ".yaml"),
             ("skills", ".md"),
         )
         for p in (PROJECT_ROOT / directory).rglob("*" + suffix)
@@ -91,6 +93,7 @@ def metadata(mode, faults, state=None):
         clock_anchor=state.get("clock_anchor") if state else None,
         rules_sha256=state.get("rules_sha256") if state else None,
         materials_sha256=state.get("materials_sha256") if state else None,
+        subagents_config_sha256=state.get("subagents_config_sha256") if state else None,
         note="Mock verifies workflow only; source_sha256 identifies actual working files, not a Git commit.",
     )
 
@@ -158,6 +161,7 @@ def snapshot(state, store):
         plan_history=state["plans"],
         attempts=state["attempts"],
         tool_results=state["results"],
+        subagent_runs=state.get("subagent_runs", []),
         total_cost=state["spent"],
         estimated_total_cost=q["total_cost"] if q else None,
         elapsed_minutes=state["elapsed_minutes"],
@@ -300,6 +304,9 @@ def run(
                 for attempt in state["attempts"]:
                     if attempt["status"] == "running":
                         attempt.update(status="failed", error_code="interrupted")
+                for delegation in state.get("subagent_runs", []):
+                    if delegation["status"] == "running":
+                        delegation.update(status="failed", error_code="interrupted")
                 run_id = str(uuid4())
                 state.update(active_run_id=run_id, status="running", reason=None)
                 run_record = dict(
@@ -348,6 +355,9 @@ def run(
                         )
                 except ExecutionLimit:
                     engine.halt_reason = "execution_limit"
+                except SubagentConfigError:
+                    engine.halt_reason = "invalid_subagent_config"
+                    trace.add("configuration_error", reason=engine.halt_reason, path="config/subagents.yaml")
                 except KeyboardInterrupt:
                     engine.halt_reason = "interrupted"
                 except Exception as exc:

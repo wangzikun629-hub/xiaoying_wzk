@@ -1,0 +1,107 @@
+{
+  "mode": "live",
+  "batch_status": "stopped_after_detecting_delegate_name_failure",
+  "total_completed": 9,
+  "passed": 7,
+  "records": [
+    {
+      "scenario": "C01-normal",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 12,
+      "model_calls": 13,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C02a-missing-budget",
+      "mode": "live",
+      "status": "needs_input",
+      "passed": true,
+      "errors": [],
+      "total_cost": null,
+      "model_calls": 0,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C02b-missing-deadline",
+      "mode": "live",
+      "status": "needs_input",
+      "passed": true,
+      "errors": [],
+      "total_cost": null,
+      "model_calls": 0,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C03a-once-failure",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 17,
+      "tool_calls": 12
+    },
+    {
+      "scenario": "C03b-primary-unavailable",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 14,
+      "tool_calls": 10
+    },
+    {
+      "scenario": "C04-budget-replan",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": false,
+      "errors": [
+        "应完成并正式保存",
+        "实际只计8"
+      ],
+      "total_cost": 0,
+      "model_calls": 8,
+      "tool_calls": 8
+    },
+    {
+      "scenario": "C05-budget-infeasible",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 6,
+      "tool_calls": 5
+    },
+    {
+      "scenario": "C06-repeated-run",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 13,
+      "tool_calls": 8
+    },
+    {
+      "scenario": "C07a-partial-materials",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": false,
+      "errors": [
+        "应完成并正式保存"
+      ],
+      "total_cost": 0,
+      "model_calls": 6,
+      "tool_calls": 6
+    }
+  ],
+  "interrupted_scenarios": [
+    "C07b-partial-generation"
+  ],
+  "note": "Partial historical batch; original outputs and traces retained. Recorded absolute paths refer to the original location; use adjacent trace.jsonl files in this archive."
+}

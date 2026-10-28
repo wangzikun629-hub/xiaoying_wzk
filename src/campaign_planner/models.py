@@ -6,11 +6,12 @@ from typing import Any
 from urllib.parse import urlsplit
 
 from langchain_core.language_models.chat_models import BaseChatModel
-from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 from pydantic import ConfigDict
 
 from .schemas import canonical, digest
+from .subagents import has_current_review
 from .tools import template
 
 
@@ -29,6 +30,7 @@ class OfflineModel(BaseChatModel):
     """Mock policy observes real tool state. It does not prove LLM reasoning."""
 
     engine: Any
+    agent_role: str = "main"
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @property
@@ -41,6 +43,41 @@ class OfflineModel(BaseChatModel):
     def _generate(self, messages, stop=None, run_manager=None, **kwargs):
         e, s = self.engine, self.engine.state
         q = s["quotes"].get(s.get("active_quote"))
+        if self.agent_role == "writer":
+            previous = next((m for m in reversed(messages) if isinstance(m, ToolMessage)), None)
+            if previous:
+                message = AIMessage(content=previous.content)
+            elif q and q["feasible"]:
+                message = AIMessage(
+                    content="按已批准报价生成缺失项。",
+                    tool_calls=[
+                        dict(
+                            name="generate_script",
+                            id=f"writer-{e.model_calls}",
+                            type="tool_call",
+                            args=dict(
+                                quote_id=q["quote_id"],
+                                deliverables=[k for k in q["plan"]["deliverables"] if k not in s["results"]],
+                                reason="只生成缺失项，失败交回主智能体重规划",
+                            ),
+                        )
+                    ],
+                )
+            else:
+                message = AIMessage(content=canonical(dict(status="failed", error_code="infeasible_quote")))
+            return ChatResult(generations=[ChatGeneration(message=message)])
+        if self.agent_role == "reviewer":
+            missing = [k for k in q["plan"]["deliverables"] if k not in s["results"]] if q else []
+            message = AIMessage(
+                content=canonical(
+                    dict(
+                        summary="确定性离线审查，仅核对结构与引用，不证明真实模型的语义审查能力。",
+                        issues=[f"缺少交付物：{key}" for key in missing],
+                        suggested_changes=["发布前由运营确认具体日期、入口和授权。"],
+                    )
+                )
+            )
+            return ChatResult(generations=[ChatGeneration(message=message)])
         observation = s.get("last_observation", {})
         action, args, reason = None, {}, ""
         if s["status"] == "completed":
@@ -78,10 +115,27 @@ class OfflineModel(BaseChatModel):
                 )
                 reason = "保留成功交付物，根据错误重新估算剩余工作与后端。"
             elif missing:
-                action, args = "generate_script", dict(quote_id=q["quote_id"], deliverables=missing)
+                writer = e.subagent_roles.get("writer")
+                action, args = (
+                    (
+                        "task",
+                        dict(subagent_type=writer, description="按当前可行报价生成缺失内容，失败后返回。"),
+                    )
+                    if writer
+                    else ("generate_script", dict(quote_id=q["quote_id"], deliverables=missing))
+                )
                 reason = "可行报价已确认，只生成缺少的交付物。"
             elif observation.get("error_code") == "save_failed" and e.faults.get("save") == "always":
                 reason = "保存持续失败，保留脚本供续跑。"
+            elif e.subagent_roles.get("reviewer") and not has_current_review(e):
+                action, args = (
+                    "task",
+                    dict(
+                        subagent_type=e.subagent_roles["reviewer"],
+                        description="审查已生成内容的素材依据、完整性及渠道表达，返回具体修改建议。",
+                    ),
+                )
+                reason = "内容已生成，先委派独立审查，再由主智能体决定保存。"
             else:
                 action, args = (
                     "save_plan",
@@ -89,7 +143,10 @@ class OfflineModel(BaseChatModel):
                 )
                 reason = "当前计划所需交付物均已成功，保存正式方案。"
         if action:
-            args["reason"] = reason
+            if action == "task":
+                args["description"] += "依据：" + reason
+            else:
+                args["reason"] = reason
             msg = AIMessage(
                 content=reason,
                 tool_calls=[dict(name=action, args=args, id=f"mock-{e.model_calls}", type="tool_call")],
