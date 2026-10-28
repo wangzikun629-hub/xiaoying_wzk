@@ -40,4 +40,3 @@
 | 4 / main | estimate_plan {"backend": "backup", "channels": ["校园公众号"], "tier": "economy"} | {"status":"succeeded","total_cost":8,"feasible":true,"budget_ok":true,"deadline_ok":true} | generate_script：见完整Trace |
 | 5 / content-writer | generate_script {"quote_id": "8ab20900-e4b8-47b2-8fcd-cf9f74c4c9f5", "deliverables": ["video_script", "social_copy"]} | {"status":"succeeded","missing":[],"completed":[{"deliverable":"video_script","result_id":"98434f7c-579e-42ab-8462-a265f7197537"},{"deliverable":"social_copy","result_id":"88c83678-867f-4b95-a171-61225ead6f15"}]} | save_plan：见完整Trace |
 | 6 / main | save_plan {"quote_id": "8ab20900-e4b8-47b2-8fcd-cf9f74c4c9f5", "campaign": "六项运营字段，完整内容见Trace"} | {"status":"succeeded","total_cost":8,"plan_id":"plan-77e043e80a5af30ed15d"} | 最终状态 completed |
-
