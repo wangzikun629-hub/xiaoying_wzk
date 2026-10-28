@@ -1,0 +1,11 @@
+{
+  "source_evidence_consistent": true,
+  "verified_metadata_files": 54,
+  "credential_leak_count": 0,
+  "scanned_files": 890,
+  "tests_passed": 47,
+  "live_scenarios_passed": 17,
+  "live_repeated_passed": 12,
+  "mock_final_passed": 17,
+  "publication": "local only, per user instruction"
+}

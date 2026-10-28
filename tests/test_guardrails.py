@@ -4,6 +4,7 @@ from datetime import timedelta
 import pytest
 
 from campaign_planner.models import campaign_fields
+from campaign_planner.runner import decide_incomplete, snapshot
 from campaign_planner.schemas import parse_time, validate_request
 from campaign_planner.storage import BusyRequest, Storage
 from campaign_planner.tools import Engine
@@ -29,6 +30,7 @@ def engine(tmp_path, request_data):
         quotes={},
         fault_counts={},
         active_run_id="test",
+        runs=[],
     )
     store = Storage(tmp_path / "guard.sqlite")
     store.put(state)
@@ -104,6 +106,33 @@ def test_unknown_channel_has_no_feasible_quote(engine):
     assert result["minimum_budget_gap"] is None
 
 
+def test_economy_multi_channel_is_not_a_valid_cheaper_plan(engine):
+    result = engine.execute("estimate_plan", dict(tier="economy", channels=["校园公众号", "短视频平台"]))
+    assert result["budget_ok"]
+    assert not result["scope_ok"] and not result["feasible"]
+    assert result["scope_issues"] == ["economy_requires_one_channel"]
+    rejected = engine.execute(
+        "generate_script", dict(quote_id=result["quote_id"], deliverables=["video_script"])
+    )
+    assert rejected["error_code"] == "infeasible_quote"
+    assert engine.state["spent"] == 0
+
+
+def test_budget_alternative_explicitly_reduces_optional_channels(engine):
+    result = engine.execute("estimate_plan", dict(tier="standard"))
+    alternative = next(c for c in result["alternatives"] if c["tier"] == "economy")
+    assert len(result["plan"]["channels"]) >= 2
+    assert len(alternative["channels"]) == 1 and alternative["total_cost"] == 8
+    assert result["minimum_budget_gap"] == 0
+
+
+def test_hard_multi_channel_requirement_cannot_be_silently_simplified(engine):
+    engine.request["required_channels"] = ["校园公众号", "短视频平台"]
+    result = engine.execute("estimate_plan", dict(tier="standard"))
+    assert result["minimum_budget_gap"] == 2
+    assert not any(c["tier"] == "economy" for c in result["alternatives"])
+
+
 def test_save_rechecks_clock_not_only_quote(engine):
     q = quote(engine)
     engine.execute("generate_script", dict(quote_id=q, deliverables=["video_script", "social_copy"]))
@@ -138,6 +167,31 @@ def test_invalid_citations_cannot_be_saved_as_success(engine):
     assert result["status"] == "failed"
     assert engine.state["results"] == {}
     assert engine.state["spent"] == 0
+
+
+def test_all_affordable_alternatives_too_slow_reports_time_not_current_budget(engine):
+    engine.request["deadline"] = "2030-06-01T10:30:00+08:00"
+    result = engine.execute("estimate_plan", dict(tier="standard"))
+    assert not result["budget_ok"] and result["minimum_budget_gap"] == 0
+    assert decide_incomplete(engine) == "deadline_infeasible"
+    output = snapshot(engine.state, engine.storage)
+    assert output["time_gap_minutes"] == 33
+    assert output["current_plan_time_gap_minutes"] == 93
+
+
+def test_campaign_text_cannot_expand_channels_while_reusing_economy_results(engine):
+    q = engine.execute("estimate_plan", dict(tier="economy", channels=["校园公众号"]))["quote_id"]
+    engine.execute("generate_script", dict(quote_id=q, deliverables=["video_script", "social_copy"]))
+    ids = {k: r["result_id"] for k, r in engine.state["results"].items()}
+    campaign = campaign_fields("毕业季")
+    campaign["schedule"] = "先发布校园公众号，再安排校内社群转发。"
+    rejected = engine.execute("save_plan", dict(quote_id=q, campaign=campaign))
+    assert rejected["error_code"] == "scope_violation"
+    assert engine.storage.plan(engine.request["request_id"]) is None
+    corrected = engine.execute("save_plan", dict(quote_id=q, campaign=campaign_fields("毕业季")))
+    assert corrected["status"] == "succeeded"
+    assert engine.state["spent"] == 8
+    assert {k: r["result_id"] for k, r in engine.state["results"].items()} == ids
 
 
 def test_same_request_cannot_run_in_two_process_slots(engine):

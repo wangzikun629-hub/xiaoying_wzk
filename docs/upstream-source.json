@@ -2,10 +2,19 @@
   "repository": "https://github.com/langchain-ai/deepagents",
   "example": "examples/content-builder-agent",
   "reference": "main",
-  "capture_status": "unavailable",
-  "commit": null,
-  "reason": "Anonymous GitHub API returned HTTP 403 rate limit; read-only git ls-remote timed out after 30 seconds. No SHA was invented.",
+  "capture_status": "verified",
+  "commit": "4ff926659cfb1281b01d6821052135cef151dde3",
+  "capture_method": "Read-only GitHub connector branch query and file reads at that exact commit",
+  "previous_attempt": "Anonymous GitHub API returned HTTP 403 rate limit; git ls-remote timed out. Resolved through the GitHub connector.",
   "installed_framework_version": "0.7.32",
-  "source_review": "Official README, content_writer.py, AGENTS.md, Skill and pyproject.toml were inspected via web tools.",
+  "source_review": "Official README, content_writer.py, AGENTS.md, Skill and pyproject.toml inspected via web tools, then rechecked at the exact commit through the GitHub connector.",
+  "files": {
+    "README.md": "b013a4cf04893691fc2ac7e48c7197f2325377f4",
+    "content_writer.py": "75d8c3b1f7ec66ef9c2ca320825044ab703e8ac3",
+    "AGENTS.md": "6ab07fef34b34bfb462dc76fbb0b4b7e610d3afd",
+    "pyproject.toml": "0d428319bb4a72fd21b30916dbbd6f31e2770284",
+    "skills/blog-post/SKILL.md": "b3e07dfbb1010acd90fb32aa26b30451bbac8828"
+  },
+  "file_digest_type": "Git blob SHA-1 returned by GitHub, paths relative to examples/content-builder-agent",
   "retry_command": "uv run python scripts/capture_upstream.py"
 }

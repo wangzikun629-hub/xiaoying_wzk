@@ -1,0 +1,129 @@
+{
+  "mode": "live",
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "records": [
+    {
+      "scenario": "C01-normal",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 12,
+      "model_calls": 9,
+      "tool_calls": 5
+    },
+    {
+      "scenario": "C03a-once-failure",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 10,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C03b-primary-unavailable",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 7,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C04-budget-replan",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 10,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C01-normal",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 12,
+      "model_calls": 10,
+      "tool_calls": 6
+    },
+    {
+      "scenario": "C03a-once-failure",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 9,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C03b-primary-unavailable",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 8,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C04-budget-replan",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 10,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C01-normal",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 12,
+      "model_calls": 8,
+      "tool_calls": 5
+    },
+    {
+      "scenario": "C03a-once-failure",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 9,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C03b-primary-unavailable",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 7,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C04-budget-replan",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 10,
+      "tool_calls": 7
+    }
+  ],
+  "interpretation": "Small sample observation, not a general reliability claim."
+}

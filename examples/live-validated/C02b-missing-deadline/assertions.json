@@ -1,0 +1,10 @@
+{
+  "scenario": "C02b-missing-deadline",
+  "mode": "live",
+  "status": "needs_input",
+  "passed": true,
+  "errors": [],
+  "total_cost": null,
+  "model_calls": 0,
+  "tool_calls": 0
+}

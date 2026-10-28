@@ -1,0 +1,20 @@
+{
+  "mode": "mock",
+  "provider": "none",
+  "model": "offline-deterministic-test-policy",
+  "model_settings": null,
+  "versions": {
+    "campaign-planner": "0.1.0",
+    "deepagents": "0.7.32",
+    "langchain": "1.4.7",
+    "langchain-openai": "1.7.3",
+    "langgraph": "1.2.18"
+  },
+  "source_sha256": "59eedb932a93d29fd037cc15cd170f395ed500cd5affbc7b5fecf2a97179a5f9",
+  "faults": {},
+  "clock_mode": null,
+  "clock_anchor": null,
+  "rules_sha256": null,
+  "materials_sha256": null,
+  "note": "Mock verifies workflow only; source_sha256 identifies actual working files, not a Git commit."
+}

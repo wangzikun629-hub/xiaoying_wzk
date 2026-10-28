@@ -1,0 +1,103 @@
+..........................................F....                          [100%]
+================================== FAILURES ===================================
+__ test_all_affordable_alternatives_too_slow_reports_time_not_current_budget __
+
+engine = <campaign_planner.tools.Engine object at 0x000002449A91D5B0>
+
+    def test_all_affordable_alternatives_too_slow_reports_time_not_current_budget(engine):
+        engine.request["deadline"] = "2030-06-01T10:30:00+08:00"
+        result = engine.execute("estimate_plan", dict(tier="standard"))
+        assert not result["budget_ok"] and result["minimum_budget_gap"] == 0
+        assert decide_incomplete(engine) == "deadline_infeasible"
+>       output = snapshot(engine.state, engine.storage)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_guardrails.py:176: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+state = {'request': {'theme': '��ҵ��У԰Ӱ������', 'budget': 10, 'deadline': '2030-06-01T10:30:00+08:00', 'preferred_tier': 'standard', ...}, 'status': 'running', 'mode': 'mock', 'clock_mode': 'simulated', ...}
+store = <campaign_planner.storage.Storage object at 0x000002449A91F410>
+
+    def snapshot(state, store):
+        q = state["quotes"].get(state.get("active_quote"))
+        plan = (
+            copy.deepcopy(q["plan"])
+            if q
+            else {
+                "version": 0,
+                "steps": [
+                    dict(step_id=a["attempt_id"], action=a["tool"], depends_on=[], status=a["status"])
+                    for a in state["attempts"]
+                ],
+            }
+        )
+        for step in plan["steps"]:
+            if step["step_id"] in state["results"]:
+                step.update(status="succeeded", result_id=state["results"][step["step_id"]]["result_id"])
+            elif step["step_id"] == "save":
+                saved_attempts = [a for a in state["attempts"] if a["tool"] == "save_plan"]
+                step["status"] = (
+                    "succeeded"
+                    if state["status"] == "completed"
+                    else saved_attempts[-1]["status"]
+                    if saved_attempts
+                    else "pending"
+                    if set(q["plan"]["deliverables"]) <= state["results"].keys()
+                    else "blocked"
+                )
+            elif step["action"] == "generate_script":
+                related = [
+                    a
+                    for a in state["attempts"]
+                    if a["tool"] == "generate_script"
+                    and step["step_id"] in a["arguments"].get("deliverables", [])
+                ]
+                step["status"] = "failed" if related else "pending" if q["feasible"] else "blocked"
+        current_time = parse_time(state["clock_anchor"]) if state["clock_mode"] == "simulated" else utc_now()
+        current_time += timedelta(minutes=state["elapsed_minutes"])
+        alternatives = q.get("alternatives", []) if q else []
+        affordable = [c for c in alternatives if c["total_cost"] <= state["request"]["budget"]]
+        minimum_time_gap = (
+            min(
+                max(
+                    0,
+                    (
+                        (current_time + timedelta(minutes=c["remaining_minutes"]))
+                        - parse_time(state["request"]["deadline"])
+                    ).total_seconds()
+                    / 60,
+                )
+                for c in (affordable or alternatives)
+            )
+            if alternatives
+            else None
+        )
+        return dict(
+            status=state["status"],
+            request_id=state["request"]["request_id"],
+            reason=state.get("reason"),
+            request=state["request"],
+            task_plan=plan,
+            plan_history=state["plans"],
+            attempts=state["attempts"],
+            tool_results=state["results"],
+            total_cost=state["spent"],
+            estimated_total_cost=q["total_cost"] if q else None,
+            elapsed_minutes=state["elapsed_minutes"],
+            clock_mode=state["clock_mode"],
+            saved_plan_id=state.get("saved_plan_id"),
+            saved_store=str(store.path),
+            budget_gap=(q.get("minimum_budget_gap") if q and not q["budget_ok"] else 0),
+            time_gap_minutes=0 if state["status"] == "completed" else minimum_time_gap,
+            current_plan_time_gap_minutes=q["time_gap_minutes"] if q else None,
+            missing=([k for k in q["plan"]["deliverables"] if k not in state["results"]] if q else []),
+>           runs=state["runs"],
+                 ^^^^^^^^^^^^^
+            mode=state["mode"],
+        )
+E       KeyError: 'runs'
+
+src\campaign_planner\runner.py:171: KeyError
+=========================== short test summary info ===========================
+FAILED tests/test_guardrails.py::test_all_affordable_alternatives_too_slow_reports_time_not_current_budget
+1 failed, 46 passed in 3.66s

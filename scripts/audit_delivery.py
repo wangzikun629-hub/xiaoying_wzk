@@ -20,17 +20,21 @@ def audit():
             resolved = document.parent / target.split("#", 1)[0]
             if not resolved.exists():
                 errors.append(f"Broken link: {document.relative_to(PROJECT_ROOT)} -> {target}")
-    summary = json.loads((PROJECT_ROOT / "examples/mock/summary.json").read_text(encoding="utf-8"))
-    for item in summary["records"]:
-        directory = PROJECT_ROOT / "examples/mock" / item["scenario"]
-        for name in ("input.json", "output.json", "trace.jsonl", "run-metadata.json", "assertions.json"):
-            if not (directory / name).is_file():
-                errors.append(f"Missing evidence: {item['scenario']}/{name}")
-        output = json.loads((directory / "output.json").read_text(encoding="utf-8"))
-        if output.get("mode", "mock") != "mock":
-            errors.append(f"Evidence mode mismatch: {item['scenario']}")
-        if output["status"] == "completed" and not (directory / "plan.md").exists():
-            errors.append(f"Missing saved plan export: {item['scenario']}")
+    for group in ("mock", "mock-scope-validated", "mock-final", "live", "live-validated", "live-final"):
+        summary_path = PROJECT_ROOT / "examples" / group / "summary.json"
+        if not summary_path.exists():
+            continue
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        for item in summary["records"]:
+            directory = summary_path.parent / item["scenario"]
+            for name in ("input.json", "output.json", "trace.jsonl", "run-metadata.json", "assertions.json"):
+                if not (directory / name).is_file():
+                    errors.append(f"Missing evidence: {group}/{item['scenario']}/{name}")
+            output = json.loads((directory / "output.json").read_text(encoding="utf-8"))
+            if output.get("mode", summary["mode"]) != summary["mode"]:
+                errors.append(f"Evidence mode mismatch: {group}/{item['scenario']}")
+            if output["status"] == "completed" and not (directory / "plan.md").exists():
+                errors.append(f"Missing saved plan export: {group}/{item['scenario']}")
     return errors
 
 

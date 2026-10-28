@@ -3,6 +3,7 @@
 import json
 import os
 from typing import Any
+from urllib.parse import urlsplit
 
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import AIMessage, HumanMessage
@@ -104,6 +105,8 @@ def live_model():
     key, name, url = (os.getenv(k, "").strip() for k in ("OPENAI_API_KEY", "OPENAI_MODEL", "OPENAI_BASE_URL"))
     if not key or not name:
         raise ValueError("请在 .env 配置 OPENAI_API_KEY、OPENAI_MODEL 和需要时的 OPENAI_BASE_URL")
+    if url and urlsplit(url).path.rstrip("/").endswith("/chat/completions"):
+        raise ValueError("OPENAI_BASE_URL 应为 API 根地址，不能包含 /chat/completions 接口路径")
     return ChatOpenAI(
         api_key=key,
         model=name,
@@ -129,6 +132,7 @@ def make_generator(mode, model):
             instruction="只返回 JSON 对象，字段 text 为至少100字的可用中文内容，material_ids 为引用素材ID列表。"
             "视频包含分镜和口播；图文包含标题正文CTA；改写包含各渠道内容。"
             "不得编造奖品、日期或已发生的效果；未知事实标记待运营确认。",
+            scope="只为 channels 中选定的渠道生成内容，不添加其他渠道。活动发布和投稿尚未执行，不能标为已完成。",
         )
         response = model.invoke([HumanMessage(content=canonical(prompt))])
         engine.trace.add(

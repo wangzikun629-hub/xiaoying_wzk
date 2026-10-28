@@ -66,6 +66,7 @@ def check(name, result, followup=None):
         expect(any(q["total_cost"] == 12 and not q["budget_ok"] for q in quotes), "实际观察到报价12超限")
         expect(any(q["total_cost"] == 8 and q["feasible"] for q in quotes), "模型改选后重新报价8")
         expect(result["total_cost"] == 8, "实际只计8")
+        expect(len(result.get("task_plan", {}).get("channels", [])) == 1, "精简版实际缩减为单渠道")
     if name.startswith("C03b"):
         expect(
             any(p["backend"] == "backup" for p in result.get("plan_history", [])), "持续故障后选择备用方式"
@@ -101,6 +102,7 @@ def check(name, result, followup=None):
         expect(followup.get("reason") == "request_id_conflict", "不同输入不能覆盖相同ID")
     if name.startswith("C12"):
         expect(result["status"] == "incomplete", "首轮实际失败或中止")
+        expect(bool(result["tool_results"]), "首轮必须有已成功结果可供续跑复用")
         expect(followup is not None and followup["status"] == "completed", "续跑后完成")
         if followup:
             expect(followup["total_cost"] == 8, "续跑不重复收费")

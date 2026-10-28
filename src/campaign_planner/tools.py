@@ -211,7 +211,8 @@ class Engine:
         finish = self.current_time() + timedelta(minutes=minutes)
         deadline = parse_time(self.request["deadline"])
         multi_ok = tier != "standard" or len(set(channels)) >= 2
-        scope_ok = not missing_materials and not missing_channels and multi_ok
+        economy_ok = tier != "economy" or len(set(channels)) == 1
+        scope_ok = not missing_materials and not missing_channels and multi_ok and economy_ok
         version = len(self.state["plans"]) + 1
         steps = [
             dict(step_id="retrieve", action="search_materials", depends_on=[], status="succeeded"),
@@ -266,21 +267,35 @@ class Engine:
             time_gap_minutes=max(0, (finish - deadline).total_seconds() / 60),
             missing_materials=missing_materials,
             missing_channels=missing_channels,
-            scope_issues=[] if multi_ok else ["standard_requires_two_channels"],
+            scope_issues=(["standard_requires_two_channels"] if not multi_ok else [])
+            + (["economy_requires_one_channel"] if not economy_ok else []),
         )
         # Minimum is valid only within this finite, declared catalog and hard scope.
         candidates = []
         allowed = [tier] if not self.request["allow_simplification"] else list(self.rules["tiers"])
         for candidate in allowed:
             items = self.rules["tiers"][candidate]
+            # Suggest scopes, never execute them: the model must choose and re-estimate.
+            candidate_channels = list(self.request["required_channels"])
+            target_count = 1 if candidate == "economy" else 2
+            for channel in channels + sorted(supported):
+                if len(candidate_channels) >= target_count:
+                    break
+                if channel not in candidate_channels:
+                    candidate_channels.append(channel)
+            channel_count_ok = (
+                len(candidate_channels) == 1 if candidate == "economy" else len(candidate_channels) >= 2
+            )
             if (
                 set(items) <= available
                 and not missing_channels
-                and (candidate != "standard" or len(set(channels)) >= 2)
+                and channel_count_ok
+                and set(candidate_channels) <= supported
             ):
                 candidates.append(
                     dict(
                         tier=candidate,
+                        channels=candidate_channels,
                         total_cost=self.state["spent"]
                         + sum(self.rules["deliverables"][k]["cost"] for k in items if k not in existing),
                         remaining_minutes=sum(
@@ -417,6 +432,19 @@ class Engine:
             not isinstance(campaign.get(k), str) or not campaign[k].strip() for k in fields
         ):
             raise BusinessError("incomplete_campaign", "活动方案缺少必需运营字段", required_fields=fields)
+        supported_channels = set().union(*(set(m["channels"]) for m in self.state["materials"].values()))
+        delivery_text = "\n".join(campaign[k] for k in ("schedule", "roles", "message"))
+        extra_channels = sorted(
+            c for c in supported_channels - set(quote["plan"]["channels"]) if c in delivery_text
+        )
+        if extra_channels:
+            raise BusinessError(
+                "scope_violation",
+                "运营排期、角色或核心信息涉及未选渠道；请修正文字，复用已有脚本后再保存",
+                selected_channels=quote["plan"]["channels"],
+                out_of_scope_channels=extra_channels,
+                retryable=True,
+            )
         if self.state["spent"] > self.request["budget"] or not self.fits_time(1):
             raise BusinessError("constraint_changed", "保存时预算或截止时间不满足")
         if self.fault("save"):

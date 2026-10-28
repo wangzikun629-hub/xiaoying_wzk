@@ -1,1 +1,3 @@
 * text=auto eol=lf
+# Preserve the literal pytest failure transcript, including its diagnostic line suffixes.
+examples/regression-fixture-initial.txt whitespace=-blank-at-eol

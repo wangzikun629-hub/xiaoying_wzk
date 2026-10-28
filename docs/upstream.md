@@ -4,7 +4,7 @@
 
 来源commit与文件摘要由`scripts/capture_upstream.py`记录在`upstream-source.json`，下载时只读查询GitHub，不执行上游代码。若网络导致记录未完成，不能编造SHA。上游MIT许可证在`upstream-LICENSE.txt`保留；本项目不将开源框架功能列为候选人个人实现。
 
-本次准确SHA获取未完成：匿名API限流403，备用只读Git引用查询超时。`upstream-source.json`已明确记录null与原因；框架安装版本和锁文件已固定。许可证正文从官方LICENSE核对保留。该来源元数据限制不影响离线运行，但不能声称示例已固定到某个未取得的commit。
+首次准确SHA获取遇到匿名API限流403及只读Git查询超时；后续通过GitHub连接器读取main及指定提交文件，已核实参考提交为`4ff926659cfb1281b01d6821052135cef151dde3`，5个参考文件的Git blob摘要保存在`upstream-source.json`。框架安装版本另由锁文件固定，不将示例提交与PyPI包版本混为一谈。许可证正文从官方LICENSE核对保留。
 
 运行版本以`uv.lock`与每次run-metadata.json为准。当前安装：Deep Agents0.7.32负责工具循环、虚拟文件后端与规则/Skills；LangChain1.4.7负责模型/工具消息和中间件；LangGraph1.2.18负责图执行；langchain-openai1.7.3接入兼容Chat Completions。
 

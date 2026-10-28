@@ -1,0 +1,10 @@
+{
+  "scenario": "C07c-no-materials",
+  "mode": "mock",
+  "status": "incomplete",
+  "passed": true,
+  "errors": [],
+  "total_cost": 0,
+  "model_calls": 2,
+  "tool_calls": 1
+}

@@ -1,8 +1,12 @@
 # 实际运行证据
 
-`mock/` 为已经执行的离线样例；每个目录含input.json、output.json、trace.jsonl、run-metadata.json、assertions.json，成功时含plan.md。复执行与续跑分别在second/、resume/。汇总见[mock/summary.json](mock/summary.json)。
+`mock/` 为初始离线样例；每个目录含input.json、output.json、trace.jsonl、run-metadata.json、assertions.json，成功时含plan.md。复执行与续跑分别在second/、resume/。汇总见[mock/summary.json](mock/summary.json)。
 
-Trace中的model_decision来自确定性Mock模型经过实际Deep Agents图的运行，不是预先写入的Trace，也不证明真实LLM决策。所有文件标记mode。真实模型证据应放live/；当前待配置接口，未放置假Trace或空成功报告。
+mock Trace中的model_decision来自确定性测试模型经过实际Deep Agents图的运行，不是预先写入的Trace，也不证明真实LLM决策。live目录使用用户配置的deepseek-flash真实接口，所有文件标记mode。
+
+证据分组：`live-initial/`为沙箱连接失败及连通性诊断，`live-network-check/`为错误根地址导致404，`live-pilot/`为首个真实预算成功路径；`live/`为首轮17个真实子场景；`mock-scope-validated/`为范围修复后的17个离线场景；`live-validated/`为范围修复后的真实全量；`evaluation/`为三轮独立关键场景重复评估。各组源码摘要可不同，原始结果保留，不覆盖成新版本成功。
+
+最终评审优先读取：[live-final全量17/17](live-final/summary.json)、[evaluation-final三轮12/12](evaluation-final/live-summary.json)、[mock-final17/17](mock-final/summary.json)、[47项测试](test-results-live-final.txt)。中间live-validated为16/17，失败已修复且原证据保留。首轮和中间版本不冒充最终源码结果。
 
 | 目录 | 场景 |
 | --- | --- |

@@ -1,0 +1,10 @@
+{
+  "scenario": "C04-budget-replan",
+  "mode": "live",
+  "status": "completed",
+  "passed": true,
+  "errors": [],
+  "total_cost": 8,
+  "model_calls": 9,
+  "tool_calls": 6
+}

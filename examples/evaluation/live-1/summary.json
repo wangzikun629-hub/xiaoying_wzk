@@ -1,0 +1,48 @@
+{
+  "mode": "live",
+  "total": 4,
+  "passed": 4,
+  "records": [
+    {
+      "scenario": "C01-normal",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 12,
+      "model_calls": 11,
+      "tool_calls": 8
+    },
+    {
+      "scenario": "C03a-once-failure",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 10,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C03b-primary-unavailable",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 8,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C04-budget-replan",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 9,
+      "tool_calls": 6
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

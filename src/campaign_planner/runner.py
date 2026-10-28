@@ -2,6 +2,7 @@ import copy
 import importlib.metadata
 import json
 import os
+from datetime import timedelta
 from pathlib import Path
 from uuid import uuid4
 
@@ -76,6 +77,13 @@ def metadata(mode, faults, state=None):
         mode=mode,
         provider="openai-compatible" if mode == "live" else "none",
         model=os.getenv("OPENAI_MODEL") if mode == "live" else "offline-deterministic-test-policy",
+        model_settings=dict(
+            temperature=0,
+            timeout_seconds=float(os.getenv("MODEL_TIMEOUT_SECONDS", "60")),
+            transport_retries=0,
+        )
+        if mode == "live"
+        else None,
         versions=versions,
         source_sha256=digest(source),
         faults=faults,
@@ -122,6 +130,25 @@ def snapshot(state, store):
                 and step["step_id"] in a["arguments"].get("deliverables", [])
             ]
             step["status"] = "failed" if related else "pending" if q["feasible"] else "blocked"
+    current_time = parse_time(state["clock_anchor"]) if state["clock_mode"] == "simulated" else utc_now()
+    current_time += timedelta(minutes=state["elapsed_minutes"])
+    alternatives = q.get("alternatives", []) if q else []
+    affordable = [c for c in alternatives if c["total_cost"] <= state["request"]["budget"]]
+    minimum_time_gap = (
+        min(
+            max(
+                0,
+                (
+                    (current_time + timedelta(minutes=c["remaining_minutes"]))
+                    - parse_time(state["request"]["deadline"])
+                ).total_seconds()
+                / 60,
+            )
+            for c in (affordable or alternatives)
+        )
+        if alternatives
+        else None
+    )
     return dict(
         status=state["status"],
         request_id=state["request"]["request_id"],
@@ -138,7 +165,8 @@ def snapshot(state, store):
         saved_plan_id=state.get("saved_plan_id"),
         saved_store=str(store.path),
         budget_gap=(q.get("minimum_budget_gap") if q and not q["budget_ok"] else 0),
-        time_gap_minutes=q["time_gap_minutes"] if q else None,
+        time_gap_minutes=0 if state["status"] == "completed" else minimum_time_gap,
+        current_plan_time_gap_minutes=q["time_gap_minutes"] if q else None,
         missing=([k for k in q["plan"]["deliverables"] if k not in state["results"]] if q else []),
         runs=state["runs"],
         mode=state["mode"],
@@ -150,12 +178,18 @@ def decide_incomplete(engine):
     q = state["quotes"].get(state.get("active_quote"))
     if engine.halt_reason:
         return engine.halt_reason
+    if q and q.get("alternatives"):
+        affordable = [c for c in q["alternatives"] if c["total_cost"] <= engine.request["budget"]]
+        if not affordable:
+            return "budget_infeasible"
+        if not any(engine.fits_time(c["remaining_minutes"]) for c in affordable):
+            return "deadline_infeasible"
     if q and not q["budget_ok"]:
         return "budget_infeasible" if q.get("minimum_budget_gap") else "current_plan_over_budget"
     if q and not q["deadline_ok"]:
         return "deadline_infeasible"
     if q and not q["scope_ok"]:
-        return "insufficient_materials"
+        return "insufficient_materials" if q["missing_materials"] else "scope_infeasible"
     return state.get("last_error") or "not_saved"
 
 

@@ -1,0 +1,48 @@
+{
+  "status": "incomplete",
+  "request_id": "C08-execution-limit",
+  "reason": "execution_limit",
+  "request": {
+    "theme": "毕业季校园影像征集",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "standard",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C08-execution-limit",
+    "fingerprint": "5453b5bf780871195931c41ba0205413ca37a814b956bfc6d6e0e8ca57d1312a"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": []
+  },
+  "plan_history": [],
+  "attempts": [],
+  "tool_results": {},
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 0,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-k8y918nt\\C08-execution-limit.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "9ec5ce36-fa8a-40af-b314-b6a9b684bc99",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\live-validated\\C08-execution-limit\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 1,
+      "tool_calls": 1,
+      "status": "incomplete",
+      "reason": "execution_limit"
+    }
+  ],
+  "mode": "live",
+  "run_id": "9ec5ce36-fa8a-40af-b314-b6a9b684bc99",
+  "cached": false,
+  "model_calls": 1,
+  "tool_calls": 1,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\live-validated\\C08-execution-limit\\trace.jsonl"
+}

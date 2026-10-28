@@ -1,0 +1,773 @@
+{
+  "status": "completed",
+  "request_id": "C03a-once-failure",
+  "reason": null,
+  "request": {
+    "theme": "毕业季校园影像征集",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "economy",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C03a-once-failure",
+    "fingerprint": "078b0a6721258c0140377f07b2f637b3e2d26cc32181ce7e54bf41d8ac00586a"
+  },
+  "task_plan": {
+    "version": 2,
+    "tier": "economy",
+    "backend": "primary",
+    "channels": [
+      "校园公众号"
+    ],
+    "deliverables": [
+      "video_script",
+      "social_copy"
+    ],
+    "steps": [
+      {
+        "step_id": "retrieve",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "succeeded"
+      },
+      {
+        "step_id": "estimate-v2",
+        "action": "estimate_plan",
+        "depends_on": [
+          "retrieve"
+        ],
+        "status": "succeeded"
+      },
+      {
+        "step_id": "video_script",
+        "action": "generate_script",
+        "depends_on": [
+          "estimate-v2"
+        ],
+        "status": "succeeded",
+        "result_id": "064150aa-e408-4bb9-a1ef-112d88979237",
+        "cost": 4,
+        "minutes": 35,
+        "required": true,
+        "label": "视频脚本"
+      },
+      {
+        "step_id": "social_copy",
+        "action": "generate_script",
+        "depends_on": [
+          "estimate-v2"
+        ],
+        "status": "succeeded",
+        "result_id": "41c58f57-5645-4fde-8c85-19a8f150f7a3",
+        "cost": 4,
+        "minutes": 25,
+        "required": true,
+        "label": "图文文案"
+      },
+      {
+        "step_id": "save",
+        "action": "save_plan",
+        "depends_on": [
+          "video_script",
+          "social_copy"
+        ],
+        "status": "succeeded"
+      }
+    ]
+  },
+  "plan_history": [
+    {
+      "version": 1,
+      "tier": "economy",
+      "backend": "primary",
+      "channels": [
+        "校园公众号"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v1",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v1"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v1"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "tier": "economy",
+      "backend": "primary",
+      "channels": [
+        "校园公众号"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v2",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v2"
+          ],
+          "status": "succeeded",
+          "result_id": "064150aa-e408-4bb9-a1ef-112d88979237",
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v2"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "attempt_id": "5704ebcc-b3ec-4055-8312-23fe72d09e22",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "arguments": {
+        "query": "毕业季校园影像征集"
+      },
+      "reason": "检索主题素材以确认可用内容类型",
+      "run_id": "85b0afcf-d59c-4838-8184-a8f68f88e95c",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "error_code": null,
+        "materials": [
+          {
+            "id": "campus-01",
+            "tags": [
+              "毕业",
+              "校园",
+              "影像",
+              "graduation",
+              "campus"
+            ],
+            "kinds": [
+              "video_script",
+              "social_copy"
+            ],
+            "channels": [
+              "校园公众号",
+              "短视频平台"
+            ],
+            "content": "合成资料：毕业生可以提交校园照片和不超过30秒的回忆短片，参与毕业季影像征集。"
+          },
+          {
+            "id": "campus-02",
+            "tags": [
+              "毕业",
+              "校园",
+              "影像",
+              "graduation",
+              "campus"
+            ],
+            "kinds": [
+              "video_script",
+              "social_copy",
+              "channel_adaptation"
+            ],
+            "channels": [
+              "校园公众号",
+              "短视频平台",
+              "校内社群"
+            ],
+            "content": "合成规则：投稿须取得被摄者同意，作品由运营初审后展示；评选方式为主题契合度与表达完整度，不承诺流量奖励。"
+          }
+        ],
+        "available_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "missing_kinds": [],
+        "available_channels": [
+          "校内社群",
+          "校园公众号",
+          "短视频平台"
+        ],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "91e7c985-439e-4b6e-911d-37b94a3886e4",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "arguments": {
+        "tier": "economy",
+        "backend": "primary",
+        "channels": [
+          "校园公众号"
+        ]
+      },
+      "reason": "优先评估用户偏好的 economy；economy 限单渠道，故只选校园公众号",
+      "run_id": "85b0afcf-d59c-4838-8184-a8f68f88e95c",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "91a7845a-0792-42c2-80b1-a31fa4281348",
+        "plan": {
+          "version": 1,
+          "tier": "economy",
+          "backend": "primary",
+          "channels": [
+            "校园公众号"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v1",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v1"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v1"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e",
+        "existing_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "feasible": true,
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": true,
+        "spent": 0,
+        "remaining_cost": 8,
+        "total_cost": 8,
+        "cost_items": [
+          {
+            "deliverable": "video_script",
+            "cost": 4,
+            "minutes": 35,
+            "required": true,
+            "label": "视频脚本"
+          },
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          }
+        ],
+        "remaining": [
+          "video_script",
+          "social_copy"
+        ],
+        "remaining_minutes": 61,
+        "expected_finish": "2030-06-01T03:03:00+00:00",
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [],
+        "missing_channels": [],
+        "scope_issues": [],
+        "alternatives": [
+          {
+            "tier": "standard",
+            "channels": [
+              "校园公众号",
+              "校内社群"
+            ],
+            "total_cost": 12,
+            "remaining_minutes": 121
+          },
+          {
+            "tier": "economy",
+            "channels": [
+              "校园公众号"
+            ],
+            "total_cost": 8,
+            "remaining_minutes": 61
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "c24c981f-4f59-46cc-b382-70c750b38836",
+      "step_id": "generate_script",
+      "tool": "generate_script",
+      "arguments": {
+        "quote_id": "91a7845a-0792-42c2-80b1-a31fa4281348",
+        "deliverables": [
+          "video_script",
+          "social_copy"
+        ]
+      },
+      "reason": "按可行报价生成视频脚本与图文文案",
+      "run_id": "85b0afcf-d59c-4838-8184-a8f68f88e95c",
+      "status": "partial",
+      "result": {
+        "status": "partial",
+        "completed": [
+          {
+            "result_id": "064150aa-e408-4bb9-a1ef-112d88979237",
+            "deliverable": "video_script",
+            "content": {
+              "text": "【校园公众号｜毕业季校园影像征集视频脚本】\n主题：毕业季校园影像征集\n\n分镜1（0—5秒）\n画面：校园空镜，如操场、教学楼、林荫道，屏幕字幕“毕业季影像征集”。\n口播：毕业季到了，你手机里是否也有舍不得删的校园照片和短片？\n\n分镜2（5—15秒）\n画面：毕业生翻看照片、剪辑短片的示意镜头；字幕“校园照片 / 不超过30秒回忆短片”。\n口播：本次征集面向毕业生，可提交校园照片，也可以提交不超过30秒的回忆短片；具体投稿入口和截止时间待运营确认。\n\n分镜3（15—25秒）\n画面：用简洁信息图呈现“征得同意—运营初审—展示”。\n口播：投稿前请取得被摄者同意；作品由运营初审后再展示。评选关注主题契合度与表达完整度，不承诺流量奖励。\n\n分镜4（25—30秒）\n画面：校园公众号推文引导画面，入口位置标注“待运营确认”。\n口播：活动发布与投稿尚未执行，更多安排请以校园公众号后续通知为准。欢迎关注，待入口开放后按要求参与。\n\n结尾字幕：投稿入口、截止时间、展示安排等待运营确认；本脚本不编造奖品、日期或已发生的效果。\n\n引用素材：campus-01、campus-02。",
+              "material_ids": [
+                "campus-01",
+                "campus-02"
+              ]
+            },
+            "cost": 4,
+            "minutes": 35,
+            "backend": "primary",
+            "origin": "model",
+            "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e"
+          }
+        ],
+        "missing": [
+          "social_copy"
+        ],
+        "failures": [
+          {
+            "deliverable": "social_copy",
+            "error_code": "generator_unavailable",
+            "retryable": true
+          }
+        ],
+        "error_code": "generator_unavailable",
+        "message": "保留成功项；补缺失项前重估；不得重复生成已成功项",
+        "cost_delta": 4,
+        "minutes_delta": 36
+      }
+    },
+    {
+      "attempt_id": "bfdac39e-e179-40d1-8545-20af66b214cc",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "arguments": {
+        "backend": "primary",
+        "channels": [
+          "校园公众号"
+        ],
+        "tier": "economy"
+      },
+      "reason": "视频脚本已成功，需重估剩余图文文案的报价与耗时",
+      "run_id": "85b0afcf-d59c-4838-8184-a8f68f88e95c",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "8da45bdc-96d7-4802-bf56-0ddfe359c5f1",
+        "plan": {
+          "version": 2,
+          "tier": "economy",
+          "backend": "primary",
+          "channels": [
+            "校园公众号"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v2",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v2"
+              ],
+              "status": "succeeded",
+              "result_id": "064150aa-e408-4bb9-a1ef-112d88979237",
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v2"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e",
+        "existing_hash": "5032ef60d8fe5cf547fc57975bbdf9a013d9d2bd7dae87af3092a01bd2a36c94",
+        "feasible": true,
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": true,
+        "spent": 4,
+        "remaining_cost": 4,
+        "total_cost": 8,
+        "cost_items": [
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          }
+        ],
+        "remaining": [
+          "social_copy"
+        ],
+        "remaining_minutes": 26,
+        "expected_finish": "2030-06-01T03:05:00+00:00",
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [],
+        "missing_channels": [],
+        "scope_issues": [],
+        "alternatives": [
+          {
+            "tier": "standard",
+            "channels": [
+              "校园公众号",
+              "校内社群"
+            ],
+            "total_cost": 12,
+            "remaining_minutes": 86
+          },
+          {
+            "tier": "economy",
+            "channels": [
+              "校园公众号"
+            ],
+            "total_cost": 8,
+            "remaining_minutes": 26
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "9879840a-fd27-41b8-948b-6121158e8f6f",
+      "step_id": "generate_script",
+      "tool": "generate_script",
+      "arguments": {
+        "deliverables": [
+          "social_copy"
+        ],
+        "quote_id": "8da45bdc-96d7-4802-bf56-0ddfe359c5f1"
+      },
+      "reason": "仅生成缺失的图文文案，复用已成功的视频脚本",
+      "run_id": "85b0afcf-d59c-4838-8184-a8f68f88e95c",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "completed": [
+          {
+            "result_id": "41c58f57-5645-4fde-8c85-19a8f150f7a3",
+            "deliverable": "social_copy",
+            "content": {
+              "text": "标题：毕业季校园影像征集｜把校园记忆留下来\n\n正文：毕业季将至，校园公众号计划推出毕业季校园影像征集。面向毕业生征集校园照片，以及不超过30秒的回忆短片。投稿作品须取得被摄者同意，由运营初审后展示；评选参考主题契合度与表达完整度，不承诺流量奖励。活动发布、投稿时间、投稿入口及展示安排待运营确认。可先整理你在校园里的照片与短片素材，回顾教学楼、操场、宿舍、食堂或与师友相处的片段，用真实影像记录毕业季。\n\nCTA：关注校园公众号后续通知，待投稿入口开放后按规则提交；分享他人影像前请先取得被摄者同意。",
+              "material_ids": [
+                "campus-01",
+                "campus-02"
+              ]
+            },
+            "cost": 4,
+            "minutes": 25,
+            "backend": "primary",
+            "origin": "model",
+            "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e"
+          }
+        ],
+        "missing": [],
+        "failures": [],
+        "error_code": null,
+        "message": "保留成功项；补缺失项前重估；不得重复生成已成功项",
+        "cost_delta": 4,
+        "minutes_delta": 25
+      }
+    },
+    {
+      "attempt_id": "c4a20116-b0f9-4075-ac48-4867c284167a",
+      "step_id": "save_plan",
+      "tool": "save_plan",
+      "arguments": {
+        "quote_id": "8da45bdc-96d7-4802-bf56-0ddfe359c5f1",
+        "campaign": {
+          "theme": "毕业季校园影像征集",
+          "tier": "economy",
+          "backend": "primary",
+          "channels": [
+            "校园公众号"
+          ],
+          "goal": "面向毕业生征集校园照片与不超过30秒的回忆短片，形成毕业季校园影像内容并在校园公众号展示（活动发布与投稿尚未执行，以运营确认为准）",
+          "audience": "本校毕业生，以及愿意记录校园生活的在校生；投稿涉及被摄者时须事先取得同意",
+          "message": "毕业季校园影像征集：提交校园照片或不超过30秒的回忆短片；作品须取得被摄者同意，经运营初审后展示；评选参考主题契合度与表达完整度，不承诺流量奖励",
+          "schedule": "相对排期（不含已发生的准备时间）：D0 完成视频脚本与图文文案（本方案交付物），预计2030-06-01T03:05 +00:00前产出；D0 运营确认投稿入口、截止时间与展示安排；D0—D1 校园公众号发布征集推文；后续初审与展示以运营确认后另行排期；整体须在 2030-06-01T05:00 +00:00 前完成内容准备",
+          "roles": "运营负责人：确认投稿入口、截止时间与展示安排并发布推文；内容执行：按脚本与图文文案产出素材；初审：核对被摄者授权与内容合规；展示：校园公众号按确认结果上线",
+          "suggested_metrics": "以下均为建议指标，非承诺结果：征集推文阅读量（建议）、有效投稿数（建议）、投稿中符合30秒规格的比例（建议）、取得被摄者同意的投稿占比（建议）、初审通过率（建议）、公众号展示篇数（建议）",
+          "deliverables": {
+            "video_script": {
+              "result_id": "064150aa-e408-4bb9-a1ef-112d88979237",
+              "cost": 4,
+              "minutes": 35,
+              "origin": "model",
+              "status": "succeeded"
+            },
+            "social_copy": {
+              "result_id": "41c58f57-5645-4fde-8c85-19a8f150f7a3",
+              "cost": 4,
+              "minutes": 25,
+              "origin": "model",
+              "status": "succeeded"
+            }
+          },
+          "cost": {
+            "total": 8,
+            "budget_limit": 10,
+            "currency_note": "金额由工具计算",
+            "spent": 4,
+            "remaining": 4
+          },
+          "deadline": "2030-06-01T05:00:00+00:00",
+          "estimated_finish": "2030-06-01T03:05:00+00:00",
+          "materials": [
+            "campus-01",
+            "campus-02"
+          ],
+          "constraints_notes": "economy 限单渠道，已显式选择校园公众号；用户未指定必需渠道，无删除冲突；素材未含奖励、具体日期或流量承诺，脚本与文案已标注待运营确认项",
+          "completion_status": {
+            "video_script": "succeeded",
+            "social_copy": "succeeded"
+          }
+        }
+      },
+      "reason": "报价可行且交付物齐全，正式保存 economy 单渠道方案",
+      "run_id": "85b0afcf-d59c-4838-8184-a8f68f88e95c",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "plan_id": "plan-c7e02bb1a208a63bcb5f",
+        "total_cost": 8,
+        "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-2a05a30p\\C03a-once-failure.sqlite",
+        "message": "正式方案与完成状态已在同一事务提交",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    }
+  ],
+  "tool_results": {
+    "video_script": {
+      "result_id": "064150aa-e408-4bb9-a1ef-112d88979237",
+      "deliverable": "video_script",
+      "content": {
+        "text": "【校园公众号｜毕业季校园影像征集视频脚本】\n主题：毕业季校园影像征集\n\n分镜1（0—5秒）\n画面：校园空镜，如操场、教学楼、林荫道，屏幕字幕“毕业季影像征集”。\n口播：毕业季到了，你手机里是否也有舍不得删的校园照片和短片？\n\n分镜2（5—15秒）\n画面：毕业生翻看照片、剪辑短片的示意镜头；字幕“校园照片 / 不超过30秒回忆短片”。\n口播：本次征集面向毕业生，可提交校园照片，也可以提交不超过30秒的回忆短片；具体投稿入口和截止时间待运营确认。\n\n分镜3（15—25秒）\n画面：用简洁信息图呈现“征得同意—运营初审—展示”。\n口播：投稿前请取得被摄者同意；作品由运营初审后再展示。评选关注主题契合度与表达完整度，不承诺流量奖励。\n\n分镜4（25—30秒）\n画面：校园公众号推文引导画面，入口位置标注“待运营确认”。\n口播：活动发布与投稿尚未执行，更多安排请以校园公众号后续通知为准。欢迎关注，待入口开放后按要求参与。\n\n结尾字幕：投稿入口、截止时间、展示安排等待运营确认；本脚本不编造奖品、日期或已发生的效果。\n\n引用素材：campus-01、campus-02。",
+        "material_ids": [
+          "campus-01",
+          "campus-02"
+        ]
+      },
+      "cost": 4,
+      "minutes": 35,
+      "backend": "primary",
+      "origin": "model",
+      "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e"
+    },
+    "social_copy": {
+      "result_id": "41c58f57-5645-4fde-8c85-19a8f150f7a3",
+      "deliverable": "social_copy",
+      "content": {
+        "text": "标题：毕业季校园影像征集｜把校园记忆留下来\n\n正文：毕业季将至，校园公众号计划推出毕业季校园影像征集。面向毕业生征集校园照片，以及不超过30秒的回忆短片。投稿作品须取得被摄者同意，由运营初审后展示；评选参考主题契合度与表达完整度，不承诺流量奖励。活动发布、投稿时间、投稿入口及展示安排待运营确认。可先整理你在校园里的照片与短片素材，回顾教学楼、操场、宿舍、食堂或与师友相处的片段，用真实影像记录毕业季。\n\nCTA：关注校园公众号后续通知，待投稿入口开放后按规则提交；分享他人影像前请先取得被摄者同意。",
+        "material_ids": [
+          "campus-01",
+          "campus-02"
+        ]
+      },
+      "cost": 4,
+      "minutes": 25,
+      "backend": "primary",
+      "origin": "model",
+      "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e"
+    }
+  },
+  "total_cost": 8,
+  "estimated_total_cost": 8,
+  "elapsed_minutes": 65,
+  "clock_mode": "simulated",
+  "saved_plan_id": "plan-c7e02bb1a208a63bcb5f",
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-2a05a30p\\C03a-once-failure.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": 0,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "85b0afcf-d59c-4838-8184-a8f68f88e95c",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\evaluation\\live-2\\C03a-once-failure\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 9,
+      "tool_calls": 7,
+      "status": "completed",
+      "reason": null
+    }
+  ],
+  "mode": "live",
+  "run_id": "85b0afcf-d59c-4838-8184-a8f68f88e95c",
+  "cached": false,
+  "model_calls": 9,
+  "tool_calls": 7,
+  "export_status": "succeeded",
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\evaluation\\live-2\\C03a-once-failure\\trace.jsonl"
+}

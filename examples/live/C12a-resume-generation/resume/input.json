@@ -1,0 +1,9 @@
+{
+  "allow_simplification": true,
+  "budget": 10,
+  "deadline": "2030-06-01T05:00:00+00:00",
+  "preferred_tier": "economy",
+  "request_id": "C12a-resume-generation",
+  "required_channels": [],
+  "theme": "毕业季校园影像征集"
+}

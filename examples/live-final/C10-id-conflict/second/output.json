@@ -1,0 +1,7 @@
+{
+  "status": "invalid_input",
+  "reason": "request_id_conflict",
+  "model_calls": 0,
+  "tool_calls": 0,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\live-final\\C10-id-conflict\\second\\trace.jsonl"
+}

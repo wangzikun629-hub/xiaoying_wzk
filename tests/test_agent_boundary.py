@@ -2,11 +2,22 @@
 
 import json
 
+import pytest
 from langchain_core.messages import AIMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 
 from campaign_planner.models import OfflineModel
 from campaign_planner.runner import run
+
+
+def test_full_endpoint_is_rejected_before_sending_requests(monkeypatch):
+    from campaign_planner.models import live_model
+
+    monkeypatch.setenv("OPENAI_API_KEY", "test-not-a-real-secret")
+    monkeypatch.setenv("OPENAI_MODEL", "protocol-test")
+    monkeypatch.setenv("OPENAI_BASE_URL", "https://protocol-test.invalid/chat/completions")
+    with pytest.raises(ValueError, match="API 根地址"):
+        live_model()
 
 
 class ForbiddenToolModel(OfflineModel):
