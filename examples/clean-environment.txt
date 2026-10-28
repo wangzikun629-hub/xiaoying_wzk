@@ -1,0 +1,19 @@
+Independent environment verification (actual execution)
+
+Command (PowerShell):
+$env:UV_PROJECT_ENVIRONMENT='.venv-clean'
+uv --cache-dir .uv-cache sync --locked --offline --python 'C:\Users\ASUS\AppData\Local\Programs\Python\Python312\python.exe'
+.venv-clean\Scripts\python.exe -m pytest -q
+
+Observed:
+Created a new environment, resolved 69 packages, installed 68 packages.
+40 passed in 5.12s.
+
+This check used a new environment and the locally downloaded dependency cache;
+it does not claim a second independent internet download or a separate machine.
+An additional OpenAI HTTP protocol test was added afterward; the current full-suite
+result (including that test) is in test-results.txt. That protocol test uses
+httpx.MockTransport and does not make a real model request.
+
+Final recheck of the current source in .venv-clean:
+41 passed in 4.31s. Full observed output is in clean-final-test-results.txt.

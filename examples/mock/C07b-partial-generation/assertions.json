@@ -1,0 +1,10 @@
+{
+  "scenario": "C07b-partial-generation",
+  "mode": "mock",
+  "status": "completed",
+  "passed": true,
+  "errors": [],
+  "total_cost": 8,
+  "model_calls": 7,
+  "tool_calls": 6
+}

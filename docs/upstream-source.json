@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/langchain-ai/deepagents",
+  "example": "examples/content-builder-agent",
+  "reference": "main",
+  "capture_status": "unavailable",
+  "commit": null,
+  "reason": "Anonymous GitHub API returned HTTP 403 rate limit; read-only git ls-remote timed out after 30 seconds. No SHA was invented.",
+  "installed_framework_version": "0.7.32",
+  "source_review": "Official README, content_writer.py, AGENTS.md, Skill and pyproject.toml were inspected via web tools.",
+  "retry_command": "uv run python scripts/capture_upstream.py"
+}

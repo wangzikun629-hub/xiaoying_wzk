@@ -1,0 +1,11 @@
+{
+  "version": "1",
+  "operations": {"search_materials": 1, "estimate_plan": 1, "save_plan": 1},
+  "failure_minutes": 1,
+  "deliverables": {
+    "video_script": {"cost": 4, "minutes": 35, "required": true, "label": "视频脚本"},
+    "social_copy": {"cost": 4, "minutes": 25, "required": true, "label": "图文文案"},
+    "channel_adaptation": {"cost": 4, "minutes": 60, "required": false, "label": "多渠道改写"}
+  },
+  "tiers": {"standard": ["video_script", "social_copy", "channel_adaptation"], "economy": ["video_script", "social_copy"]}
+}

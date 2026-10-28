@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "materials": [
+    {"id": "campus-01", "tags": ["毕业", "校园", "影像", "graduation", "campus"], "kinds": ["video_script", "social_copy"], "channels": ["校园公众号", "短视频平台"], "content": "合成资料：毕业生可以提交校园照片和不超过30秒的回忆短片，参与毕业季影像征集。"},
+    {"id": "campus-02", "tags": ["毕业", "校园", "影像", "graduation", "campus"], "kinds": ["video_script", "social_copy", "channel_adaptation"], "channels": ["校园公众号", "短视频平台", "校内社群"], "content": "合成规则：投稿须取得被摄者同意，作品由运营初审后展示；评选方式为主题契合度与表达完整度，不承诺流量奖励。"},
+    {"id": "coffee-01", "tags": ["咖啡", "coffee", "新品"], "kinds": ["video_script", "social_copy", "channel_adaptation"], "channels": ["公众号", "短视频平台"], "content": "合成资料：校园咖啡店推出燕麦拿铁试饮活动，工作日14点至16点参与，数量以店内公示为准。"},
+    {"id": "green-01", "tags": ["环保", "回收", "green"], "kinds": ["video_script", "social_copy"], "channels": ["校园公众号"], "content": "合成资料：校园旧物回收活动收集清洁书籍和闲置文具；具体接收地点由运营发布前确认。"}
+  ]
+}
