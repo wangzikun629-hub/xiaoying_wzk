@@ -67,4 +67,4 @@
 
 此前单Agent版本的交付核对见[final-delivery-check.json](../examples/final-delivery-check.json)，其源码一致性结果仅对当时版本成立。当前检查脚本已覆盖yaml-mock与yaml-live，并比对这两组全部元数据（含重复与续跑）的源码摘要；历史分组保留原摘要，不要求与当前实现相同。.env保持Git忽略。
 
-当前最终核对见[current-delivery-check.json](../examples/current-delivery-check.json)：42份运行元数据与最终源码摘要一致，扫描的1613个实施及证据文件未匹配到本地配置中的实际密钥；新提交前还检查了851个历史文件对象，未匹配该密钥。该检查不保证发现所有可能的凭据格式。[交付检查日志](../examples/delivery-audit-current.txt)为PASS，检查当前场景完整性、文档链接和源码一致性。发布目标为用户指定的[GitHub仓库](https://github.com/wangzikun629-oss/xiaoying_wzk)，远程提交状态需另行核对。
+当前最终核对见[current-delivery-check.json](../examples/current-delivery-check.json)：42份运行元数据与最终源码摘要一致，扫描的1613个实施及证据文件未匹配到本地配置中的实际密钥；新提交前还检查了851个历史文件对象，未匹配该密钥。该检查不保证发现所有可能的凭据格式。[交付检查日志](../examples/delivery-audit-current.txt)为PASS，检查当前场景完整性、文档链接和源码一致性。发布目标为用户指定的[GitHub仓库](https://github.com/wangzikun629-hub/xiaoying_wzk)，远程提交状态需另行核对。

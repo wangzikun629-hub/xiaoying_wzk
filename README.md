@@ -104,4 +104,4 @@ uv run python -m campaign_planner resume --request-id C03a-once-failure --mode m
 
 当前版本证据优先读取[真实全量汇总](examples/yaml-live/summary.json)、[离线全量汇总](examples/yaml-mock/summary.json)、[自动测试日志](examples/test-results-current.txt)和[实际方案](examples/yaml-live/C04-budget-replan/plan.md)。历史三轮重复评估仍位于evaluation-final，不与当前架构混算。中间失败不删除，修复差异见评估报告。
 
-交付仓库：[wangzikun629-oss/xiaoying_wzk](https://github.com/wangzikun629-oss/xiaoying_wzk)。题号为2，实际投入3.5小时。最终commit SHA使用仓库根目录的`git rev-parse HEAD`获取；提交信息与GitHub可读状态需在发布后核对。不将小样本成功外推为普遍稳定性。
+交付仓库：[wangzikun629-hub/xiaoying_wzk](https://github.com/wangzikun629-hub/xiaoying_wzk)。题号为2，实际投入3.5小时。最终commit SHA使用仓库根目录的`git rev-parse HEAD`获取；提交信息与GitHub可读状态需在发布后核对。不将小样本成功外推为普遍稳定性。
