@@ -9,14 +9,14 @@
   "tests_passed": 84,
   "mock_scenarios_passed": 19,
   "live_scenarios_passed": 19,
-  "live_initial_passed": 12,
-  "live_recharged_reruns_passed": 7,
+  "live_initial_passed": 11,
   "configured_secret_leak_files": [],
   "historical_secret_leak_objects": [],
-  "scanned_files": 1913,
-  "historical_blobs_scanned": 1128,
+  "scanned_files": 1871,
+  "historical_blobs_scanned": 1162,
   "unfulfilled_original_document_requirement": "04-ai-usage.md omits assistance scope and personal modification details at submitter request",
   "current_repeated_evaluation_performed": false,
   "commit_sha_command": "git rev-parse HEAD",
-  "note": "Current-source comparison covers review-mock/review-live only. Historical outcomes retain original source digests. Exact configured-secret matching is not a guarantee of detecting every secret format."
+  "note": "Current-source comparison covers review-mock/review-live only. Historical outcomes retain original source digests. Exact configured-secret matching is not a guarantee of detecting every secret format.",
+  "live_reruns_passed": 8
 }

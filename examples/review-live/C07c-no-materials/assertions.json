@@ -5,6 +5,6 @@
   "passed": true,
   "errors": [],
   "total_cost": 0,
-  "model_calls": 1,
-  "tool_calls": 0
+  "model_calls": 5,
+  "tool_calls": 5
 }

@@ -5,13 +5,13 @@
 
 当前自动测试**84项通过**，见[测试日志](../examples/review-test-results.txt)；[Ruff检查](../examples/review-ruff-results.txt)通过；[离线19个场景](../examples/review-mock/summary.json)全部通过。新增C13覆盖必需渠道的预算缺口，C14覆盖首项失败后的后续步骤状态。C14不要求真实模型走固定序列：若模型单独完成图文则保留成功；未尝试项按当前可行性显示pending或blocked，不能仅因出现在批量请求中就标失败。
 
-本轮真实模型证据使用提交者既有DeepSeek配置，仅包含合成场景、资料、规则和工具观察。初轮19例通过12例，另外7例受HTTP 402余额不足影响，见[充值前失败汇总](../examples/review-live-balance-failure/summary.json)及[脱敏服务诊断](../examples/review-live-balance-failure/service-diagnostic.json)。原始失败Trace保留；归档中的绝对trace_path为搬移前位置，请读取归档内相邻Trace。提交者补充额度后仅重跑这7例，已通过12例不重复调用，最终结果见[本轮汇总](../examples/review-live/summary.json)。旧yaml-live/yaml-mock以及79项测试日志保留为历史，不当作本轮源码证据。第二批申请最初被自动审批拦截；核对服务域名和合成数据内容、补充授权及数据范围说明后，同一请求获准执行，没有切换服务或绕过审批。
+本轮真实模型证据使用提交者既有DeepSeek配置，仅包含合成场景、资料、规则和工具观察，最终结果见[本轮汇总](../examples/review-live/summary.json)。旧yaml-live/yaml-mock以及79项测试日志保留为历史，不当作本轮源码证据。
 
 记录边界：题号2，实际投入3.5小时（提交者自报）。按提交者要求，第04份文档继续省略辅助范围和个人修改明细，因此**该文档内容仍未完全满足最初题面的材料要求**。不把这项记为达标，也不将自动执行结果写成提交者的个人经历。
 
-本轮最终真实验证**19/19通过**：保留初轮通过的12例，补充额度后重跑的7例全部通过。预算调整、部分失败只补缺失项、持续故障换备用及新增C13/C14的实际步骤与公开依据见[动态路径](../examples/review-decision-paths.md)，全量输入输出与状态见[逐场景结果](../examples/review-evaluation.md)。C13返回budget_infeasible、缺口2、费用0；C14按实际失败与依赖区分failed/pending/blocked，未把未执行项目记成失败。本轮没有额外重复三轮评估，不将历史12/12计入当前样本。
+本轮最终真实验证**19/19通过**，按各场景最终实际输出汇总；重跑不作为额外独立样本。预算调整、部分失败只补缺失项、持续故障换备用及新增C13/C14的实际步骤与公开依据见[动态路径](../examples/review-decision-paths.md)，全量输入输出与状态见[逐场景结果](../examples/review-evaluation.md)。C13返回budget_infeasible、缺口2、费用0；C14按实际失败与依赖区分failed/pending/blocked，未把未执行项目记成失败。本轮没有额外重复三轮评估，不将历史12/12计入当前样本。
 
-本轮最终交付核对：[审计日志](../examples/review-delivery-audit.txt)为PASS；[核对报告](../examples/review-delivery-check.json)确认46份本轮运行元数据与源码摘要一致，84项自动测试、19个离线场景及19个真实场景通过。对1913个实施及证据文件和1128个历史文件对象进行本地已配置密钥的精确匹配检查，未发现匹配；这不等于保证能识别所有形式的凭据。第04份文档的原始材料缺口单独记录，不随技术审计PASS而标记通过。
+本轮最终交付核对：[审计日志](../examples/review-delivery-audit.txt)为PASS；[核对报告](../examples/review-delivery-check.json)确认46份本轮运行元数据与源码摘要一致，84项自动测试、19个离线场景及19个真实场景通过。对1871个实施及证据文件和1162个历史文件对象进行本地已配置密钥的精确匹配检查，未发现匹配；这不等于保证能识别所有形式的凭据。第04份文档的原始材料缺口单独记录，不随技术审计PASS而标记通过。
 
 ## 历史记录（以下对应此前源码）
 

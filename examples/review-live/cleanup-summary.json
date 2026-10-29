@@ -1,0 +1,18 @@
+{
+  "mode": "live",
+  "total": 1,
+  "passed": 1,
+  "records": [
+    {
+      "scenario": "C07c-no-materials",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 5,
+      "tool_calls": 5
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

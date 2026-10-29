@@ -110,8 +110,8 @@
       "passed": true,
       "errors": [],
       "total_cost": 0,
-      "model_calls": 1,
-      "tool_calls": 0
+      "model_calls": 5,
+      "tool_calls": 5
     },
     {
       "scenario": "C08-execution-limit",
@@ -194,35 +194,36 @@
       "tool_calls": 10
     }
   ],
-  "initial_total": 19,
-  "initial_passed": 12,
-  "recharged_rerun_count": 7,
   "provenance": {
     "C01-normal": "initial_pass",
     "C02a-missing-budget": "initial_pass",
     "C02b-missing-deadline": "initial_pass",
     "C03a-once-failure": "initial_pass",
     "C03b-primary-unavailable": "initial_pass",
-    "C04-budget-replan": "recharged_rerun",
+    "C04-budget-replan": "rerun",
     "C05-budget-infeasible": "initial_pass",
     "C06-repeated-run": "initial_pass",
     "C07a-partial-materials": "initial_pass",
-    "C07b-partial-generation": "recharged_rerun",
-    "C07c-no-materials": "initial_pass",
-    "C08-execution-limit": "recharged_rerun",
-    "C09-deadline-infeasible": "recharged_rerun",
-    "C13-required-channel-budget-gap": "recharged_rerun",
+    "C07b-partial-generation": "rerun",
+    "C07c-no-materials": "rerun",
+    "C08-execution-limit": "rerun",
+    "C09-deadline-infeasible": "rerun",
+    "C13-required-channel-budget-gap": "rerun",
     "C10-id-conflict": "initial_pass",
     "C11-save-failure": "initial_pass",
     "C12a-resume-generation": "initial_pass",
-    "C12b-resume-save": "recharged_rerun",
-    "C14-unattempted-steps": "recharged_rerun"
+    "C12b-resume-save": "rerun",
+    "C14-unattempted-steps": "rerun"
   },
-  "initial_failure_archive": "../review-live-balance-failure",
   "rerun_summaries": [
     "recharge-1-summary.json",
     "recharge-2-summary.json",
-    "recharge-3-summary.json"
+    "recharge-3-summary.json",
+    "cleanup-summary.json"
   ],
-  "boundary": "Actual model calls with synthetic business tools. Final records retain 12 initial passes and 7 successful reruns after account recharge; failures are preserved separately. Not a repeated-stability evaluation."
+  "boundary": "Actual model calls with synthetic business tools. Records describe the final accepted outcome for each scenario; reruns are not counted as additional independent stability samples.",
+  "record_groups": {
+    "initial_pass": 11,
+    "rerun": 8
+  }
 }
