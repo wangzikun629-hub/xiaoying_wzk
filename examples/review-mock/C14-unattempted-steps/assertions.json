@@ -1,0 +1,10 @@
+{
+  "scenario": "C14-unattempted-steps",
+  "mode": "mock",
+  "status": "incomplete",
+  "passed": true,
+  "errors": [],
+  "total_cost": 0,
+  "model_calls": 10,
+  "tool_calls": 10
+}

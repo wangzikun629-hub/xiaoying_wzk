@@ -104,6 +104,41 @@ def test_unknown_channel_has_no_feasible_quote(engine):
     assert not result["feasible"]
     assert result["missing_channels"] == ["不存在的渠道"]
     assert result["minimum_budget_gap"] is None
+    assert snapshot(engine.state, engine.storage)["budget_gap"] is None
+
+
+@pytest.mark.parametrize("failed_item", ["video_script", "social_copy"])
+def test_snapshot_distinguishes_failed_pending_and_blocked_items(engine, failed_item):
+    engine.request["budget"] = 20
+    engine.faults = {"generate:" + failed_item: "always"}
+    q = engine.execute("estimate_plan", dict(tier="standard"))["quote_id"]
+    result = engine.execute(
+        "generate_script", dict(quote_id=q, deliverables=["video_script", "social_copy", "channel_adaptation"])
+    )
+    assert [f["deliverable"] for f in result["failures"]] == [failed_item]
+    output = snapshot(engine.state, engine.storage)
+    statuses = {step["step_id"]: step["status"] for step in output["task_plan"]["steps"]}
+    assert statuses[failed_item] == "failed"
+    assert statuses["social_copy"] == ("pending" if failed_item == "video_script" else "failed")
+    assert statuses["channel_adaptation"] == "blocked"
+    assert statuses["save"] == "blocked"
+    if failed_item == "social_copy":
+        assert statuses["video_script"] == "succeeded"
+        assert output["tool_results"]["video_script"]["result_id"] == result["completed"][0]["result_id"]
+        assert output["total_cost"] == 4
+
+
+def test_rejected_batch_does_not_fail_unattempted_items(engine):
+    q = quote(engine)
+    quote(engine, backend="backup")
+    result = engine.execute(
+        "generate_script", dict(quote_id=q, deliverables=["video_script", "social_copy"])
+    )
+    assert result["error_code"] == "stale_quote"
+    output = snapshot(engine.state, engine.storage)
+    statuses = {step["step_id"]: step["status"] for step in output["task_plan"]["steps"]}
+    assert statuses["video_script"] == statuses["social_copy"] == "pending"
+    assert output["attempts"][-1]["status"] == "failed"
 
 
 def test_economy_multi_channel_is_not_a_valid_cheaper_plan(engine):

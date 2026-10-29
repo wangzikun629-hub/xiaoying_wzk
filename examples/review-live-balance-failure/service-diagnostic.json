@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "exception_type": "APIStatusError",
+  "http_status": 402,
+  "error_code": "invalid_request_error",
+  "error_type": "insufficient_balance_error",
+  "message": "Insufficient Balance (request_id: a96b2c03-c697-4062-94ea-7b47d9dc0f16)"
+}

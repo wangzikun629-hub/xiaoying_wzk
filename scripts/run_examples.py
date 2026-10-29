@@ -34,6 +34,18 @@ SCENARIOS = [
         {"max_models": 6},
     ),
     ("C12b-resume-save", {"preferred_tier": "economy"}, {"save": "always"}, {}),
+    (
+        "C13-required-channel-budget-gap",
+        {"preferred_tier": "economy", "required_channels": ["校园公众号", "短视频平台"]},
+        {},
+        {},
+    ),
+    (
+        "C14-unattempted-steps",
+        {"preferred_tier": "economy"},
+        {"generate:video_script": "always"},
+        {"max_models": 10},
+    ),
 ]
 
 
@@ -108,6 +120,29 @@ def check(name, result, followup=None):
             expect(followup["total_cost"] == 8, "续跑不重复收费")
             for key, item in result["tool_results"].items():
                 expect(followup["tool_results"].get(key) == item, "续跑复用已成功结果")
+    if name.startswith("C13"):
+        expect(result["status"] == "incomplete", "必需双渠道在预算10时不能完成")
+        expect(result.get("reason") == "budget_infeasible", "应报告预算不可行")
+        expect(result.get("budget_gap") == 2, "符合必需双渠道的最低报价12，缺口应为2")
+        expect(result.get("total_cost") == 0 and not result.get("saved_plan_id"), "不可行时不生成或保存")
+    if name.startswith("C14"):
+        expect(result["status"] == "incomplete", "首项持续失败不得完成")
+        generations = observations(result, "generate_script")
+        expect(
+            any(f.get("deliverable") == "video_script" for a in generations for f in a.get("failures", [])),
+            "实际观察到视频生成失败",
+        )
+        statuses = {s["step_id"]: s["status"] for s in result.get("task_plan", {}).get("steps", [])}
+        expect(statuses.get("video_script") == "failed", "实际失败的视频标记failed")
+        if "social_copy" in result.get("tool_results", {}):
+            expect(statuses.get("social_copy") == "succeeded", "模型单独完成的图文保持成功")
+        elif any(f.get("deliverable") == "social_copy" for a in generations for f in a.get("failures", [])):
+            expect(statuses.get("social_copy") == "failed", "实际尝试失败的图文标记failed")
+        else:
+            quotes = observations(result, "estimate_plan")
+            ready = bool(quotes and quotes[-1].get("feasible"))
+            expect(statuses.get("social_copy") == ("pending" if ready else "blocked"), "未尝试项依赖实际可行性")
+        expect(statuses.get("save") == "blocked", "依赖未满足的保存标记blocked")
     return failures
 
 

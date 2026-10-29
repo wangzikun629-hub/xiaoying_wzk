@@ -1,0 +1,65 @@
+{
+  "mode": "live",
+  "total": 5,
+  "passed": 3,
+  "records": [
+    {
+      "scenario": "C10-id-conflict",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 12,
+      "tool_calls": 8
+    },
+    {
+      "scenario": "C11-save-failure",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 13,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C12a-resume-generation",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 4,
+      "model_calls": 6,
+      "tool_calls": 6
+    },
+    {
+      "scenario": "C12b-resume-save",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": false,
+      "errors": [
+        "续跑后完成"
+      ],
+      "total_cost": 8,
+      "model_calls": 11,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C14-unattempted-steps",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": false,
+      "errors": [
+        "实际观察到视频生成失败",
+        "实际失败的视频标记failed",
+        "未尝试项依赖实际可行性",
+        "依赖未满足的保存标记blocked"
+      ],
+      "total_cost": 0,
+      "model_calls": 1,
+      "tool_calls": 0
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

@@ -1,6 +1,8 @@
 # 实际运行证据
 
-当前YAML子智能体版本的证据入口：[真实全量17/17](yaml-live/summary.json)、[离线全量17/17](yaml-mock/summary.json)、[79项自动测试](test-results-current.txt)、[Ruff检查](ruff-results-current.txt)、[逐场景实际结果](current-evaluation.md)、[三条真实动态路径](current-decision-paths.md)。当前版本应优先核对这两组的输入、输出、Trace、元数据、断言及成功方案。真实运行的具体结果与已知限制见[评估报告](../docs/03-evaluation.md)。
+本轮修复版本入口：[离线19/19](review-mock/summary.json)、[真实19/19](review-live/summary.json)、[84项自动测试](review-test-results.txt)、[Ruff检查](review-ruff-results.txt)、[动态路径](review-decision-paths.md)、[逐场景实际结果](review-evaluation.md)、[源码与交付核对](review-delivery-check.json)、[交付审计](review-delivery-audit.txt)。C13与C14为本轮新增的边界场景。初轮12/19通过，受HTTP402影响的7例归档于[充值前失败](review-live-balance-failure/summary.json)；补充额度后仅重跑这7例，最终汇总明确区分两阶段。
+
+此前YAML版本的证据入口（79项测试，对应旧源码）：[真实全量17/17](yaml-live/summary.json)、[离线全量17/17](yaml-mock/summary.json)、[79项自动测试](test-results-current.txt)、[Ruff检查](ruff-results-current.txt)、[逐场景实际结果](current-evaluation.md)、[三条真实动态路径](current-decision-paths.md)。这些旧版结果不作为本轮修复后的源码证据。真实运行的具体结果与已知限制见[评估报告](../docs/03-evaluation.md)。
 
 本轮失败记录：[连接失败批次](yaml-live-connection-failure/summary.json)、[委派名称错误初始批次](yaml-live-initial/summary.json)。初始批次完成9例、通过7例后停止，C07b保留中断Trace；C04和C07a因把writer角色误当配置名称而失败。归档中的绝对trace_path为运行时原始位置，应打开归档内相邻trace.jsonl核对，不与修复后新批次混用。yaml-mock-initial保留修复前17个离线场景。
 

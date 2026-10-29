@@ -4,7 +4,7 @@
 
 本文件仅保留工程验证入口与证据边界，不统计辅助范围或个人修改、验证明细。
 
-当前子智能体版本的自动测试记录见 [test-results-current.txt](../examples/test-results-current.txt)，代码检查见 [ruff-results-current.txt](../examples/ruff-results-current.txt)，离线场景见 [yaml-mock/summary.json](../examples/yaml-mock/summary.json)。真实模型运行及失败记录统一引用 [03-evaluation.md](03-evaluation.md)。
+当前子智能体版本的自动测试记录见 [review-test-results.txt](../examples/review-test-results.txt)，代码检查见 [review-ruff-results.txt](../examples/review-ruff-results.txt)，离线场景见 [review-mock/summary.json](../examples/review-mock/summary.json)。真实模型运行及失败记录统一引用 [03-evaluation.md](03-evaluation.md)。
 
 Mock策略按观察作确定性分支，只验证工程流程；无网络HTTP协议测试验证接口适配，不证明真实模型决策能力。真实模型与Mock证据分开保存，历史版本结果不作为当前代码的验证结果。
 

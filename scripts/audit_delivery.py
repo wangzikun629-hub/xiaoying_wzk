@@ -5,7 +5,8 @@ import re
 
 from campaign_planner.tools import PROJECT_ROOT
 
-CURRENT_GROUPS = ("yaml-mock", "yaml-live")
+CURRENT_GROUPS = ("review-mock", "review-live")
+EXPECTED_CURRENT_SCENARIOS = 19
 
 
 def audit():
@@ -22,13 +23,20 @@ def audit():
             resolved = document.parent / target.split("#", 1)[0]
             if not resolved.exists():
                 errors.append(f"Broken link: {document.relative_to(PROJECT_ROOT)} -> {target}")
-    for group in ("mock", "mock-scope-validated", "mock-final", "live", "live-validated", "live-final", *CURRENT_GROUPS):
+    for group in (
+        "mock", "mock-scope-validated", "mock-final", "live", "live-validated", "live-final",
+        "yaml-mock", "yaml-live", *CURRENT_GROUPS,
+    ):
         summary_path = PROJECT_ROOT / "examples" / group / "summary.json"
         if not summary_path.exists():
+            if group in CURRENT_GROUPS:
+                errors.append(f"Missing current summary: {group}")
             continue
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
         if group in CURRENT_GROUPS and (
-            summary["total"] != 17 or summary["passed"] != summary["total"]
+            summary["total"] != EXPECTED_CURRENT_SCENARIOS
+            or summary["passed"] != summary["total"]
+            or len({r["scenario"] for r in summary["records"]}) != EXPECTED_CURRENT_SCENARIOS
         ):
             errors.append(f"Current acceptance scenarios incomplete or failing: {group}")
         for item in summary["records"]:

@@ -1,0 +1,97 @@
+{
+  "mode": "live",
+  "total": 8,
+  "passed": 4,
+  "records": [
+    {
+      "scenario": "C05-budget-infeasible",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 4,
+      "tool_calls": 3
+    },
+    {
+      "scenario": "C06-repeated-run",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 13,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C07a-partial-materials",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 12,
+      "tool_calls": 8
+    },
+    {
+      "scenario": "C07b-partial-generation",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": false,
+      "errors": [
+        "应完成并正式保存"
+      ],
+      "total_cost": 8,
+      "model_calls": 13,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C07c-no-materials",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 1,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C08-execution-limit",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": false,
+      "errors": [
+        "达到上限明确未完成"
+      ],
+      "total_cost": 0,
+      "model_calls": 1,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C09-deadline-infeasible",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": false,
+      "errors": [
+        "截止时间不足"
+      ],
+      "total_cost": 0,
+      "model_calls": 1,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C13-required-channel-budget-gap",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": false,
+      "errors": [
+        "应报告预算不可行",
+        "符合必需双渠道的最低报价12，缺口应为2"
+      ],
+      "total_cost": 0,
+      "model_calls": 1,
+      "tool_calls": 0
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

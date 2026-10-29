@@ -1,0 +1,198 @@
+{
+  "mode": "mock",
+  "total": 19,
+  "passed": 19,
+  "records": [
+    {
+      "scenario": "C01-normal",
+      "mode": "mock",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 12,
+      "model_calls": 8,
+      "tool_calls": 6
+    },
+    {
+      "scenario": "C02a-missing-budget",
+      "mode": "mock",
+      "status": "needs_input",
+      "passed": true,
+      "errors": [],
+      "total_cost": null,
+      "model_calls": 0,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C02b-missing-deadline",
+      "mode": "mock",
+      "status": "needs_input",
+      "passed": true,
+      "errors": [],
+      "total_cost": null,
+      "model_calls": 0,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C03a-once-failure",
+      "mode": "mock",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 11,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C03b-primary-unavailable",
+      "mode": "mock",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 11,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C04-budget-replan",
+      "mode": "mock",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 9,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C05-budget-infeasible",
+      "mode": "mock",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 4,
+      "tool_calls": 3
+    },
+    {
+      "scenario": "C06-repeated-run",
+      "mode": "mock",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 9,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C07a-partial-materials",
+      "mode": "mock",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 9,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C07b-partial-generation",
+      "mode": "mock",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 11,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C07c-no-materials",
+      "mode": "mock",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 2,
+      "tool_calls": 1
+    },
+    {
+      "scenario": "C08-execution-limit",
+      "mode": "mock",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 1,
+      "tool_calls": 1
+    },
+    {
+      "scenario": "C09-deadline-infeasible",
+      "mode": "mock",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 4,
+      "tool_calls": 3
+    },
+    {
+      "scenario": "C10-id-conflict",
+      "mode": "mock",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 9,
+      "tool_calls": 7
+    },
+    {
+      "scenario": "C11-save-failure",
+      "mode": "mock",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 8,
+      "tool_calls": 6
+    },
+    {
+      "scenario": "C12a-resume-generation",
+      "mode": "mock",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 4,
+      "model_calls": 6,
+      "tool_calls": 6
+    },
+    {
+      "scenario": "C12b-resume-save",
+      "mode": "mock",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 8,
+      "tool_calls": 6
+    },
+    {
+      "scenario": "C13-required-channel-budget-gap",
+      "mode": "mock",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 3,
+      "tool_calls": 2
+    },
+    {
+      "scenario": "C14-unattempted-steps",
+      "mode": "mock",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 10,
+      "tool_calls": 10
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

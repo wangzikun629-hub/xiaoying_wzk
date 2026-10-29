@@ -1,0 +1,50 @@
+{
+  "status": "incomplete",
+  "request_id": "C09-deadline-infeasible",
+  "reason": "model_unavailable",
+  "request": {
+    "theme": "毕业季校园影像征集",
+    "budget": 10,
+    "deadline": "2030-06-01T02:30:00+00:00",
+    "preferred_tier": "standard",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C09-deadline-infeasible",
+    "fingerprint": "4ba17d4f5f0692f58cb8a628f024532bcaea328ead9d2ee689905e77a1253ed4"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": []
+  },
+  "plan_history": [],
+  "attempts": [],
+  "tool_results": {},
+  "subagent_runs": [],
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 0,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-g4rkhm2p\\C09-deadline-infeasible.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "current_plan_time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "5f1902b7-727b-46b7-964d-f0560b9b4dd6",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\review-live\\C09-deadline-infeasible\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 1,
+      "tool_calls": 0,
+      "status": "incomplete",
+      "reason": "model_unavailable"
+    }
+  ],
+  "mode": "live",
+  "run_id": "5f1902b7-727b-46b7-964d-f0560b9b4dd6",
+  "cached": false,
+  "model_calls": 1,
+  "tool_calls": 0,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\review-live\\C09-deadline-infeasible\\trace.jsonl"
+}

@@ -1,0 +1,1 @@
+{"sequence": 1, "timestamp": "2026-10-29T07:15:55.580840+00:00", "mode": "live", "trace_id": "1372a4fa-d9bd-422f-b9fe-016d5c749187", "event": "validation", "result": {"status": "needs_input", "missing_fields": ["deadline"], "reason": "请补充必填信息"}}

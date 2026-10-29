@@ -1,0 +1,28 @@
+{
+  "mode": "live",
+  "total": 2,
+  "passed": 2,
+  "records": [
+    {
+      "scenario": "C12b-resume-save",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 12,
+      "tool_calls": 8
+    },
+    {
+      "scenario": "C14-unattempted-steps",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 10,
+      "tool_calls": 10
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

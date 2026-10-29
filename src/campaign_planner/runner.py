@@ -126,13 +126,16 @@ def snapshot(state, store):
                 else "blocked"
             )
         elif step["action"] == "generate_script":
-            related = [
-                a
+            failed = any(
+                failure.get("deliverable") == step["step_id"]
                 for a in state["attempts"]
                 if a["tool"] == "generate_script"
-                and step["step_id"] in a["arguments"].get("deliverables", [])
-            ]
-            step["status"] = "failed" if related else "pending" if q["feasible"] else "blocked"
+                for failure in a.get("result", {}).get("failures", [])
+            )
+            # A batch can stop before later requested items are attempted.
+            dependencies = set(step["depends_on"]) & set(q["plan"]["deliverables"])
+            ready = q["feasible"] and dependencies <= state["results"].keys()
+            step["status"] = "failed" if failed else "pending" if ready else "blocked"
     current_time = parse_time(state["clock_anchor"]) if state["clock_mode"] == "simulated" else utc_now()
     current_time += timedelta(minutes=state["elapsed_minutes"])
     alternatives = q.get("alternatives", []) if q else []
@@ -168,7 +171,8 @@ def snapshot(state, store):
         clock_mode=state["clock_mode"],
         saved_plan_id=state.get("saved_plan_id"),
         saved_store=str(store.path),
-        budget_gap=(q.get("minimum_budget_gap") if q and not q["budget_ok"] else 0),
+        # The current quote may be affordable but violate the required scope.
+        budget_gap=q.get("minimum_budget_gap") if q else 0,
         time_gap_minutes=0 if state["status"] == "completed" else minimum_time_gap,
         current_plan_time_gap_minutes=q["time_gap_minutes"] if q else None,
         missing=([k for k in q["plan"]["deliverables"] if k not in state["results"]] if q else []),

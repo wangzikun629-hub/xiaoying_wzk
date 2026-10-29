@@ -1,0 +1,49 @@
+Baseline commit: 82f14d5daebf38439fee029170a41b2dda86672f
+Current regression checks applied to archived baseline source.
+
+FFFFFF                                                                   [100%]
+================================== FAILURES ===================================
+_______ test_budget_gap_uses_candidates_that_satisfy_required_channels ________
+..\..\tests\test_acceptance.py:55: in test_budget_gap_uses_candidates_that_satisfy_required_channels
+    assert result["budget_gap"] == 2
+E   assert 0 == 2
+_____________ test_batch_failure_does_not_fail_unattempted_items ______________
+..\..\tests\test_acceptance.py:70: in test_batch_failure_does_not_fail_unattempted_items
+    assert statuses["social_copy"] == "pending"
+E   AssertionError: assert 'failed' == 'pending'
+E
+E     - pending
+E     + failed
+_ test_snapshot_distinguishes_failed_pending_and_blocked_items[video_script] __
+..\..\tests\test_guardrails.py:122: in test_snapshot_distinguishes_failed_pending_and_blocked_items
+    assert statuses["social_copy"] == ("pending" if failed_item == "video_script" else "failed")
+E   AssertionError: assert 'failed' == 'pending'
+E
+E     - pending
+E     + failed
+__ test_snapshot_distinguishes_failed_pending_and_blocked_items[social_copy] __
+..\..\tests\test_guardrails.py:123: in test_snapshot_distinguishes_failed_pending_and_blocked_items
+    assert statuses["channel_adaptation"] == "blocked"
+E   AssertionError: assert 'failed' == 'blocked'
+E
+E     - blocked
+E     + failed
+_____________ test_rejected_batch_does_not_fail_unattempted_items _____________
+..\..\tests\test_guardrails.py:140: in test_rejected_batch_does_not_fail_unattempted_items
+    assert statuses["video_script"] == statuses["social_copy"] == "pending"
+E   AssertionError: assert 'failed' == 'pending'
+E
+E     - pending
+E     + failed
+_________________ test_unknown_channel_has_no_feasible_quote __________________
+..\..\tests\test_guardrails.py:107: in test_unknown_channel_has_no_feasible_quote
+    assert snapshot(engine.state, engine.storage)["budget_gap"] is None
+E   assert 0 is None
+=========================== short test summary info ===========================
+FAILED ::test_budget_gap_uses_candidates_that_satisfy_required_channels - ass...
+FAILED ::test_batch_failure_does_not_fail_unattempted_items - AssertionError:...
+FAILED ::test_snapshot_distinguishes_failed_pending_and_blocked_items[video_script]
+FAILED ::test_snapshot_distinguishes_failed_pending_and_blocked_items[social_copy]
+FAILED ::test_rejected_batch_does_not_fail_unattempted_items - AssertionError...
+FAILED ::test_unknown_channel_has_no_feasible_quote - assert 0 is None
+6 failed in 0.83s

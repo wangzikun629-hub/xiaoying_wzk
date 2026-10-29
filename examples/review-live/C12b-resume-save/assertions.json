@@ -1,0 +1,10 @@
+{
+  "scenario": "C12b-resume-save",
+  "mode": "live",
+  "status": "incomplete",
+  "passed": true,
+  "errors": [],
+  "total_cost": 8,
+  "model_calls": 12,
+  "tool_calls": 8
+}

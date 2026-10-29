@@ -1,0 +1,50 @@
+{
+  "status": "incomplete",
+  "request_id": "C07c-no-materials",
+  "reason": "model_unavailable",
+  "request": {
+    "theme": "深海潜航设备交流",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "standard",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C07c-no-materials",
+    "fingerprint": "6c02bc644ab1a884a7c7486b98ddc78c3a3811dddcf1ef8ad90f5f0f5fce2e45"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": []
+  },
+  "plan_history": [],
+  "attempts": [],
+  "tool_results": {},
+  "subagent_runs": [],
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 0,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-g4rkhm2p\\C07c-no-materials.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "current_plan_time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "ae06736c-6aaf-404f-a719-d085c38af8f0",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\review-live\\C07c-no-materials\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 1,
+      "tool_calls": 0,
+      "status": "incomplete",
+      "reason": "model_unavailable"
+    }
+  ],
+  "mode": "live",
+  "run_id": "ae06736c-6aaf-404f-a719-d085c38af8f0",
+  "cached": false,
+  "model_calls": 1,
+  "tool_calls": 0,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\review-live\\C07c-no-materials\\trace.jsonl"
+}

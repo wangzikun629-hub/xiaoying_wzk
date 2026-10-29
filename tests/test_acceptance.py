@@ -46,6 +46,32 @@ def test_no_feasible_budget_has_gap_and_no_generation(invoke):
     assert not any(a["tool"] in ("generate_script", "save_plan") for a in result["attempts"])
 
 
+def test_budget_gap_uses_candidates_that_satisfy_required_channels(invoke):
+    result = invoke(
+        {"preferred_tier": "economy", "required_channels": ["校园公众号", "短视频平台"]}
+    )
+    assert result["status"] == "incomplete"
+    assert result["reason"] == "budget_infeasible"
+    assert result["budget_gap"] == 2
+    assert result["total_cost"] == 0
+    assert result["saved_plan_id"] is None
+
+
+def test_batch_failure_does_not_fail_unattempted_items(invoke):
+    result = invoke(
+        {"preferred_tier": "economy"}, faults={"generate:video_script": "always"}, max_models=4
+    )
+    assert result["reason"] == "execution_limit"
+    attempts = [a for a in result["attempts"] if a["tool"] == "generate_script"]
+    assert len(attempts) == 1
+    assert [f["deliverable"] for f in attempts[0]["result"]["failures"]] == ["video_script"]
+    statuses = {step["step_id"]: step["status"] for step in result["task_plan"]["steps"]}
+    assert statuses["video_script"] == "failed"
+    assert statuses["social_copy"] == "pending"
+    assert statuses["save"] == "blocked"
+    assert result["total_cost"] == 0
+
+
 def test_once_failure_preserves_partial_results_and_does_not_double_charge(invoke):
     result = invoke({"preferred_tier": "economy"}, faults={"generate:social_copy": "once"})
     attempts = [a for a in result["attempts"] if a["tool"] == "generate_script"]

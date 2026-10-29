@@ -1,0 +1,28 @@
+{
+  "mode": "live",
+  "total": 2,
+  "passed": 2,
+  "records": [
+    {
+      "scenario": "C04-budget-replan",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 13,
+      "tool_calls": 9
+    },
+    {
+      "scenario": "C07b-partial-generation",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 13,
+      "tool_calls": 10
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

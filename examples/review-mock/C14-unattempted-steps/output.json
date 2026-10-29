@@ -1,0 +1,928 @@
+{
+  "status": "incomplete",
+  "request_id": "C14-unattempted-steps",
+  "reason": "execution_limit",
+  "request": {
+    "theme": "毕业季校园影像征集",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "economy",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C14-unattempted-steps",
+    "fingerprint": "078b0a6721258c0140377f07b2f637b3e2d26cc32181ce7e54bf41d8ac00586a"
+  },
+  "task_plan": {
+    "version": 3,
+    "tier": "economy",
+    "backend": "primary",
+    "channels": [
+      "校内社群"
+    ],
+    "deliverables": [
+      "video_script",
+      "social_copy"
+    ],
+    "steps": [
+      {
+        "step_id": "retrieve",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "succeeded"
+      },
+      {
+        "step_id": "estimate-v3",
+        "action": "estimate_plan",
+        "depends_on": [
+          "retrieve"
+        ],
+        "status": "succeeded"
+      },
+      {
+        "step_id": "video_script",
+        "action": "generate_script",
+        "depends_on": [
+          "estimate-v3"
+        ],
+        "status": "failed",
+        "result_id": null,
+        "cost": 4,
+        "minutes": 35,
+        "required": true,
+        "label": "视频脚本"
+      },
+      {
+        "step_id": "social_copy",
+        "action": "generate_script",
+        "depends_on": [
+          "estimate-v3"
+        ],
+        "status": "pending",
+        "result_id": null,
+        "cost": 4,
+        "minutes": 25,
+        "required": true,
+        "label": "图文文案"
+      },
+      {
+        "step_id": "save",
+        "action": "save_plan",
+        "depends_on": [
+          "video_script",
+          "social_copy"
+        ],
+        "status": "blocked"
+      }
+    ]
+  },
+  "plan_history": [
+    {
+      "version": 1,
+      "tier": "economy",
+      "backend": "primary",
+      "channels": [
+        "校内社群"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v1",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v1"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v1"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "tier": "economy",
+      "backend": "primary",
+      "channels": [
+        "校内社群"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v2",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v2"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v2"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "version": 3,
+      "tier": "economy",
+      "backend": "primary",
+      "channels": [
+        "校内社群"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v3",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v3"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v3"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "attempt_id": "2a8d9eb9-5b6c-4b3e-932a-5f6931bcffba",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "毕业季校园影像征集"
+      },
+      "reason": "先检索主题素材。",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "error_code": null,
+        "materials": [
+          {
+            "id": "campus-01",
+            "tags": [
+              "毕业",
+              "校园",
+              "影像",
+              "graduation",
+              "campus"
+            ],
+            "kinds": [
+              "video_script",
+              "social_copy"
+            ],
+            "channels": [
+              "校园公众号",
+              "短视频平台"
+            ],
+            "content": "合成资料：毕业生可以提交校园照片和不超过30秒的回忆短片，参与毕业季影像征集。"
+          },
+          {
+            "id": "campus-02",
+            "tags": [
+              "毕业",
+              "校园",
+              "影像",
+              "graduation",
+              "campus"
+            ],
+            "kinds": [
+              "video_script",
+              "social_copy",
+              "channel_adaptation"
+            ],
+            "channels": [
+              "校园公众号",
+              "短视频平台",
+              "校内社群"
+            ],
+            "content": "合成规则：投稿须取得被摄者同意，作品由运营初审后展示；评选方式为主题契合度与表达完整度，不承诺流量奖励。"
+          }
+        ],
+        "available_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "missing_kinds": [],
+        "available_channels": [
+          "校内社群",
+          "校园公众号",
+          "短视频平台"
+        ],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "ed5e9185-c9bc-4e28-a1b0-bcdcc9e19063",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "tier": "economy",
+        "backend": "primary"
+      },
+      "reason": "先评估偏好方案的费用和时间。",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "6b9b7813-69e9-4e78-abb7-2ec7e3191e6d",
+        "plan": {
+          "version": 1,
+          "tier": "economy",
+          "backend": "primary",
+          "channels": [
+            "校内社群"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v1",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v1"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v1"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e",
+        "existing_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "feasible": true,
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": true,
+        "spent": 0,
+        "remaining_cost": 8,
+        "total_cost": 8,
+        "cost_items": [
+          {
+            "deliverable": "video_script",
+            "cost": 4,
+            "minutes": 35,
+            "required": true,
+            "label": "视频脚本"
+          },
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          }
+        ],
+        "remaining": [
+          "video_script",
+          "social_copy"
+        ],
+        "remaining_minutes": 61,
+        "expected_finish": "2030-06-01T03:03:00+00:00",
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [],
+        "missing_channels": [],
+        "scope_issues": [],
+        "alternatives": [
+          {
+            "tier": "standard",
+            "channels": [
+              "校内社群",
+              "校园公众号"
+            ],
+            "total_cost": 12,
+            "remaining_minutes": 121
+          },
+          {
+            "tier": "economy",
+            "channels": [
+              "校内社群"
+            ],
+            "total_cost": 8,
+            "remaining_minutes": 61
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "b23e1580-5eb5-4fda-bd18-ccd928e7a199",
+      "step_id": "generate_script",
+      "tool": "generate_script",
+      "agent": "content-writer",
+      "arguments": {
+        "quote_id": "6b9b7813-69e9-4e78-abb7-2ec7e3191e6d",
+        "deliverables": [
+          "video_script",
+          "social_copy"
+        ]
+      },
+      "reason": "只生成缺失项，失败交回主智能体重规划",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "completed": [],
+        "missing": [
+          "video_script",
+          "social_copy"
+        ],
+        "failures": [
+          {
+            "deliverable": "video_script",
+            "error_code": "generator_unavailable",
+            "retryable": true
+          }
+        ],
+        "error_code": "generator_unavailable",
+        "message": "保留成功项；补缺失项前重估；不得重复生成已成功项",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "9ecf3a50-b49e-4621-8e49-f52fc2b3c956",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "tier": "economy",
+        "backend": "primary",
+        "channels": [
+          "校内社群"
+        ]
+      },
+      "reason": "保留成功交付物，根据错误重新估算剩余工作与后端。",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "92ec8381-f351-47f7-a0ad-6077fd02ec48",
+        "plan": {
+          "version": 2,
+          "tier": "economy",
+          "backend": "primary",
+          "channels": [
+            "校内社群"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v2",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v2"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v2"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e",
+        "existing_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "feasible": true,
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": true,
+        "spent": 0,
+        "remaining_cost": 8,
+        "total_cost": 8,
+        "cost_items": [
+          {
+            "deliverable": "video_script",
+            "cost": 4,
+            "minutes": 35,
+            "required": true,
+            "label": "视频脚本"
+          },
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          }
+        ],
+        "remaining": [
+          "video_script",
+          "social_copy"
+        ],
+        "remaining_minutes": 61,
+        "expected_finish": "2030-06-01T03:05:00+00:00",
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [],
+        "missing_channels": [],
+        "scope_issues": [],
+        "alternatives": [
+          {
+            "tier": "standard",
+            "channels": [
+              "校内社群",
+              "校园公众号"
+            ],
+            "total_cost": 12,
+            "remaining_minutes": 121
+          },
+          {
+            "tier": "economy",
+            "channels": [
+              "校内社群"
+            ],
+            "total_cost": 8,
+            "remaining_minutes": 61
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "f3a0bc34-fbe5-4d01-a8c3-70160d276ee4",
+      "step_id": "generate_script",
+      "tool": "generate_script",
+      "agent": "content-writer",
+      "arguments": {
+        "quote_id": "92ec8381-f351-47f7-a0ad-6077fd02ec48",
+        "deliverables": [
+          "video_script",
+          "social_copy"
+        ]
+      },
+      "reason": "只生成缺失项，失败交回主智能体重规划",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "completed": [],
+        "missing": [
+          "video_script",
+          "social_copy"
+        ],
+        "failures": [
+          {
+            "deliverable": "video_script",
+            "error_code": "generator_unavailable",
+            "retryable": true
+          }
+        ],
+        "error_code": "generator_unavailable",
+        "message": "保留成功项；补缺失项前重估；不得重复生成已成功项",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "b0b576a5-cee3-4ffd-ba9a-8ce0474ac2d3",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "tier": "economy",
+        "backend": "primary",
+        "channels": [
+          "校内社群"
+        ]
+      },
+      "reason": "保留成功交付物，根据错误重新估算剩余工作与后端。",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "d4b0f195-cd44-448b-8c2f-1a4e74b5101e",
+        "plan": {
+          "version": 3,
+          "tier": "economy",
+          "backend": "primary",
+          "channels": [
+            "校内社群"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v3",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v3"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v3"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e",
+        "existing_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "feasible": true,
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": true,
+        "spent": 0,
+        "remaining_cost": 8,
+        "total_cost": 8,
+        "cost_items": [
+          {
+            "deliverable": "video_script",
+            "cost": 4,
+            "minutes": 35,
+            "required": true,
+            "label": "视频脚本"
+          },
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          }
+        ],
+        "remaining": [
+          "video_script",
+          "social_copy"
+        ],
+        "remaining_minutes": 61,
+        "expected_finish": "2030-06-01T03:07:00+00:00",
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [],
+        "missing_channels": [],
+        "scope_issues": [],
+        "alternatives": [
+          {
+            "tier": "standard",
+            "channels": [
+              "校内社群",
+              "校园公众号"
+            ],
+            "total_cost": 12,
+            "remaining_minutes": 121
+          },
+          {
+            "tier": "economy",
+            "channels": [
+              "校内社群"
+            ],
+            "total_cost": 8,
+            "remaining_minutes": 61
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "b119d8e7-4514-4d97-8f13-86f99e1bd46e",
+      "step_id": "generate_script",
+      "tool": "generate_script",
+      "agent": "content-writer",
+      "arguments": {
+        "quote_id": "d4b0f195-cd44-448b-8c2f-1a4e74b5101e",
+        "deliverables": [
+          "video_script",
+          "social_copy"
+        ]
+      },
+      "reason": "只生成缺失项，失败交回主智能体重规划",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "completed": [],
+        "missing": [
+          "video_script",
+          "social_copy"
+        ],
+        "failures": [
+          {
+            "deliverable": "video_script",
+            "error_code": "generator_unavailable",
+            "retryable": true
+          }
+        ],
+        "error_code": "generator_unavailable",
+        "message": "保留成功项；补缺失项前重估；不得重复生成已成功项",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    }
+  ],
+  "tool_results": {},
+  "subagent_runs": [
+    {
+      "agent": "content-writer",
+      "role": "writer",
+      "status": "failed",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "fingerprint": "8f90fe1c0b8208493b98024349cde9c1aa41f36e378a715c7e7c52a1a90e30a6",
+      "result": "按已批准报价生成缺失项。"
+    },
+    {
+      "agent": "content-writer",
+      "role": "writer",
+      "status": "failed",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "fingerprint": "eb4809d3fb2ab1d1c636f2b48421a1aa9e756b8a9b3c3ca10b6d6e77381b9206",
+      "result": "按已批准报价生成缺失项。"
+    },
+    {
+      "agent": "content-writer",
+      "role": "writer",
+      "status": "failed",
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "fingerprint": "8d9de03c290178de3321fecae549f8b54d5180052005fac2e6daee143d2033ae",
+      "result": "按已批准报价生成缺失项。"
+    }
+  ],
+  "total_cost": 0,
+  "estimated_total_cost": 8,
+  "elapsed_minutes": 7,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-vna9nsaw\\C14-unattempted-steps.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": 0,
+  "current_plan_time_gap_minutes": 0,
+  "missing": [
+    "video_script",
+    "social_copy"
+  ],
+  "runs": [
+    {
+      "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\review-mock\\C14-unattempted-steps\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 10,
+      "tool_calls": 10,
+      "status": "incomplete",
+      "reason": "execution_limit"
+    }
+  ],
+  "mode": "mock",
+  "run_id": "17ebf2db-2dd2-48b8-8127-5d0acc9b20ff",
+  "cached": false,
+  "model_calls": 10,
+  "tool_calls": 10,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\review-mock\\C14-unattempted-steps\\trace.jsonl"
+}

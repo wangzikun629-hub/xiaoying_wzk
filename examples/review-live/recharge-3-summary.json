@@ -1,0 +1,38 @@
+{
+  "mode": "live",
+  "total": 3,
+  "passed": 3,
+  "records": [
+    {
+      "scenario": "C08-execution-limit",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 1,
+      "tool_calls": 1
+    },
+    {
+      "scenario": "C09-deadline-infeasible",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 5,
+      "tool_calls": 5
+    },
+    {
+      "scenario": "C13-required-channel-budget-gap",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 6,
+      "tool_calls": 5
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}
