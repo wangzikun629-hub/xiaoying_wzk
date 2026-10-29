@@ -14,7 +14,7 @@
 
 - [需求与验收标准](docs/01-requirements.md)
 - [实现与技术取舍](docs/02-solution.md)、[子智能体配置](docs/07-subagents.md)
-- [运行记录索引](examples/README.md)、[验证边界](docs/04-ai-usage.md)
+- [运行记录索引](examples/README.md)、[AI 辅助与本人修改记录](docs/04-ai-usage.md)
 - [复盘](docs/05-retrospective.md)、[参考项目](docs/upstream.md)
 
 ## 安装
@@ -95,6 +95,6 @@ uv run python -m campaign_planner resume --request-id C03a-once-failure --mode m
 
 资料、费用和工具耗时均为合成数据，不执行真实发布或支付。备用后端使用本地模板，并在结果中标记。代码会检查内容结构、素材引用和预算约束，事实是否准确、内容是否适合发布仍需人工审阅。
 
-本次未实现界面、线上部署或生产级运行环境。第 04 份文档未统计 AI 辅助范围及个人修改明细，与最初的材料要求有差异。
+本次未实现界面、线上部署或生产级运行环境。
 
 仓库：[wangzikun629-hub/xiaoying_wzk](https://github.com/wangzikun629-hub/xiaoying_wzk)。最终提交 SHA 可在仓库根目录执行 `git rev-parse HEAD` 获取。
