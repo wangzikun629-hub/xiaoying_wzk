@@ -43,4 +43,4 @@ uv run pytest -q
 uv run python scripts/run_examples.py --mode mock --output outputs/review-yaml-mock
 ```
 
-提交的当前离线证据位于[examples/yaml-mock](../examples/yaml-mock/summary.json)。查看其中C04-budget-replan/output.json中的subagent_runs及相邻trace.jsonl，可核对主Agent的12→8重估算、创作委派和审查委派。一次失败场景C03a可核对创作委派partial→succeeded，以及视频result_id和总费用8保持一致。真实模型会选择不同的调用序列，应结合原始工具观察核对。历史examples/live-final属于此前单Agent架构，不作为当前多Agent真实模型验证结果。
+当前证据见[离线汇总](../examples/final-mock/summary.json)和[真实模型汇总](../examples/final-live/summary.json)。C04-budget-replan 的 subagent_runs 和 Trace 记录了主 Agent 的12→8重估算、创作委派和审查委派；C03a 记录了部分成功后的补生成，视频 result_id 保留、累计费用为8。真实模型的具体动作见[动态路径](../examples/final-decision-paths.md)。此前版本保留在历史目录中，不计入当前结果。
