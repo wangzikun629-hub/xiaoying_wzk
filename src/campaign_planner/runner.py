@@ -2,10 +2,10 @@ import copy
 import importlib.metadata
 import json
 import os
-from datetime import timedelta
 from pathlib import Path
 from uuid import uuid4
 
+from .planning import Planning
 from .schemas import ExecutionLimit, digest, parse_time, utc_now, validate_request
 from .storage import BusyRequest, Storage
 from .subagents import SubagentConfigError
@@ -50,7 +50,18 @@ def render_plan(plan):
         f"完成时间：{plan['completed_at']}",
         "",
     ]
+    unused_cost = plan["total_cost"] - sum(r["cost"] for r in plan["results"].values())
+    if unused_cost:
+        lines += [f"其中未用于当前方案的已完成工作费用：{unused_cost} 模拟单位；历史结果已保留。", ""]
     return "\n".join(lines)
+
+
+def export_plan(output, plan):
+    try:
+        (output / "plan.md").write_text(render_plan(plan), encoding="utf-8")
+    except OSError:
+        return "failed"
+    return "succeeded"
 
 
 def metadata(mode, faults, state=None):
@@ -100,9 +111,11 @@ def metadata(mode, faults, state=None):
 
 def snapshot(state, store):
     q = state["quotes"].get(state.get("active_quote"))
+    saved = store.plan(state["request"]["request_id"]) if state["status"] == "completed" else None
+    planning = Planning(state)
     plan = (
-        copy.deepcopy(q["plan"])
-        if q
+        copy.deepcopy(saved["task_plan"] if saved else q["plan"])
+        if saved or q
         else {
             "version": 0,
             "steps": [
@@ -111,71 +124,63 @@ def snapshot(state, store):
             ],
         }
     )
-    for step in plan["steps"]:
-        if step["step_id"] in state["results"]:
-            step.update(status="succeeded", result_id=state["results"][step["step_id"]]["result_id"])
-        elif step["step_id"] == "save":
-            saved_attempts = [a for a in state["attempts"] if a["tool"] == "save_plan"]
-            step["status"] = (
-                "succeeded"
-                if state["status"] == "completed"
-                else saved_attempts[-1]["status"]
-                if saved_attempts
-                else "pending"
-                if set(q["plan"]["deliverables"]) <= state["results"].keys()
-                else "blocked"
-            )
-        elif step["action"] == "generate_script":
-            failed = any(
-                failure.get("deliverable") == step["step_id"]
-                for a in state["attempts"]
-                if a["tool"] == "generate_script"
-                for failure in a.get("result", {}).get("failures", [])
-            )
-            # A batch can stop before later requested items are attempted.
-            dependencies = set(step["depends_on"]) & set(q["plan"]["deliverables"])
-            ready = q["feasible"] and dependencies <= state["results"].keys()
-            step["status"] = "failed" if failed else "pending" if ready else "blocked"
-    current_time = parse_time(state["clock_anchor"]) if state["clock_mode"] == "simulated" else utc_now()
-    current_time += timedelta(minutes=state["elapsed_minutes"])
-    alternatives = q.get("alternatives", []) if q else []
-    affordable = [c for c in alternatives if c["total_cost"] <= state["request"]["budget"]]
+    existing = saved["results"] if saved else planning.results(plan) if q else {}
+    assessment = planning.assess(plan) if q and not saved else None
+    if q and not saved:
+        for step in plan["steps"]:
+            step.pop("result_id", None)
+            if step["step_id"] in existing:
+                step.update(status="succeeded", result_id=existing[step["step_id"]]["result_id"])
+            elif step["step_id"] == "save":
+                saved_attempts = [a for a in state["attempts"] if a["tool"] == "save_plan"
+                                  and a["arguments"].get("quote_id") == q["quote_id"]]
+                step["status"] = (
+                    "blocked" if assessment["remaining"] else saved_attempts[-1]["status"]
+                    if saved_attempts
+                    else "pending"
+                )
+            elif step["action"] == "generate_script":
+                failed = any(
+                    failure.get("deliverable") == step["step_id"]
+                    for a in state["attempts"]
+                    if a["tool"] == "generate_script"
+                    and a["arguments"].get("quote_id") == q["quote_id"]
+                    for failure in a.get("result", {}).get("failures", [])
+                )
+                # A batch can stop before later requested items are attempted.
+                dependencies = set(step["depends_on"]) & set(q["plan"]["deliverables"])
+                ready = assessment["feasible"] and dependencies <= existing.keys()
+                step["status"] = "failed" if failed else "pending" if ready else "blocked"
+    alternatives = planning.alternatives(plan["channels"]) if q and not saved else []
+    affordable = [c for c in alternatives if c["budget_ok"]]
     minimum_time_gap = (
-        min(
-            max(
-                0,
-                (
-                    (current_time + timedelta(minutes=c["remaining_minutes"]))
-                    - parse_time(state["request"]["deadline"])
-                ).total_seconds()
-                / 60,
-            )
-            for c in (affordable or alternatives)
-        )
+        min(c["time_gap_minutes"] for c in (affordable or alternatives))
         if alternatives
         else None
     )
     return dict(
-        status=state["status"],
+        status=state["status"] if saved or state["status"] != "completed" else "incomplete",
         request_id=state["request"]["request_id"],
-        reason=state.get("reason"),
+        reason=state.get("reason") if saved or state["status"] != "completed" else "saved_plan_missing",
         request=state["request"],
         task_plan=plan,
         plan_history=state["plans"],
         attempts=state["attempts"],
         tool_results=state["results"],
+        current_results=existing,
+        result_history=state.get("result_history", []),
         subagent_runs=state.get("subagent_runs", []),
-        total_cost=state["spent"],
-        estimated_total_cost=q["total_cost"] if q else None,
-        elapsed_minutes=state["elapsed_minutes"],
+        total_cost=saved["total_cost"] if saved else state["spent"],
+        estimated_total_cost=saved["total_cost"] if saved else assessment["total_cost"] if q else None,
+        elapsed_minutes=saved["elapsed_minutes"] if saved else state["elapsed_minutes"],
         clock_mode=state["clock_mode"],
-        saved_plan_id=state.get("saved_plan_id"),
+        saved_plan_id=saved["plan_id"] if saved else None,
         saved_store=str(store.path),
         # The current quote may be affordable but violate the required scope.
-        budget_gap=q.get("minimum_budget_gap") if q else 0,
-        time_gap_minutes=0 if state["status"] == "completed" else minimum_time_gap,
-        current_plan_time_gap_minutes=q["time_gap_minutes"] if q else None,
-        missing=([k for k in q["plan"]["deliverables"] if k not in state["results"]] if q else []),
+        budget_gap=0 if saved else min((c["budget_gap"] for c in alternatives), default=None) if q else 0,
+        time_gap_minutes=0 if saved else minimum_time_gap,
+        current_plan_time_gap_minutes=0 if saved else assessment["time_gap_minutes"] if q else None,
+        missing=[] if saved else assessment["remaining"] if q else [],
         runs=state["runs"],
         mode=state["mode"],
     )
@@ -186,18 +191,21 @@ def decide_incomplete(engine):
     q = state["quotes"].get(state.get("active_quote"))
     if engine.halt_reason:
         return engine.halt_reason
-    if q and q.get("alternatives"):
-        affordable = [c for c in q["alternatives"] if c["total_cost"] <= engine.request["budget"]]
+    planning = Planning(state, engine.rules)
+    assessment = planning.assess(q["plan"]) if q else None
+    alternatives = planning.alternatives(q["plan"]["channels"]) if q else []
+    affordable = [c for c in alternatives if c["budget_ok"]]
+    if alternatives:
         if not affordable:
             return "budget_infeasible"
-        if not any(engine.fits_time(c["remaining_minutes"]) for c in affordable):
+        if not any(c["deadline_ok"] for c in affordable):
             return "deadline_infeasible"
-    if q and not q["budget_ok"]:
-        return "budget_infeasible" if q.get("minimum_budget_gap") else "current_plan_over_budget"
-    if q and not q["deadline_ok"]:
+    if q and not assessment["budget_ok"]:
+        return "current_plan_over_budget" if affordable else "budget_infeasible"
+    if q and not assessment["deadline_ok"]:
         return "deadline_infeasible"
-    if q and not q["scope_ok"]:
-        return "insufficient_materials" if q["missing_materials"] else "scope_infeasible"
+    if q and not assessment["scope_ok"]:
+        return "insufficient_materials" if assessment["missing_materials"] else "scope_infeasible"
     return state.get("last_error") or "not_saved"
 
 
@@ -272,7 +280,7 @@ def run(
                         result.update(cached=True, model_calls=0, tool_calls=0)
                         plan = store.plan(request["request_id"])
                         if plan:
-                            (output / "plan.md").write_text(render_plan(plan), encoding="utf-8")
+                            result["export_status"] = export_plan(output, plan)
                         return finish(result, state)
                     if (
                         now
@@ -383,11 +391,7 @@ def run(
                 )
                 saved = store.plan(request["request_id"])
                 if saved:
-                    try:
-                        (output / "plan.md").write_text(render_plan(saved), encoding="utf-8")
-                        result["export_status"] = "succeeded"
-                    except OSError:
-                        result["export_status"] = "failed"
+                    result["export_status"] = export_plan(output, saved)
                 trace.add(
                     "run_end",
                     status=result["status"],

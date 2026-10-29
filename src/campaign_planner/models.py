@@ -10,6 +10,7 @@ from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 from pydantic import ConfigDict
 
+from .planning import BASE_DELIVERABLES, Planning
 from .schemas import canonical, digest
 from .subagents import has_current_review
 from .tools import template
@@ -57,7 +58,7 @@ class OfflineModel(BaseChatModel):
                             type="tool_call",
                             args=dict(
                                 quote_id=q["quote_id"],
-                                deliverables=[k for k in q["plan"]["deliverables"] if k not in s["results"]],
+                                deliverables=e.missing,
                                 reason="只生成缺失项，失败交回主智能体重规划",
                             ),
                         )
@@ -67,7 +68,7 @@ class OfflineModel(BaseChatModel):
                 message = AIMessage(content=canonical(dict(status="failed", error_code="infeasible_quote")))
             return ChatResult(generations=[ChatGeneration(message=message)])
         if self.agent_role == "reviewer":
-            missing = [k for k in q["plan"]["deliverables"] if k not in s["results"]] if q else []
+            missing = e.missing
             message = AIMessage(
                 content=canonical(
                     dict(
@@ -80,9 +81,7 @@ class OfflineModel(BaseChatModel):
             return ChatResult(generations=[ChatGeneration(message=message)])
         observation = s.get("last_observation", {})
         action, args, reason = None, {}, ""
-        if s["status"] == "completed":
-            reason = "保存工具已经成功，结束。"
-        elif not s["materials"]:
+        if not s["materials"]:
             if observation.get("error_code") == "no_materials":
                 reason = "没有主题素材，不能生成有依据的活动方案。"
             elif observation.get("error_code") == "search_unavailable" and e.faults.get("search") == "always":
@@ -93,22 +92,29 @@ class OfflineModel(BaseChatModel):
         elif q is None:
             action, args = "estimate_plan", dict(tier=e.request["preferred_tier"], backend="primary")
             reason = "先评估偏好方案的费用和时间。"
-        elif not q["feasible"]:
-            economy = next((c for c in q["alternatives"] if c["tier"] == "economy"), None)
-            if q["plan"]["tier"] == "standard" and economy and e.request["allow_simplification"]:
-                action, args = "estimate_plan", dict(tier="economy", backend=q["plan"]["backend"])
-                reason = "工具报告当前方案不可行，评估保留最低交付物的精简版。"
+        elif observation.get("error_code") == "stale_quote":
+            action, args = "estimate_plan", dict(tier=q["plan"]["tier"], backend=q["plan"]["backend"],
+                                                 channels=q["plan"]["channels"])
+            reason = "报价依赖已变化，重新估算当前范围。"
+        elif not Planning(s, e.rules).assess(q["plan"])["feasible"]:
+            alternatives = Planning(s, e.rules).alternatives(q["plan"]["channels"])
+            candidate = next((c for c in sorted(alternatives, key=lambda c: c["total_cost"])
+                              if c["feasible"]), None)
+            if candidate:
+                action, args = "estimate_plan", dict(tier=candidate["tier"], channels=candidate["channels"],
+                                                     backend=q["plan"]["backend"])
+                reason = "根据工具候选选择满足预算、时间和必需渠道的内容包，重新估算。"
             else:
                 reason = "已检查的完整内容包无法满足约束，停止并报告工具给出的缺口。"
         elif observation.get("error_code") in ("scope_violation", "no_materials"):
             reason = "无法满足硬约束，停止。"
         else:
-            missing = [k for k in q["plan"]["deliverables"] if k not in s["results"]]
+            missing = e.missing
             failures = observation.get("failures", [])
             backend = q["plan"]["backend"]
             if failures:
                 backend = "primary" if failures[0].get("retryable") else "backup"
-            if missing and (failures or q["existing_hash"] != digest(s["results"])):
+            if missing and (failures or q["existing_hash"] != digest(e.current_results)):
                 action, args = (
                     "estimate_plan",
                     dict(tier=q["plan"]["tier"], backend=backend, channels=q["plan"]["channels"]),
@@ -191,6 +197,13 @@ def make_generator(mode, model):
             "不得编造奖品、日期或已发生的效果；未知事实标记待运营确认。",
             scope="只为 channels 中选定的渠道生成内容，不添加其他渠道。活动发布和投稿尚未执行，不能标为已完成。",
         )
+        if key == "channel_adaptation":
+            sources = engine.current_results
+            prompt["source_results"] = {
+                name: dict(result_id=sources[name]["result_id"], content=sources[name]["content"])
+                for name in BASE_DELIVERABLES
+            }
+            prompt["instruction"] += "基于 source_results 中的视频和图文改写，保持核心信息和行动引导一致。"
         response = model.invoke([HumanMessage(content=canonical(prompt))])
         engine.trace.add(
             "content_generation", deliverable=key, usage=getattr(response, "usage_metadata", None)

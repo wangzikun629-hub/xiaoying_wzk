@@ -5,7 +5,7 @@ import re
 
 from campaign_planner.tools import PROJECT_ROOT
 
-CURRENT_GROUPS = ("review-mock", "review-live")
+CURRENT_GROUPS = ("final-mock", "final-live")
 EXPECTED_CURRENT_SCENARIOS = 19
 
 
@@ -25,7 +25,7 @@ def audit():
                 errors.append(f"Broken link: {document.relative_to(PROJECT_ROOT)} -> {target}")
     for group in (
         "mock", "mock-scope-validated", "mock-final", "live", "live-validated", "live-final",
-        "yaml-mock", "yaml-live", *CURRENT_GROUPS,
+        "yaml-mock", "yaml-live", "review-mock", "review-live", *CURRENT_GROUPS,
     ):
         summary_path = PROJECT_ROOT / "examples" / group / "summary.json"
         if not summary_path.exists():

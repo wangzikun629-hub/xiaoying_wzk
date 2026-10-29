@@ -1,0 +1,1104 @@
+{
+  "status": "incomplete",
+  "request_id": "C14-unattempted-steps",
+  "reason": "execution_limit",
+  "request": {
+    "theme": "毕业季校园影像征集",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "economy",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C14-unattempted-steps",
+    "fingerprint": "078b0a6721258c0140377f07b2f637b3e2d26cc32181ce7e54bf41d8ac00586a"
+  },
+  "task_plan": {
+    "version": 3,
+    "tier": "economy",
+    "backend": "backup",
+    "channels": [
+      "短视频平台"
+    ],
+    "deliverables": [
+      "video_script",
+      "social_copy"
+    ],
+    "steps": [
+      {
+        "step_id": "retrieve",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "succeeded"
+      },
+      {
+        "step_id": "estimate-v3",
+        "action": "estimate_plan",
+        "depends_on": [
+          "retrieve"
+        ],
+        "status": "succeeded"
+      },
+      {
+        "step_id": "video_script",
+        "action": "generate_script",
+        "depends_on": [
+          "estimate-v3"
+        ],
+        "status": "pending",
+        "cost": 4,
+        "minutes": 35,
+        "required": true,
+        "label": "视频脚本"
+      },
+      {
+        "step_id": "social_copy",
+        "action": "generate_script",
+        "depends_on": [
+          "estimate-v3"
+        ],
+        "status": "pending",
+        "cost": 4,
+        "minutes": 25,
+        "required": true,
+        "label": "图文文案"
+      },
+      {
+        "step_id": "save",
+        "action": "save_plan",
+        "depends_on": [
+          "video_script",
+          "social_copy"
+        ],
+        "status": "blocked"
+      }
+    ]
+  },
+  "plan_history": [
+    {
+      "version": 1,
+      "tier": "economy",
+      "backend": "primary",
+      "channels": [
+        "短视频平台"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v1",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v1"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v1"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "tier": "economy",
+      "backend": "primary",
+      "channels": [
+        "短视频平台"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v2",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v2"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v2"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "version": 3,
+      "tier": "economy",
+      "backend": "backup",
+      "channels": [
+        "短视频平台"
+      ],
+      "deliverables": [
+        "video_script",
+        "social_copy"
+      ],
+      "steps": [
+        {
+          "step_id": "retrieve",
+          "action": "search_materials",
+          "depends_on": [],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "estimate-v3",
+          "action": "estimate_plan",
+          "depends_on": [
+            "retrieve"
+          ],
+          "status": "succeeded"
+        },
+        {
+          "step_id": "video_script",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v3"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 35,
+          "required": true,
+          "label": "视频脚本"
+        },
+        {
+          "step_id": "social_copy",
+          "action": "generate_script",
+          "depends_on": [
+            "estimate-v3"
+          ],
+          "status": "pending",
+          "result_id": null,
+          "cost": 4,
+          "minutes": 25,
+          "required": true,
+          "label": "图文文案"
+        },
+        {
+          "step_id": "save",
+          "action": "save_plan",
+          "depends_on": [
+            "video_script",
+            "social_copy"
+          ],
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "attempt_id": "68cc1184-8f92-489f-b506-dbf92a43227c",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "毕业季校园影像征集"
+      },
+      "reason": "检查该主题可用素材与缺失类型",
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "error_code": null,
+        "materials": [
+          {
+            "id": "campus-01",
+            "tags": [
+              "毕业",
+              "校园",
+              "影像",
+              "graduation",
+              "campus"
+            ],
+            "kinds": [
+              "video_script",
+              "social_copy"
+            ],
+            "channels": [
+              "校园公众号",
+              "短视频平台"
+            ],
+            "content": "合成资料：毕业生可以提交校园照片和不超过30秒的回忆短片，参与毕业季影像征集。"
+          },
+          {
+            "id": "campus-02",
+            "tags": [
+              "毕业",
+              "校园",
+              "影像",
+              "graduation",
+              "campus"
+            ],
+            "kinds": [
+              "video_script",
+              "social_copy",
+              "channel_adaptation"
+            ],
+            "channels": [
+              "校园公众号",
+              "短视频平台",
+              "校内社群"
+            ],
+            "content": "合成规则：投稿须取得被摄者同意，作品由运营初审后展示；评选方式为主题契合度与表达完整度，不承诺流量奖励。"
+          }
+        ],
+        "available_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "missing_kinds": [],
+        "available_channels": [
+          "校内社群",
+          "校园公众号",
+          "短视频平台"
+        ],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "e4864a83-fd53-4466-bde8-e6af5c0f4b70",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "tier": "economy",
+        "channels": [
+          "短视频平台"
+        ]
+      },
+      "reason": "优先评估用户偏好的 economy 单渠道；素材 campus-01/02 均覆盖短视频平台的视频脚本与图文文案",
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "3922a871-529b-4a10-b649-a6436a521da8",
+        "plan": {
+          "version": 1,
+          "tier": "economy",
+          "backend": "primary",
+          "channels": [
+            "短视频平台"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v1",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v1"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v1"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e",
+        "existing_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "spent": 0,
+        "remaining": [
+          "video_script",
+          "social_copy"
+        ],
+        "cost_items": [
+          {
+            "deliverable": "video_script",
+            "cost": 4,
+            "minutes": 35,
+            "required": true,
+            "label": "视频脚本"
+          },
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          }
+        ],
+        "remaining_cost": 8,
+        "total_cost": 8,
+        "remaining_minutes": 61,
+        "expected_finish": "2030-06-01T03:03:00+00:00",
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": true,
+        "feasible": true,
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [],
+        "missing_channels": [],
+        "scope_issues": [],
+        "alternatives": [
+          {
+            "tier": "standard",
+            "channels": [
+              "校内社群",
+              "短视频平台"
+            ],
+            "remaining": [
+              "video_script",
+              "social_copy",
+              "channel_adaptation"
+            ],
+            "cost_items": [
+              {
+                "deliverable": "video_script",
+                "cost": 4,
+                "minutes": 35,
+                "required": true,
+                "label": "视频脚本"
+              },
+              {
+                "deliverable": "social_copy",
+                "cost": 4,
+                "minutes": 25,
+                "required": true,
+                "label": "图文文案"
+              },
+              {
+                "deliverable": "channel_adaptation",
+                "cost": 4,
+                "minutes": 60,
+                "required": false,
+                "label": "多渠道改写"
+              }
+            ],
+            "remaining_cost": 12,
+            "total_cost": 12,
+            "remaining_minutes": 121,
+            "expected_finish": "2030-06-01T04:03:00+00:00",
+            "budget_ok": false,
+            "deadline_ok": true,
+            "scope_ok": true,
+            "feasible": false,
+            "budget_gap": 2,
+            "time_gap_minutes": 0,
+            "missing_materials": [],
+            "missing_channels": [],
+            "scope_issues": []
+          },
+          {
+            "tier": "economy",
+            "channels": [
+              "短视频平台"
+            ],
+            "remaining": [
+              "video_script",
+              "social_copy"
+            ],
+            "cost_items": [
+              {
+                "deliverable": "video_script",
+                "cost": 4,
+                "minutes": 35,
+                "required": true,
+                "label": "视频脚本"
+              },
+              {
+                "deliverable": "social_copy",
+                "cost": 4,
+                "minutes": 25,
+                "required": true,
+                "label": "图文文案"
+              }
+            ],
+            "remaining_cost": 8,
+            "total_cost": 8,
+            "remaining_minutes": 61,
+            "expected_finish": "2030-06-01T03:03:00+00:00",
+            "budget_ok": true,
+            "deadline_ok": true,
+            "scope_ok": true,
+            "feasible": true,
+            "budget_gap": 0,
+            "time_gap_minutes": 0,
+            "missing_materials": [],
+            "missing_channels": [],
+            "scope_issues": []
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "22a5a016-db7f-4e0a-978f-30e64a022b3a",
+      "step_id": "generate_script",
+      "tool": "generate_script",
+      "agent": "content-writer",
+      "arguments": {
+        "quote_id": "3922a871-529b-4a10-b649-a6436a521da8",
+        "deliverables": [
+          "video_script",
+          "social_copy"
+        ]
+      },
+      "reason": "economy 报价仅含短视频平台渠道，缺失项为 video_script 与 social_copy，按 campus-01/campus-02 素材口径一次生成",
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "completed": [],
+        "missing": [
+          "video_script",
+          "social_copy"
+        ],
+        "failures": [
+          {
+            "deliverable": "video_script",
+            "error_code": "generator_unavailable",
+            "retryable": true
+          }
+        ],
+        "error_code": "generator_unavailable",
+        "message": "保留成功项；补缺失项前重估；不得重复生成已成功项",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "2b4c9f50-3744-4156-bf25-348d18ce5c42",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "channels": [
+          "短视频平台"
+        ],
+        "tier": "economy"
+      },
+      "reason": "生成器暂时不可用且无成功项，补缺失项前重估确认报价与时间仍可行",
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "e5d81818-7efc-4d95-ac07-3e690f151788",
+        "plan": {
+          "version": 2,
+          "tier": "economy",
+          "backend": "primary",
+          "channels": [
+            "短视频平台"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v2",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v2"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v2"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e",
+        "existing_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "spent": 0,
+        "remaining": [
+          "video_script",
+          "social_copy"
+        ],
+        "cost_items": [
+          {
+            "deliverable": "video_script",
+            "cost": 4,
+            "minutes": 35,
+            "required": true,
+            "label": "视频脚本"
+          },
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          }
+        ],
+        "remaining_cost": 8,
+        "total_cost": 8,
+        "remaining_minutes": 61,
+        "expected_finish": "2030-06-01T03:05:00+00:00",
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": true,
+        "feasible": true,
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [],
+        "missing_channels": [],
+        "scope_issues": [],
+        "alternatives": [
+          {
+            "tier": "standard",
+            "channels": [
+              "校内社群",
+              "短视频平台"
+            ],
+            "remaining": [
+              "video_script",
+              "social_copy",
+              "channel_adaptation"
+            ],
+            "cost_items": [
+              {
+                "deliverable": "video_script",
+                "cost": 4,
+                "minutes": 35,
+                "required": true,
+                "label": "视频脚本"
+              },
+              {
+                "deliverable": "social_copy",
+                "cost": 4,
+                "minutes": 25,
+                "required": true,
+                "label": "图文文案"
+              },
+              {
+                "deliverable": "channel_adaptation",
+                "cost": 4,
+                "minutes": 60,
+                "required": false,
+                "label": "多渠道改写"
+              }
+            ],
+            "remaining_cost": 12,
+            "total_cost": 12,
+            "remaining_minutes": 121,
+            "expected_finish": "2030-06-01T04:05:00+00:00",
+            "budget_ok": false,
+            "deadline_ok": true,
+            "scope_ok": true,
+            "feasible": false,
+            "budget_gap": 2,
+            "time_gap_minutes": 0,
+            "missing_materials": [],
+            "missing_channels": [],
+            "scope_issues": []
+          },
+          {
+            "tier": "economy",
+            "channels": [
+              "短视频平台"
+            ],
+            "remaining": [
+              "video_script",
+              "social_copy"
+            ],
+            "cost_items": [
+              {
+                "deliverable": "video_script",
+                "cost": 4,
+                "minutes": 35,
+                "required": true,
+                "label": "视频脚本"
+              },
+              {
+                "deliverable": "social_copy",
+                "cost": 4,
+                "minutes": 25,
+                "required": true,
+                "label": "图文文案"
+              }
+            ],
+            "remaining_cost": 8,
+            "total_cost": 8,
+            "remaining_minutes": 61,
+            "expected_finish": "2030-06-01T03:05:00+00:00",
+            "budget_ok": true,
+            "deadline_ok": true,
+            "scope_ok": true,
+            "feasible": true,
+            "budget_gap": 0,
+            "time_gap_minutes": 0,
+            "missing_materials": [],
+            "missing_channels": [],
+            "scope_issues": []
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "acd79ffb-8fd5-4e8e-98b1-c596c61384cb",
+      "step_id": "generate_script",
+      "tool": "generate_script",
+      "agent": "content-writer",
+      "arguments": {
+        "quote_id": "e5d81818-7efc-4d95-ac07-3e690f151788",
+        "deliverables": [
+          "video_script",
+          "social_copy"
+        ]
+      },
+      "reason": "重试上次 generator_unavailable 的缺失项，引用 campus-01/campus-02，仅短视频平台表达",
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "completed": [],
+        "missing": [
+          "video_script",
+          "social_copy"
+        ],
+        "failures": [
+          {
+            "deliverable": "video_script",
+            "error_code": "generator_unavailable",
+            "retryable": true
+          }
+        ],
+        "error_code": "generator_unavailable",
+        "message": "保留成功项；补缺失项前重估；不得重复生成已成功项",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "31d4aeac-85bc-4bb3-81cc-29d148eff92f",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "tier": "economy",
+        "channels": [
+          "短视频平台"
+        ],
+        "backend": "backup"
+      },
+      "reason": "primary 生成器两次报 generator_unavailable，改评估备用后端（模板降级）是否在预算和截止时间内可行",
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "status": "succeeded",
+      "result": {
+        "status": "succeeded",
+        "quote_id": "5800aca7-7dff-45da-8aa9-54a1f51dae7e",
+        "plan": {
+          "version": 3,
+          "tier": "economy",
+          "backend": "backup",
+          "channels": [
+            "短视频平台"
+          ],
+          "deliverables": [
+            "video_script",
+            "social_copy"
+          ],
+          "steps": [
+            {
+              "step_id": "retrieve",
+              "action": "search_materials",
+              "depends_on": [],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "estimate-v3",
+              "action": "estimate_plan",
+              "depends_on": [
+                "retrieve"
+              ],
+              "status": "succeeded"
+            },
+            {
+              "step_id": "video_script",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v3"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 35,
+              "required": true,
+              "label": "视频脚本"
+            },
+            {
+              "step_id": "social_copy",
+              "action": "generate_script",
+              "depends_on": [
+                "estimate-v3"
+              ],
+              "status": "pending",
+              "result_id": null,
+              "cost": 4,
+              "minutes": 25,
+              "required": true,
+              "label": "图文文案"
+            },
+            {
+              "step_id": "save",
+              "action": "save_plan",
+              "depends_on": [
+                "video_script",
+                "social_copy"
+              ],
+              "status": "pending"
+            }
+          ]
+        },
+        "rules_hash": "6d603aec21843e06c816e472a5c87bb34427078366c1cc298f091d5d89141445",
+        "materials_hash": "46bfb0b207b6e0ba82548cde6a581460dba8d9667040805a754e0bc2d7178a8e",
+        "existing_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "spent": 0,
+        "remaining": [
+          "video_script",
+          "social_copy"
+        ],
+        "cost_items": [
+          {
+            "deliverable": "video_script",
+            "cost": 4,
+            "minutes": 35,
+            "required": true,
+            "label": "视频脚本"
+          },
+          {
+            "deliverable": "social_copy",
+            "cost": 4,
+            "minutes": 25,
+            "required": true,
+            "label": "图文文案"
+          }
+        ],
+        "remaining_cost": 8,
+        "total_cost": 8,
+        "remaining_minutes": 61,
+        "expected_finish": "2030-06-01T03:07:00+00:00",
+        "budget_ok": true,
+        "deadline_ok": true,
+        "scope_ok": true,
+        "feasible": true,
+        "budget_gap": 0,
+        "time_gap_minutes": 0,
+        "missing_materials": [],
+        "missing_channels": [],
+        "scope_issues": [],
+        "alternatives": [
+          {
+            "tier": "standard",
+            "channels": [
+              "校内社群",
+              "短视频平台"
+            ],
+            "remaining": [
+              "video_script",
+              "social_copy",
+              "channel_adaptation"
+            ],
+            "cost_items": [
+              {
+                "deliverable": "video_script",
+                "cost": 4,
+                "minutes": 35,
+                "required": true,
+                "label": "视频脚本"
+              },
+              {
+                "deliverable": "social_copy",
+                "cost": 4,
+                "minutes": 25,
+                "required": true,
+                "label": "图文文案"
+              },
+              {
+                "deliverable": "channel_adaptation",
+                "cost": 4,
+                "minutes": 60,
+                "required": false,
+                "label": "多渠道改写"
+              }
+            ],
+            "remaining_cost": 12,
+            "total_cost": 12,
+            "remaining_minutes": 121,
+            "expected_finish": "2030-06-01T04:07:00+00:00",
+            "budget_ok": false,
+            "deadline_ok": true,
+            "scope_ok": true,
+            "feasible": false,
+            "budget_gap": 2,
+            "time_gap_minutes": 0,
+            "missing_materials": [],
+            "missing_channels": [],
+            "scope_issues": []
+          },
+          {
+            "tier": "economy",
+            "channels": [
+              "短视频平台"
+            ],
+            "remaining": [
+              "video_script",
+              "social_copy"
+            ],
+            "cost_items": [
+              {
+                "deliverable": "video_script",
+                "cost": 4,
+                "minutes": 35,
+                "required": true,
+                "label": "视频脚本"
+              },
+              {
+                "deliverable": "social_copy",
+                "cost": 4,
+                "minutes": 25,
+                "required": true,
+                "label": "图文文案"
+              }
+            ],
+            "remaining_cost": 8,
+            "total_cost": 8,
+            "remaining_minutes": 61,
+            "expected_finish": "2030-06-01T03:07:00+00:00",
+            "budget_ok": true,
+            "deadline_ok": true,
+            "scope_ok": true,
+            "feasible": true,
+            "budget_gap": 0,
+            "time_gap_minutes": 0,
+            "missing_materials": [],
+            "missing_channels": [],
+            "scope_issues": []
+          }
+        ],
+        "minimum_budget_gap": 0,
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    }
+  ],
+  "tool_results": {},
+  "current_results": {},
+  "result_history": [],
+  "subagent_runs": [
+    {
+      "agent": "content-writer",
+      "role": "writer",
+      "status": "failed",
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "fingerprint": "a2a4547d003864012103171ce9b62485247a5ee8d5e0a21c529bab53b8bb0600",
+      "result": "按报价 3922a871 一次性生成两个缺失交付物，范围仅短视频平台。"
+    },
+    {
+      "agent": "content-writer",
+      "role": "writer",
+      "status": "failed",
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "fingerprint": "c4c040ea5a91f5d4b2f188df4e7c39c091a0f657ec9eaa3d7b5757d4f876f37e",
+      "result": "上次生成器暂时不可用（generator_unavailable），本次按同一报价重试缺失的两项，金额、渠道与素材引用保持不变。"
+    },
+    {
+      "agent": "content-writer",
+      "role": "writer",
+      "status": "failed",
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "fingerprint": "96fb04bc892765bbeed3f67bd78f9ae1a5d6eba34e725ac33c936ae9af7b8b1f",
+      "error_code": "execution_limit"
+    }
+  ],
+  "total_cost": 0,
+  "estimated_total_cost": 8,
+  "elapsed_minutes": 6,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-z254jcvc\\C14-unattempted-steps.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": 0,
+  "current_plan_time_gap_minutes": 0,
+  "missing": [
+    "video_script",
+    "social_copy"
+  ],
+  "runs": [
+    {
+      "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\final-live\\C14-unattempted-steps\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 10,
+      "tool_calls": 10,
+      "status": "incomplete",
+      "reason": "execution_limit"
+    }
+  ],
+  "mode": "live",
+  "run_id": "1fdfbc1a-a406-43a4-8e91-42d8224bf7d5",
+  "cached": false,
+  "model_calls": 10,
+  "tool_calls": 10,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\final-live\\C14-unattempted-steps\\trace.jsonl"
+}

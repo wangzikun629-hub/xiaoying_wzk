@@ -1,0 +1,68 @@
+{
+  "mode": "live",
+  "total": 6,
+  "passed": 6,
+  "records": [
+    {
+      "scenario": "C01-normal",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 12,
+      "model_calls": 14,
+      "tool_calls": 10
+    },
+    {
+      "scenario": "C02a-missing-budget",
+      "mode": "live",
+      "status": "needs_input",
+      "passed": true,
+      "errors": [],
+      "total_cost": null,
+      "model_calls": 0,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C02b-missing-deadline",
+      "mode": "live",
+      "status": "needs_input",
+      "passed": true,
+      "errors": [],
+      "total_cost": null,
+      "model_calls": 0,
+      "tool_calls": 0
+    },
+    {
+      "scenario": "C03a-once-failure",
+      "mode": "live",
+      "status": "completed",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 14,
+      "tool_calls": 11
+    },
+    {
+      "scenario": "C11-save-failure",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 8,
+      "model_calls": 12,
+      "tool_calls": 8
+    },
+    {
+      "scenario": "C13-required-channel-budget-gap",
+      "mode": "live",
+      "status": "incomplete",
+      "passed": true,
+      "errors": [],
+      "total_cost": 0,
+      "model_calls": 6,
+      "tool_calls": 5
+    }
+  ],
+  "boundary": "Mock validates engineering only, not real LLM decisions."
+}

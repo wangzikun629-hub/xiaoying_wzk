@@ -1,0 +1,10 @@
+{
+  "scenario": "C01-normal",
+  "mode": "mock",
+  "status": "completed",
+  "passed": true,
+  "errors": [],
+  "total_cost": 12,
+  "model_calls": 7,
+  "tool_calls": 6
+}

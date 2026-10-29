@@ -7,7 +7,8 @@ from datetime import timedelta
 from pathlib import Path
 from uuid import uuid4
 
-from .schemas import BusinessError, ExecutionLimit, digest, parse_time, utc_now
+from .planning import BASE_DELIVERABLES, Planning, current_time
+from .schemas import BusinessError, ExecutionLimit, digest, parse_time
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 BUSINESS_TOOLS = {"search_materials", "estimate_plan", "generate_script", "save_plan"}
@@ -28,10 +29,13 @@ class Engine:
         generator=None,
     ):
         self.storage, self.state, self.trace = storage, state, trace
-        self.rules = rules or json.loads((PROJECT_ROOT / "data/cost_rules.json").read_text(encoding="utf-8"))
+        self.rules = rules or state.get("cost_rules") or json.loads(
+            (PROJECT_ROOT / "data/cost_rules.json").read_text(encoding="utf-8")
+        )
         self.catalog = materials or json.loads(
             (PROJECT_ROOT / "data/materials.json").read_text(encoding="utf-8")
         )
+        self.state["cost_rules"] = copy.deepcopy(self.rules)
         self.faults = faults or {}
         self.max_models, self.max_tools = max_models, max_tools
         self.model_calls = self.tool_calls = 0
@@ -47,10 +51,17 @@ class Engine:
         return self.state["request"]
 
     def current_time(self):
-        anchor = (
-            parse_time(self.state["clock_anchor"]) if self.state["clock_mode"] == "simulated" else utc_now()
-        )
-        return anchor + timedelta(minutes=self.state["elapsed_minutes"])
+        return current_time(self.state)
+
+    @property
+    def current_results(self):
+        quote = self.state["quotes"].get(self.state.get("active_quote"))
+        return Planning(self.state, self.rules).results(quote["plan"]) if quote else {}
+
+    @property
+    def missing(self):
+        quote = self.state["quotes"].get(self.state.get("active_quote"))
+        return Planning(self.state, self.rules).assess(quote["plan"])["remaining"] if quote else []
 
     def fits_time(self, minutes):
         return self.current_time() + timedelta(minutes=minutes) <= parse_time(self.request["deadline"])
@@ -87,6 +98,10 @@ class Engine:
         return False
 
     def execute(self, name, arguments, *, counted=False, agent="main"):
+        if self.state["status"] == "completed":
+            result = dict(status="failed", error_code="request_completed", message="已保存的请求不能再修改")
+            self.trace.add("tool_rejected", agent=agent, tool=name, arguments=arguments, result=result)
+            return result
         if not counted:
             self.count_tool(name)
         if name not in BUSINESS_TOOLS:
@@ -126,8 +141,7 @@ class Engine:
         )
         attempt.update(status=result["status"], result=copy.deepcopy(result))
         self.state["last_observation"] = result
-        if result["status"] == "failed":
-            self.state["last_error"] = result.get("error_code", "tool_failure")
+        self.state["last_error"] = result.get("error_code")
         self.persist()
         self.trace.add(
             "tool_result",
@@ -187,7 +201,6 @@ class Engine:
         materials = list(self.state["materials"].values())
         if not materials:
             raise BusinessError("no_materials", "请先检索与主题匹配的素材")
-        available = set().union(*(set(m["kinds"]) for m in materials))
         supported = set().union(*(set(m["channels"]) for m in materials))
         if channels is None:
             channels = list(self.request["required_channels"])
@@ -204,20 +217,9 @@ class Engine:
         ):
             raise BusinessError("scope_violation", "渠道不能为空且须覆盖用户必需渠道")
         wanted = self.rules["tiers"][tier]
-        missing_materials = sorted(set(wanted) - available)
-        missing_channels = sorted(set(channels) - supported)
-        existing = self.state["results"]
-        remaining = [k for k in wanted if k not in existing]
-        cost_items = [dict(deliverable=k, **self.rules["deliverables"][k]) for k in remaining]
-        remaining_cost = sum(i["cost"] for i in cost_items)
         self.tick(self.rules["operations"]["estimate_plan"])
-        minutes = sum(i["minutes"] for i in cost_items) + self.rules["operations"]["save_plan"]
-        budget_ok = self.state["spent"] + remaining_cost <= self.request["budget"]
-        finish = self.current_time() + timedelta(minutes=minutes)
-        deadline = parse_time(self.request["deadline"])
-        multi_ok = tier != "standard" or len(set(channels)) >= 2
-        economy_ok = tier != "economy" or len(set(channels)) == 1
-        scope_ok = not missing_materials and not missing_channels and multi_ok and economy_ok
+        planning = Planning(self.state, self.rules)
+        existing = planning.results(dict(tier=tier, channels=channels))
         version = len(self.state["plans"]) + 1
         steps = [
             dict(step_id="retrieve", action="search_materials", depends_on=[], status="succeeded"),
@@ -231,7 +233,7 @@ class Engine:
         for key in wanted:
             deps = [f"estimate-v{version}"]
             if key == "channel_adaptation":
-                deps += ["video_script", "social_copy"]
+                deps += list(BASE_DELIVERABLES)
             steps.append(
                 dict(
                     step_id=key,
@@ -257,58 +259,10 @@ class Engine:
             rules_hash=digest(self.rules),
             materials_hash=digest(self.state["materials"]),
             existing_hash=digest(existing),
-            feasible=budget_ok and finish <= deadline and scope_ok,
-            budget_ok=budget_ok,
-            deadline_ok=finish <= deadline,
-            scope_ok=scope_ok,
             spent=self.state["spent"],
-            remaining_cost=remaining_cost,
-            total_cost=self.state["spent"] + remaining_cost,
-            cost_items=cost_items,
-            remaining=remaining,
-            remaining_minutes=minutes,
-            expected_finish=finish.isoformat(),
-            budget_gap=max(0, self.state["spent"] + remaining_cost - self.request["budget"]),
-            time_gap_minutes=max(0, (finish - deadline).total_seconds() / 60),
-            missing_materials=missing_materials,
-            missing_channels=missing_channels,
-            scope_issues=(["standard_requires_two_channels"] if not multi_ok else [])
-            + (["economy_requires_one_channel"] if not economy_ok else []),
+            **planning.assess(plan),
         )
-        # Minimum is valid only within this finite, declared catalog and hard scope.
-        candidates = []
-        allowed = [tier] if not self.request["allow_simplification"] else list(self.rules["tiers"])
-        for candidate in allowed:
-            items = self.rules["tiers"][candidate]
-            # Suggest scopes, never execute them: the model must choose and re-estimate.
-            candidate_channels = list(self.request["required_channels"])
-            target_count = 1 if candidate == "economy" else 2
-            for channel in channels + sorted(supported):
-                if len(candidate_channels) >= target_count:
-                    break
-                if channel not in candidate_channels:
-                    candidate_channels.append(channel)
-            channel_count_ok = (
-                len(candidate_channels) == 1 if candidate == "economy" else len(candidate_channels) >= 2
-            )
-            if (
-                set(items) <= available
-                and not missing_channels
-                and channel_count_ok
-                and set(candidate_channels) <= supported
-            ):
-                candidates.append(
-                    dict(
-                        tier=candidate,
-                        channels=candidate_channels,
-                        total_cost=self.state["spent"]
-                        + sum(self.rules["deliverables"][k]["cost"] for k in items if k not in existing),
-                        remaining_minutes=sum(
-                            self.rules["deliverables"][k]["minutes"] for k in items if k not in existing
-                        )
-                        + 1,
-                    )
-                )
+        candidates = planning.alternatives(channels)
         quote["alternatives"] = candidates
         quote["minimum_budget_gap"] = (
             max(0, min(c["total_cost"] for c in candidates) - self.request["budget"]) if candidates else None
@@ -332,7 +286,7 @@ class Engine:
         quote = self.get_quote(quote_id)
         if not quote["feasible"]:
             raise BusinessError("infeasible_quote", "报价不满足约束，不能生成")
-        if quote["existing_hash"] != digest(self.state["results"]):
+        if quote["existing_hash"] != digest(self.current_results):
             raise BusinessError("stale_quote", "成功结果已变化，请重估剩余工作")
         if (
             not isinstance(deliverables, list)
@@ -341,7 +295,7 @@ class Engine:
             or not set(deliverables) <= set(quote["plan"]["deliverables"])
         ):
             raise BusinessError("invalid_deliverables", "生成项目须属于当前报价且不重复")
-        if any(k in self.state["results"] for k in deliverables):
+        if any(k in self.current_results for k in deliverables):
             raise BusinessError("already_completed", "已成功交付物不得重复生成或收费")
         if self.state["spent"] + quote["remaining_cost"] > self.request["budget"] or not self.fits_time(
             quote["remaining_minutes"]
@@ -351,7 +305,7 @@ class Engine:
         for key in deliverables:
             if (
                 key == "channel_adaptation"
-                and not {"video_script", "social_copy"} <= self.state["results"].keys()
+                and not set(BASE_DELIVERABLES) <= self.current_results.keys()
             ):
                 failures.append(dict(deliverable=key, error_code="dependency_missing", retryable=True))
                 break
@@ -388,7 +342,7 @@ class Engine:
                     )
                 )
                 break
-            if not self.fits_time(rule["minutes"] + 1):
+            if not self.fits_time(rule["minutes"] + self.rules["operations"]["save_plan"]):
                 failures.append(dict(deliverable=key, error_code="deadline_infeasible", retryable=False))
                 break
             result = dict(
@@ -402,13 +356,20 @@ class Engine:
                 if self.state["mode"] == "live" and quote["plan"]["backend"] == "primary"
                 else "template",
                 materials_hash=digest(self.state["materials"]),
+                material_versions={mid: digest(self.state["materials"][mid]) for mid in content["material_ids"]},
+                channels=quote["plan"]["channels"],
+                dependency_results={k: self.current_results[k]["result_id"]
+                                    for k in BASE_DELIVERABLES}
+                if key == "channel_adaptation" else {},
             )
+            if key in self.state["results"]:
+                self.state.setdefault("result_history", []).append(self.state["results"][key])
             self.state["results"][key] = result
             self.state["spent"] += rule["cost"]
             self.tick(rule["minutes"])
             self.persist()  # Every successful item and its charge commit together.
             completed.append(result)
-        missing = [k for k in quote["plan"]["deliverables"] if k not in self.state["results"]]
+        missing = self.missing
         return dict(
             status="partial" if completed and failures else "failed" if failures else "succeeded",
             completed=completed,
@@ -423,15 +384,13 @@ class Engine:
         if not quote["feasible"]:
             raise BusinessError("infeasible_quote", "不可保存不满足约束的方案")
         required = set(quote["plan"]["deliverables"])
-        if not required <= self.state["results"].keys():
+        existing = self.current_results
+        if not required <= existing.keys():
             raise BusinessError(
                 "dependency_missing",
-                "当前计划有交付物尚未成功",
-                missing=sorted(required - self.state["results"].keys()),
+                "当前计划有交付物缺失或不再适用，请重新估算后补齐",
+                missing=sorted(required - existing.keys()),
             )
-        for key in required:
-            if self.state["results"][key]["materials_hash"] != digest(self.state["materials"]):
-                raise BusinessError("stale_results", "素材已变化，不能保存旧脚本")
         fields = ("goal", "audience", "message", "schedule", "roles", "suggested_metrics")
         if not isinstance(campaign, dict) or any(
             not isinstance(campaign.get(k), str) or not campaign[k].strip() for k in fields
@@ -450,20 +409,22 @@ class Engine:
                 out_of_scope_channels=extra_channels,
                 retryable=True,
             )
-        if self.state["spent"] > self.request["budget"] or not self.fits_time(1):
+        save_minutes = self.rules["operations"]["save_plan"]
+        if self.state["spent"] > self.request["budget"] or not self.fits_time(save_minutes):
             raise BusinessError("constraint_changed", "保存时预算或截止时间不满足")
         if self.fault("save"):
             self.tick(1)
             raise BusinessError("save_failed", "模拟数据库提交前失败；脚本保留", retryable=True)
         previous = copy.deepcopy(self.state)
-        self.tick(1)
+        self.tick(save_minutes)
         plan = dict(
             plan_id="plan-" + digest([self.request["request_id"], self.request["fingerprint"]])[:20],
             request=self.request,
             mode=self.state["mode"],
             campaign=campaign,
             task_plan=quote["plan"],
-            results={k: self.state["results"][k] for k in quote["plan"]["deliverables"]},
+            results={k: existing[k] for k in quote["plan"]["deliverables"]},
+            charged_results=[*self.state.get("result_history", []), *self.state["results"].values()],
             total_cost=self.state["spent"],
             elapsed_minutes=self.state["elapsed_minutes"],
             completed_at=self.current_time().isoformat(),
@@ -472,8 +433,8 @@ class Engine:
         plan["task_plan"] = copy.deepcopy(plan["task_plan"])
         for step in plan["task_plan"]["steps"]:
             step["status"] = "succeeded"
-            if step["step_id"] in self.state["results"]:
-                step["result_id"] = self.state["results"][step["step_id"]]["result_id"]
+            if step["step_id"] in existing:
+                step["result_id"] = existing[step["step_id"]]["result_id"]
         self.state.update(status="completed", saved_plan_id=plan["plan_id"], reason=None)
         try:
             self.storage.save_plan(self.state, plan)
@@ -512,21 +473,25 @@ def template(key, engine):
     facts = "；".join(m["content"] for m in materials)
     theme = engine.request["theme"]
     channels = engine.state["quotes"][engine.state["active_quote"]]["plan"]["channels"]
-    body = {
-        "video_script": f"0—5秒｜画面：活动主题标题与相关场景特写；口播：‘一起关注{theme}。’\n"
-        f"5—20秒｜画面：参与动作示意，字幕标注‘合成活动演示’；口播依据：{materials[0]['content']}\n"
-        "20—30秒｜画面：规则卡与待补充的官方参与入口；口播：‘参与前请阅读完整规则，"
-        "确认授权与参与条件。’\n审稿提示：具体地址、时间与入口未核实前不得补造。",
-        "social_copy": f"标题：{theme}，让每一次参与都有清楚的指引\n"
-        f"正文：{facts}\n行动引导：参与前先阅读运营发布的完整规则，"
-        "确认授权与参与条件；具体入口由运营核实后补入。\n"
-        "配图建议：使用已取得授权的主题场景素材，不使用未经授权的参与者肖像。",
-        "channel_adaptation": "\n".join(
-            f"渠道：{channel}\n标题：{theme}\n文案：{materials[0]['content']}\n"
-            "行动引导：查看经运营确认的完整规则后参与；入口待确认。"
+    if key == "channel_adaptation":
+        sources = engine.current_results
+        body = "\n".join(
+            f"渠道：{channel}\n标题：{theme}\n文案：{sources['social_copy']['content']['text']}\n"
+            f"视频口播参考：{sources['video_script']['content']['text']}\n"
+            "沿用原稿核心信息与行动引导；入口和具体排期仍由运营确认。"
             for channel in channels
-        ),
-    }[key]
+        )
+    else:
+        body = {
+            "video_script": f"0—5秒｜画面：活动主题标题与相关场景特写；口播：‘一起关注{theme}。’\n"
+            f"5—20秒｜画面：参与动作示意，字幕标注‘合成活动演示’；口播依据：{materials[0]['content']}\n"
+            "20—30秒｜画面：规则卡与待补充的官方参与入口；口播：‘参与前请阅读完整规则，"
+            "确认授权与参与条件。’\n审稿提示：具体地址、时间与入口未核实前不得补造。",
+            "social_copy": f"标题：{theme}，让每一次参与都有清楚的指引\n"
+            f"正文：{facts}\n行动引导：参与前先阅读运营发布的完整规则，"
+            "确认授权与参与条件；具体入口由运营核实后补入。\n"
+            "配图建议：使用已取得授权的主题场景素材，不使用未经授权的参与者肖像。",
+        }[key]
     return dict(
         text=f"主题：{engine.request['theme']}。{body}\n素材依据：{facts}\n以上为模板草稿，发布入口与具体排期由运营确认。",
         material_ids=[m["id"] for m in materials],

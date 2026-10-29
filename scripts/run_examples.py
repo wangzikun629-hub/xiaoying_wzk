@@ -61,10 +61,12 @@ def check(name, result, followup=None):
         if not condition:
             failures.append(description)
 
+    expect(result.get("reason") != "model_unavailable", "模型不可用不能作为业务场景通过")
     if "total_cost" in result:
         expect(result["total_cost"] <= result["request"]["budget"], "实际费用不能超预算")
         expect(
-            result["total_cost"] == sum(r["cost"] for r in result["tool_results"].values()),
+            result["total_cost"] == sum(r["cost"] for r in [*result["tool_results"].values(),
+                                                          *result.get("result_history", [])]),
             "实际费用与账目一致",
         )
     complete = name.startswith(("C01", "C03", "C04", "C06", "C07a", "C07b", "C10"))
@@ -98,12 +100,22 @@ def check(name, result, followup=None):
         expect(result["total_cost"] == 0, "无可行方案不生成")
     if name.startswith("C07c"):
         expect(result["status"] == "incomplete" and not result.get("tool_results"), "零素材不得编造")
+        expect(result.get("reason") == "no_materials", "应明确因缺少素材停止")
+        expect(
+            any(o.get("error_code") == "no_materials" for o in observations(result, "search_materials")),
+            "必须实际检索并观察到无素材",
+        )
     if name.startswith("C08"):
         expect(result.get("reason") == "execution_limit", "达到上限明确未完成")
     if name.startswith("C09"):
         expect(result.get("reason") == "deadline_infeasible", "截止时间不足")
     if name.startswith("C11"):
         expect(result["status"] == "incomplete" and not result.get("saved_plan_id"), "保存失败不能记成功")
+        expect(result.get("reason") == "save_failed", "应明确因保存失败停止")
+        expect(
+            any(o.get("error_code") == "save_failed" for o in observations(result, "save_plan")),
+            "必须实际尝试保存并观察到失败",
+        )
     if followup and name.startswith("C06"):
         expect(
             followup.get("cached") and followup["model_calls"] == followup["tool_calls"] == 0,
@@ -133,14 +145,27 @@ def check(name, result, followup=None):
             "实际观察到视频生成失败",
         )
         statuses = {s["step_id"]: s["status"] for s in result.get("task_plan", {}).get("steps", [])}
-        expect(statuses.get("video_script") == "failed", "实际失败的视频标记failed")
-        if "social_copy" in result.get("tool_results", {}):
+        quotes = observations(result, "estimate_plan")
+        current_quote = quotes[-1].get("quote_id") if quotes else None
+        current_generations = [
+            a["result"] for a in result.get("attempts", [])
+            if a["tool"] == "generate_script" and "result" in a
+            and a["arguments"].get("quote_id") == current_quote
+        ]
+        ready = bool(quotes and quotes[-1].get("feasible"))
+        failed_items = {
+            f.get("deliverable") for a in current_generations for f in a.get("failures", [])
+        }
+        expect(
+            statuses.get("video_script") == ("failed" if "video_script" in failed_items
+                                             else "pending" if ready else "blocked"),
+            "视频状态须对应当前报价的实际尝试，旧报价失败保留在历史中",
+        )
+        if "social_copy" in result.get("current_results", result.get("tool_results", {})):
             expect(statuses.get("social_copy") == "succeeded", "模型单独完成的图文保持成功")
-        elif any(f.get("deliverable") == "social_copy" for a in generations for f in a.get("failures", [])):
+        elif "social_copy" in failed_items:
             expect(statuses.get("social_copy") == "failed", "实际尝试失败的图文标记failed")
         else:
-            quotes = observations(result, "estimate_plan")
-            ready = bool(quotes and quotes[-1].get("feasible"))
             expect(statuses.get("social_copy") == ("pending" if ready else "blocked"), "未尝试项依赖实际可行性")
         expect(statuses.get("save") == "blocked", "依赖未满足的保存标记blocked")
     return failures

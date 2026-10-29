@@ -1,0 +1,12 @@
+{
+  "scenario": "C14-unattempted-steps",
+  "mode": "live",
+  "status": "incomplete",
+  "passed": false,
+  "errors": [
+    "实际失败的视频标记failed"
+  ],
+  "total_cost": 0,
+  "model_calls": 10,
+  "tool_calls": 10
+}

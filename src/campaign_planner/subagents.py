@@ -63,7 +63,7 @@ def load_subagents(path: Path | None = None) -> list[SubagentSpec]:
 
 def review_fingerprint(engine):
     quote = engine.state["quotes"].get(engine.state.get("active_quote"))
-    return digest(dict(plan=quote["plan"] if quote else None, results=engine.state["results"]))
+    return digest(dict(plan=quote["plan"] if quote else None, results=engine.current_results))
 
 
 def has_current_review(engine):

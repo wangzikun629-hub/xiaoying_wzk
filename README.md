@@ -1,47 +1,47 @@
 # 内容任务规划 Agent
 
-基于 Deep Agents 的 CLI：输入主题、预算、截止时间，检索合成素材、估算成本、生成脚本、保存活动方案。模型根据工具观察选择精简、备用方式或停止；SQLite 保留成功结果、费用和失败历史。
+输入活动主题、预算和截止时间，生成一份带脚本、渠道、排期和费用明细的活动方案。预算不够时，模型可以缩减内容范围；工具失败时，可以重试缺失项或改用备用模板。方案只有写入 SQLite 后才算完成。
 
-提交题号：**2**。实际投入：**3.5小时**（提交者自报）。
+**题号：2。实际投入：4h。**
 
-当前版本支持 YAML 配置的内容创作与方案审查子智能体，主 Agent 负责预算、重规划和正式保存，见[配置说明](docs/07-subagents.md)。
+项目使用 Python、Deep Agents 和 CLI。内容创作与方案审查由两个可配置的子智能体完成，主 Agent 负责检索、估算、调整计划和保存。
 
-**验证结果：当前修复版本84项自动测试通过，离线19/19、真实模型19/19场景通过，详见[评估报告](docs/03-evaluation.md)和[真实动态路径](examples/review-decision-paths.md)。此前单 Agent 的47项测试、17个真实子场景及12/12重复评估作为历史保留。`mock` 是确定性测试策略，不能证明真实模型效果。**
+## 验证结果
 
-## 评审入口
+**121 项自动测试、19 个离线场景、19 个真实模型场景均通过，Ruff 和交付审计通过。**
 
-- [需求与验收映射](docs/01-requirements.md)、[实现与取舍](docs/02-solution.md)
-- [实际评估结果](docs/03-evaluation.md)、[离线样例索引](examples/README.md)
-- [验证记录与材料边界](docs/04-ai-usage.md)、[复盘](docs/05-retrospective.md)
-- [参考项目与版本](docs/upstream.md)、[原始实施规划](docs/00-project-plan.md)
+测试与运行记录见[评估报告](docs/03-evaluation.md)。评审可先看[逐场景结果](examples/final-evaluation.md)和[真实模型动作记录](examples/final-decision-paths.md)，再查看对应目录中的输入、输出与 Trace。
 
-## 环境与安装
+- [需求与验收标准](docs/01-requirements.md)
+- [实现与技术取舍](docs/02-solution.md)、[子智能体配置](docs/07-subagents.md)
+- [运行记录索引](examples/README.md)、[验证边界](docs/04-ai-usage.md)
+- [复盘](docs/05-retrospective.md)、[参考项目](docs/upstream.md)
 
-Python 3.11+、[uv](https://docs.astral.sh/uv/)；本次验证使用 Python 3.12。无需数据库服务和界面。请在仓库根目录执行：
+## 安装
+
+需要 Python 3.11+ 和 [uv](https://docs.astral.sh/uv/)，本次验证使用 Python 3.12。在仓库根目录执行：
 
 ```powershell
 uv --cache-dir .uv-cache sync --locked
 ```
 
-依赖由 `uv.lock` 固定。核心版本：Deep Agents 0.7.32、LangChain 1.4.7、LangGraph 1.2.18、langchain-openai 1.7.3。需联网安装依赖；安装后 mock 不访问模型接口。支持从源码检出目录运行，不承诺独立 wheel 脱离资料目录运行。
+依赖由 `uv.lock` 固定，主要版本为 Deep Agents 0.7.32、LangChain 1.4.7、LangGraph 1.2.18、langchain-openai 1.7.3。首次安装需要联网，离线模式不调用模型接口。运行时需要保留仓库内的配置和资料目录。
 
-## 离线运行
+## 先用离线模式运行
 
 ```powershell
-uv run python -m campaign_planner run --input examples/review-mock/C04-budget-replan/input.json --mode mock --now 2030-06-01T10:00:00+08:00
+uv run python -m campaign_planner run --input examples/final-mock/C04-budget-replan/input.json --mode mock --now 2030-06-01T10:00:00+08:00
 uv run pytest -q
-uv run python scripts/run_examples.py --mode mock --output outputs/review-mock
+uv run python scripts/run_examples.py --mode mock --output outputs/check-mock
 ```
 
-第一条命令演示确定性策略从标准报价 12 改到精简报价 8；实际费用 8。结果 JSON、Trace 和成功方案 `plan.md` 保存到 `outputs/mock/` 下本次运行目录。相同请求默认返回已保存方案，不重复调用和收费。
+第一条命令演示预算调整：标准版报价 12，超过预算 10，重新选择精简版后费用为 8。运行结果和 Trace 写入 `outputs/mock/` 下的本次运行目录，成功时同时导出 `plan.md`。相同请求再次执行会返回已保存方案，不重复生成或计费。
 
-精简版限定单渠道，标准版至少双渠道。用户必需的多个渠道不能通过精简删除；工具会计算符合硬约束的最低费用与缺口。
+`mock` 使用确定性策略和模板，可以验证流程、计费和恢复逻辑，不能证明真实模型的决策效果。批量脚本覆盖 19 个场景，每个场景会保存输入、输出、Trace、元数据和验收断言。
 
-批量样例会实际运行同一个 Deep Agents 图，生成输入、输出、Trace、元数据、断言文件；覆盖 19 个子场景，包括一次性错误、持续错误、部分成功、重复与续跑。同一输出目录重新生成会覆盖其中证据；需要保留历史实验时使用新的 `--output` 目录。
+## 使用真实模型
 
-## 真实模型运行
-
-将 `.env.example` 复制为 `.env`（已有文件不要覆盖），填入本地配置：
+将 `.env.example` 复制为 `.env`，已有文件无需覆盖。填写支持 Chat Completions 工具调用的服务配置：
 
 ```dotenv
 OPENAI_API_KEY=你的密钥
@@ -50,19 +50,16 @@ OPENAI_MODEL=你的模型名称
 MODEL_TIMEOUT_SECONDS=60
 ```
 
-服务必须支持 Chat Completions 工具调用。密钥不放入输入、Trace 或仓库。代码不会把 live 静默切为 mock。
-
-`OPENAI_BASE_URL` 是服务根地址（有的服务带 `/v1`），不要填写完整 `/chat/completions` 路径。DeepSeek 可使用 `https://api.deepseek.com`。本次真实验证修正过重复接口路径引起的404；原始失败记录已保留。
+`OPENAI_BASE_URL` 填服务根地址，不要附加 `/chat/completions`。DeepSeek 可用 `https://api.deepseek.com`。`.env` 已加入 Git 忽略规则，密钥不写入输入和 Trace。
 
 ```powershell
-uv run python -m campaign_planner run --input examples/review-mock/C04-budget-replan/input.json --mode live --now 2030-06-01T10:00:00+08:00
-uv run python scripts/run_examples.py --mode live --output outputs/review-live
-uv run python scripts/evaluate.py --mode live --repeats 3 --output outputs/review-evaluation
+uv run python -m campaign_planner run --input examples/final-mock/C04-budget-replan/input.json --mode live --now 2030-06-01T10:00:00+08:00
+uv run python scripts/run_examples.py --mode live --output outputs/check-live
 ```
 
-第二条运行全部验收场景，第三条重复运行正常、一次性故障、持续故障和预算调整。它们会消耗模型 API 额度。每次运行最多 20 次模型请求（含脚本生成）、32 次工具调用；可通过 CLI 修改有限上限。
+真实运行会消耗模型 API 额度。每次运行默认最多 20 次模型请求、32 次工具调用，主模型、子模型和内容生成共用额度；达到上限返回 `incomplete/execution_limit`。接口不可用时会明确报错，不会自动改成 mock。
 
-`--now` 是**固定评估时钟**，日期为可复现实验设置，不代表真实工期。实际业务运行应省略 `--now` 并使用未来截止时间。真实时钟检查包含墙钟流逝和累计模拟工作耗时。
+`--now` 固定评估时钟，便于复现实验；实际使用时省略它，并提供未来的截止时间。评估中的工具耗时按合成规则累计，不代表真实人工工期。
 
 ## 输入与输出
 
@@ -76,34 +73,28 @@ uv run python scripts/evaluate.py --mode live --repeats 3 --output outputs/revie
 }
 ```
 
-前三个字段必填；预算为非负整数模拟单位。可选 `request_id`、`required_channels`。不提供 ID 时从规范化输入生成稳定 ID。相同 ID 不同输入返回冲突。默认 live/mock 数据库存储目录隔离。
+`theme`、`budget`、`deadline` 必填，预算为非负整数模拟单位。可选 `request_id` 和 `required_channels`；未提供 ID 时按输入生成。相同 ID 对应不同输入时返回冲突。
 
-输出包含状态、版本化任务计划、依赖、工具尝试与结果、实际费用、预计费用、累计耗时、保存 ID 或未完成原因。状态为 `completed/needs_input/invalid_input/incomplete`；并发请求可能返回 `in_progress`。CLI 成功退出码为 0，其他业务状态为 2，必须结合 JSON 判断原因。
+精简版包含视频脚本和图文文案，限一个渠道；标准版增加多渠道改写，至少两个渠道。用户指定的必需渠道必须保留，不能通过精简删除。
 
-## 故障注入、查看与续跑
+输出包含任务计划、步骤状态、工具尝试、成功结果、累计费用、耗时和保存 ID。状态为 `completed`、`needs_input`、`invalid_input` 或 `incomplete`，并发执行同一请求时可能返回 `in_progress`。CLI 成功退出码为 0，其余业务状态为 2，具体原因见输出 JSON。
 
-故障 JSON 仅由测试运行器传入，例如：
+`current_results` 是适用于当前渠道、素材版本和内容依赖的结果。`tool_results` 保留各交付物最近一次成功结果，替换下来的版本进入 `result_history`。切换计划不会清除已发生的费用；切回原范围时，可以复用仍然有效的历史内容。
 
-```json
-{"generate:social_copy": "once"}
-```
-
-支持 `primary`、`generate:video_script`、`generate:social_copy`、`generate:channel_adaptation`、`search`、`save`；值为 `once` 或 `always`。示例故障定义同时保存在各运行的元数据中。
+## 故障与续跑
 
 ```powershell
-uv run python -m campaign_planner run --input examples/mock/C03a-once-failure/input.json --mode mock --faults examples/faults/once.json --now 2030-06-01T10:00:00+08:00
+uv run python -m campaign_planner run --input examples/final-mock/C03a-once-failure/input.json --mode mock --faults examples/faults/once.json --now 2030-06-01T10:00:00+08:00
 uv run python -m campaign_planner show --request-id C03a-once-failure --mode mock
 uv run python -m campaign_planner resume --request-id C03a-once-failure --mode mock
 ```
 
-续跑用相同数据库，复用已成功交付物、费用与时钟；开启新 run_id。已完成请求仍返回缓存。修改试验场景请使用新请求 ID 或新 `--db`，不要误把幂等缓存当作重新执行。
+故障参数只用于测试，支持 `primary`、`generate:video_script`、`generate:social_copy`、`generate:channel_adaptation`、`search` 和 `save`，值为 `once` 或 `always`。续跑使用原数据库，保留成功结果、费用与时钟。重新试验请换请求 ID 或使用新的 `--db`，避免读到缓存。
 
-## 边界与提交
+## 已知限制与提交
 
-素材、费用和耗时均为合成规则；不执行内容发布、真实支付或外部运营任务。备用生成明确标为模板降级。模型内容的事实正确性不能只靠素材 ID 校验保证，需人工审阅；mock 内容评语见 [样例自评](examples/content-review.md)。
+资料、费用和工具耗时均为合成数据，不执行真实发布或支付。备用后端使用本地模板，并在结果中标记。代码会检查内容结构、素材引用和预算约束，事实是否准确、内容是否适合发布仍需人工审阅。
 
-当前版本证据优先读取[真实全量汇总](examples/review-live/summary.json)、[离线全量汇总](examples/review-mock/summary.json)、[自动测试日志](examples/review-test-results.txt)和[实际方案](examples/review-live/C04-budget-replan/plan.md)。历史三轮重复评估仍位于evaluation-final，不与当前架构混算。中间失败不删除，修复差异见评估报告。
+本次未实现界面、线上部署或生产级运行环境。第 04 份文档未统计 AI 辅助范围及个人修改明细，与最初的材料要求有差异。
 
-交付仓库：[wangzikun629-hub/xiaoying_wzk](https://github.com/wangzikun629-hub/xiaoying_wzk)。题号为2，实际投入3.5小时。最终commit SHA使用仓库根目录的`git rev-parse HEAD`获取；提交信息与GitHub可读状态需在发布后核对。不将小样本成功外推为普遍稳定性。
-
-第04份文档按提交者要求仅保留验证记录与材料边界，省略辅助范围和个人修改明细；这项内容与原始考核材料要求仍有差异，未标记为通过。
+仓库：[wangzikun629-hub/xiaoying_wzk](https://github.com/wangzikun629-hub/xiaoying_wzk)。最终提交 SHA 可在仓库根目录执行 `git rev-parse HEAD` 获取。

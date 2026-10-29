@@ -1,0 +1,10 @@
+{
+  "scenario": "C10-id-conflict",
+  "mode": "mock",
+  "status": "completed",
+  "passed": true,
+  "errors": [],
+  "total_cost": 8,
+  "model_calls": 8,
+  "tool_calls": 7
+}

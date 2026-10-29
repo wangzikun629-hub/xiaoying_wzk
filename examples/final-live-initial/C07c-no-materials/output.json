@@ -1,0 +1,172 @@
+{
+  "status": "incomplete",
+  "request_id": "C07c-no-materials",
+  "reason": "no_materials",
+  "request": {
+    "theme": "深海潜航设备交流",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "standard",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C07c-no-materials",
+    "fingerprint": "6c02bc644ab1a884a7c7486b98ddc78c3a3811dddcf1ef8ad90f5f0f5fce2e45"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": [
+      {
+        "step_id": "efa47f0a-2da8-4810-8f1b-cd1b209b8e9c",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "failed"
+      },
+      {
+        "step_id": "da5902f5-5d66-40b5-bab4-d3adb1ae1085",
+        "action": "estimate_plan",
+        "depends_on": [],
+        "status": "failed"
+      },
+      {
+        "step_id": "d4952cdb-7836-4184-8c57-cbead1082485",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "failed"
+      },
+      {
+        "step_id": "97bc2b2c-d44a-46d6-8847-7c18c6eeee4f",
+        "action": "estimate_plan",
+        "depends_on": [],
+        "status": "failed"
+      }
+    ]
+  },
+  "plan_history": [],
+  "attempts": [
+    {
+      "attempt_id": "efa47f0a-2da8-4810-8f1b-cd1b209b8e9c",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "深海潜航设备交流"
+      },
+      "reason": "检查主题可用素材与缺失类型",
+      "run_id": "fce08473-9915-47bc-9762-9d12630934f5",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "materials": [],
+        "available_kinds": [],
+        "missing_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "available_channels": [],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "da5902f5-5d66-40b5-bab4-d3adb1ae1085",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "tier": "standard",
+        "backend": "primary"
+      },
+      "reason": "主题无任何可用素材，且预算10、3小时内截止；先确认标准版是否仍能报价",
+      "run_id": "fce08473-9915-47bc-9762-9d12630934f5",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "message": "请先检索与主题匹配的素材",
+        "cost_delta": 0,
+        "minutes_delta": 0
+      }
+    },
+    {
+      "attempt_id": "d4952cdb-7836-4184-8c57-cbead1082485",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "深海潜航器 装备 行业交流"
+      },
+      "reason": "确认是否仅主题表述导致检索为空",
+      "run_id": "fce08473-9915-47bc-9762-9d12630934f5",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "materials": [],
+        "available_kinds": [],
+        "missing_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "available_channels": [],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "97bc2b2c-d44a-46d6-8847-7c18c6eeee4f",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "backend": "primary",
+        "tier": "economy"
+      },
+      "reason": "依据 allow_simplification 尝试最低单渠道档，验证是否可降级执行",
+      "run_id": "fce08473-9915-47bc-9762-9d12630934f5",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "message": "请先检索与主题匹配的素材",
+        "cost_delta": 0,
+        "minutes_delta": 0
+      }
+    }
+  ],
+  "tool_results": {},
+  "current_results": {},
+  "result_history": [],
+  "subagent_runs": [],
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 2,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-qvw3_dqh\\C07c-no-materials.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "current_plan_time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "fce08473-9915-47bc-9762-9d12630934f5",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\final-live\\C07c-no-materials\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 6,
+      "tool_calls": 5,
+      "status": "incomplete",
+      "reason": "no_materials"
+    }
+  ],
+  "mode": "live",
+  "run_id": "fce08473-9915-47bc-9762-9d12630934f5",
+  "cached": false,
+  "model_calls": 6,
+  "tool_calls": 5,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\final-live\\C07c-no-materials\\trace.jsonl"
+}

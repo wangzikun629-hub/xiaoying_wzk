@@ -1,0 +1,10 @@
+{
+  "scenario": "C05-budget-infeasible",
+  "mode": "mock",
+  "status": "incomplete",
+  "passed": true,
+  "errors": [],
+  "total_cost": 0,
+  "model_calls": 3,
+  "tool_calls": 2
+}

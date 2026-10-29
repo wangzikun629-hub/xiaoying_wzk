@@ -1,0 +1,145 @@
+{
+  "status": "incomplete",
+  "request_id": "C07c-no-materials",
+  "reason": "no_materials",
+  "request": {
+    "theme": "深海潜航设备交流",
+    "budget": 10,
+    "deadline": "2030-06-01T05:00:00+00:00",
+    "preferred_tier": "standard",
+    "allow_simplification": true,
+    "required_channels": [],
+    "request_id": "C07c-no-materials",
+    "fingerprint": "6c02bc644ab1a884a7c7486b98ddc78c3a3811dddcf1ef8ad90f5f0f5fce2e45"
+  },
+  "task_plan": {
+    "version": 0,
+    "steps": [
+      {
+        "step_id": "5f20e637-97b1-4420-8508-3d6135729f9f",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "failed"
+      },
+      {
+        "step_id": "df979c49-8d6d-42d0-876e-799abd53de24",
+        "action": "search_materials",
+        "depends_on": [],
+        "status": "failed"
+      },
+      {
+        "step_id": "63bc0d24-c967-44fb-8897-cce6df997bfc",
+        "action": "estimate_plan",
+        "depends_on": [],
+        "status": "failed"
+      }
+    ]
+  },
+  "plan_history": [],
+  "attempts": [
+    {
+      "attempt_id": "5f20e637-97b1-4420-8508-3d6135729f9f",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "深海潜航设备交流"
+      },
+      "reason": "按主题检索可用素材，评估内容包可行性",
+      "run_id": "eb936eff-6497-4d6a-b0cd-2881a71324c2",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "materials": [],
+        "available_kinds": [],
+        "missing_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "available_channels": [],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "df979c49-8d6d-42d0-876e-799abd53de24",
+      "step_id": "search_materials",
+      "tool": "search_materials",
+      "agent": "main",
+      "arguments": {
+        "query": "深海潜航器 水下装备 技术交流活动"
+      },
+      "reason": "换措辞复核素材缺口，判断是否检索词导致",
+      "run_id": "eb936eff-6497-4d6a-b0cd-2881a71324c2",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "materials": [],
+        "available_kinds": [],
+        "missing_kinds": [
+          "channel_adaptation",
+          "social_copy",
+          "video_script"
+        ],
+        "available_channels": [],
+        "message": "合成素材；无法检索到的事实不得编造",
+        "cost_delta": 0,
+        "minutes_delta": 1
+      }
+    },
+    {
+      "attempt_id": "63bc0d24-c967-44fb-8897-cce6df997bfc",
+      "step_id": "estimate_plan",
+      "tool": "estimate_plan",
+      "agent": "main",
+      "arguments": {
+        "tier": "standard"
+      },
+      "reason": "按用户偏好 standard 登记，验证在无素材、无可用渠道下的可行性",
+      "run_id": "eb936eff-6497-4d6a-b0cd-2881a71324c2",
+      "status": "failed",
+      "result": {
+        "status": "failed",
+        "error_code": "no_materials",
+        "message": "请先检索与主题匹配的素材",
+        "cost_delta": 0,
+        "minutes_delta": 0
+      }
+    }
+  ],
+  "tool_results": {},
+  "current_results": {},
+  "result_history": [],
+  "subagent_runs": [],
+  "total_cost": 0,
+  "estimated_total_cost": null,
+  "elapsed_minutes": 2,
+  "clock_mode": "simulated",
+  "saved_plan_id": null,
+  "saved_store": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\campaign-examples-vssou9gt\\C07c-no-materials.sqlite",
+  "budget_gap": 0,
+  "time_gap_minutes": null,
+  "current_plan_time_gap_minutes": null,
+  "missing": [],
+  "runs": [
+    {
+      "run_id": "eb936eff-6497-4d6a-b0cd-2881a71324c2",
+      "trace_path": "D:\\agent-campus-submission-example\\examples\\final-live\\C07c-no-materials\\trace.jsonl",
+      "resumed": false,
+      "model_calls": 4,
+      "tool_calls": 4,
+      "status": "incomplete",
+      "reason": "no_materials"
+    }
+  ],
+  "mode": "live",
+  "run_id": "eb936eff-6497-4d6a-b0cd-2881a71324c2",
+  "cached": false,
+  "model_calls": 4,
+  "tool_calls": 4,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\final-live\\C07c-no-materials\\trace.jsonl"
+}

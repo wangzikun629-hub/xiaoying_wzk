@@ -5,39 +5,8 @@ import pytest
 
 from campaign_planner.models import campaign_fields
 from campaign_planner.runner import decide_incomplete, snapshot
-from campaign_planner.schemas import parse_time, validate_request
+from campaign_planner.schemas import parse_time
 from campaign_planner.storage import BusyRequest, Storage
-from campaign_planner.tools import Engine
-from campaign_planner.trace import Trace
-
-
-@pytest.fixture
-def engine(tmp_path, request_data):
-    now = parse_time("2030-06-01T10:00:00+08:00")
-    request, _ = validate_request(request_data, now)
-    state = dict(
-        request=request,
-        status="running",
-        mode="mock",
-        clock_mode="simulated",
-        clock_anchor=now.isoformat(),
-        elapsed_minutes=0,
-        spent=0,
-        results={},
-        materials={},
-        attempts=[],
-        plans=[],
-        quotes={},
-        fault_counts={},
-        active_run_id="test",
-        runs=[],
-    )
-    store = Storage(tmp_path / "guard.sqlite")
-    store.put(state)
-    e = Engine(store, state, Trace(tmp_path / "trace.jsonl", "mock"))
-    e.execute("search_materials", {"query": request["theme"]})
-    yield e
-    store.close()
 
 
 def quote(engine, **kwargs):

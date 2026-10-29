@@ -129,7 +129,8 @@ def test_openai_compatible_round_trip_with_script_subcalls(tmp_path, request_dat
     client.close()
     assert result["status"] == "completed"
     assert result["total_cost"] == 8
-    assert result["model_calls"] == len(requests) == 11
+    assert result["model_calls"] == len(requests) == 10
+    assert requests[-1]["messages"][-1]["role"] == "tool"  # reviewer result, before save; no post-save call
     assert len([r for r in requests if not r.get("tools")]) == 3  # two content calls and one reviewer
     assert [(r["role"], r["status"]) for r in result["subagent_runs"]] == [
         ("writer", "succeeded"),

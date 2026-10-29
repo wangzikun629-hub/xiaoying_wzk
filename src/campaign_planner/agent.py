@@ -5,8 +5,8 @@ from contextlib import nullcontext
 
 from deepagents import create_deep_agent
 from deepagents.backends.utils import create_file_data
-from langchain.agents.middleware import AgentMiddleware
-from langchain_core.messages import HumanMessage, ToolMessage
+from langchain.agents.middleware import AgentMiddleware, ModelResponse
+from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.tools import StructuredTool
 
 from .schemas import ExecutionLimit, canonical, digest
@@ -25,6 +25,8 @@ class AuditMiddleware(AgentMiddleware):
 
     def wrap_model_call(self, request, handler):
         with self.engine.tool_lock:
+            if self.engine.state["status"] == "completed":
+                return ModelResponse(result=[AIMessage(content="正式方案已保存，任务完成。")])
             self.engine.count_model("decision" if self.role == "main" else f"subagent:{self.actor}")
         allowed = [t for t in request.tools if getattr(t, "name", None) in self.allowed_tools]
         if self.delegates:
@@ -45,10 +47,8 @@ class AuditMiddleware(AgentMiddleware):
                     request=self.engine.request,
                     quote=quote,
                     materials=state["materials"],
-                    results=state["results"],
-                    missing=[k for k in quote["plan"]["deliverables"] if k not in state["results"]]
-                    if quote
-                    else [],
+                    results=self.engine.current_results,
+                    missing=self.engine.missing,
                     spent=state["spent"],
                     current_time=self.engine.current_time().isoformat(),
                 )
@@ -68,6 +68,9 @@ class AuditMiddleware(AgentMiddleware):
     def wrap_tool_call(self, request, handler):
         parent_lock = self.engine.dispatch_lock if self.role == "main" else nullcontext()
         with parent_lock:
+            with self.engine.tool_lock:
+                if self.engine.state["status"] == "completed":
+                    return self._reject(request.tool_call, "request_completed")
             if request.tool_call["name"] == "task" and "task" in self.allowed_tools:
                 return self._delegate(request, handler)
             with self.engine.tool_lock:
@@ -89,7 +92,7 @@ class AuditMiddleware(AgentMiddleware):
             state = self.engine.state
             quote = state["quotes"].get(state.get("active_quote"))
             if spec.role == "reviewer" and (
-                not quote or not set(quote["plan"]["deliverables"]) <= state["results"].keys()
+                not quote or self.engine.missing
             ):
                 return self._reject(call, "review_dependency_missing")
             record = dict(
@@ -121,7 +124,7 @@ class AuditMiddleware(AgentMiddleware):
                         status="failed",
                         error_code="subagent_error",
                         message="子智能体执行失败，已成功业务结果保留，可重试或停止",
-                        existing_results=state["results"],
+                        existing_results=self.engine.current_results,
                         observation=state.get("last_observation"),
                     )
                 ),
@@ -142,10 +145,8 @@ class AuditMiddleware(AgentMiddleware):
                 authoritative = dict(
                     status=status,
                     observation=observation,
-                    existing_results=state["results"],
-                    missing=[k for k in quote["plan"]["deliverables"] if k not in state["results"]]
-                    if quote
-                    else [],
+                    existing_results=self.engine.current_results,
+                    missing=self.engine.missing,
                     model_summary=text,
                     message="业务状态以 observation 为准；失败或部分成功需主智能体重规划",
                 )
@@ -278,7 +279,7 @@ def build_agent(engine, model):
     )
     context = dict(
         request=engine.request,
-        existing_results=engine.state["results"],
+        existing_results=engine.current_results,
         previous_error=engine.state.get("last_error"),
         previous_observation=engine.state.get("last_observation"),
         previous_plans=engine.state["plans"],

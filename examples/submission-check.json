@@ -1,0 +1,19 @@
+{
+  "question": 2,
+  "actual_hours": 4,
+  "repository_url": "https://github.com/wangzikun629-hub/xiaoying_wzk",
+  "source_sha256": "24a3d4777c6ede3850eeb3364e439883006d33bf11cbf6c531fc50d2a6a5f9ae",
+  "verified_metadata_files": 46,
+  "source_mismatches": [],
+  "tests_passed": 121,
+  "mock_scenarios_passed": 19,
+  "live_scenarios_passed": 19,
+  "configured_secret_leak_files": [],
+  "historical_secret_leak_objects": [],
+  "scanned_files": 2257,
+  "historical_blobs_scanned": 1186,
+  "unfulfilled_original_document_requirement": "04-ai-usage.md omits assistance scope and personal modification details at submitter request",
+  "current_repeated_evaluation_performed": false,
+  "commit_sha_command": "git rev-parse HEAD",
+  "note": "Current source checks cover final-mock/final-live. Secret check uses exact configured-key matching, not detection of every credential format. Historical records retain their original source digests."
+}

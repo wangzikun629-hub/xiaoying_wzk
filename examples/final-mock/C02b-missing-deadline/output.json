@@ -1,0 +1,10 @@
+{
+  "status": "needs_input",
+  "missing_fields": [
+    "deadline"
+  ],
+  "reason": "请补充必填信息",
+  "model_calls": 0,
+  "tool_calls": 0,
+  "trace_path": "D:\\agent-campus-submission-example\\examples\\final-mock\\C02b-missing-deadline\\trace.jsonl"
+}

@@ -1,0 +1,10 @@
+{
+  "scenario": "C08-execution-limit",
+  "mode": "mock",
+  "status": "incomplete",
+  "passed": true,
+  "errors": [],
+  "total_cost": 0,
+  "model_calls": 1,
+  "tool_calls": 1
+}
